@@ -5,3 +5,6 @@ Create venv:
 Activate venv:
     source venv/bin/activate (linux)
     .\venv\Scripts\Activate (windows)
+
+Install Reqs:
+    pip install -r requirements.txt
