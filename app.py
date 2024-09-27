@@ -7,9 +7,11 @@ app = Flask(__name__)
 def home():
     return render_template("index.html")
 
-@app.route("/test")
-def test():
+#HTML file to test out functions. Delete later
+@app.route("/example")
+def example_file():
     return render_template("example.html")
+
 
 
 if __name__ == "__main__":
