@@ -1,28 +1,90 @@
+:root {
+    --greyBackground: #E9E9E9;
+    --darkGreen: #505946;
+    --blackGreen: #0A0C07;
+    --lightBlue:#719294;
+    --darkBlue:#52848A;
+  }
+/*Tag mods*/
 body {
-    font-family: Arial, sans-serif;
+    color: var(--blackGreen);
+    background-color: var(--greyBackground);
+  }
+
+h3{
+    font-family: "Nanum Myeongjo", serif;
+  }
+
+h1, h2{
+    font-family: "Italiana", sans-serif;
+      }
+
+footer{
+    background-color: var(--darkGreen);
+    color: var(--greyBackground);
+    
+}
+/* Layout_ file*/
+
+  
+.section-left {
+    background-color: var(--greyBackground);/* Light background for left section */
+    height: 100vh; /* Full viewport height */
+   
+}
+.section-right {
+    background-color:var(--greyBackground); /* Slightly darker background for right section */
+    height: 100vh; /* Full viewport height */
 }
 
-header {
-    background-color: #228B22;
-    color: white;
-    padding: 10px;
-    text-align: center;
+.nav-color{
+    color: var(--blackGreen);
+    width: 90%;
+    border-radius: 15px;
+}
+.nav-color:hover{
+    color: var(--greyBackground);
+    background-color: var(--darkGreen);
 }
 
-main {
-    margin: 15px;
+.material-icons{
+    font-size: 33.6px;
+    margin-bottom: .4em;
+    margin-right: .4em;
 }
 
-section {
-    margin-bottom: 20px;
+.bordered-vertical {
+    position: relative; 
 }
 
-footer {
-    background-color: #228B22;
-    color: white;
-    text-align: center;
-    padding: 10px;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
+.bordered-vertical::after {
+    content: '';
+    position: absolute;
+    top: 15px; 
+    right: 10px; 
+    bottom: 15px; 
+    width: 1px; 
+    opacity: 0.33;
+    background-color: var(--blackGreen);
 }
+
+.bordered-horizontal {
+    position: relative; 
+}
+
+.bordered-horizontal::after {
+    content: '';
+    position: absolute;
+    opacity: 0.33;
+    left: 10px; 
+    top: 100%; 
+    right: 10px; 
+    height: 1px; 
+    background-color: var(--blackGreen);
+    margin-top: -1px; 
+}
+
+.layout-friends{
+    opacity: .7;
+}
+
