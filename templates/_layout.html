@@ -58,7 +58,8 @@
                                   </span>
                               <h3>Profile</h3> <!-- Sub with avatar once account DB is created -->
                             </a>
-                          </li>
+                        </li>
+                          
                           <li class="nav-item">
                             <a class="nav-link d-flex align-items-center nav-color" href="/settings">
                               <span class="material-symbols-outlined material-icons">
@@ -67,6 +68,16 @@
                               <h3>Settings</h3> <!-- Sub with avatar once account DB is created -->
                             </a>
                           </li>
+                          
+                          <li class="nav-item"></li>
+                            <form action="/logout" method="POST" style="display:inline;">
+                                <button type="submit" class="nav-link d-flex align-items-center nav-color" style="border: none; background: none; padding: 0;">
+                                    <span class="material-symbols-outlined material-icons">logout</span>
+                                    <h3>Logout</h3>
+                                </button>
+                            </form>
+                        </li>
+
                           <h1 class="layout-friends bordered-horizontal">Friends</h1>
 
                           <li class="nav-item"></li>

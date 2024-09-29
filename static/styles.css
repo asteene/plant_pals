@@ -88,3 +88,8 @@ footer{
     opacity: .7;
 }
 
+.custom-img {
+    max-width: 100%;
+    max-height: 100vh;
+    object-fit: cover;
+}
