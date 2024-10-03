@@ -12,7 +12,7 @@ def home():
     # return render_template("login.html")
     # Check if user is authenticated
     if 'uid' in session:
-        return redirect(url_for('garden'))
+        return redirect(url_for('main.garden'))
     return redirect(url_for('main.login'))
 
 @main.route('/login')
