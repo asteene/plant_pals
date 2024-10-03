@@ -3,4 +3,4 @@ venv/
 # Ignore all __pycache__ directories
 __pycache__/
 
-secrets/secrets.json
+flaskr/ecrets/secrets.json
