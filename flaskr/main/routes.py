@@ -13,7 +13,7 @@ def home():
     # Check if user is authenticated
     if 'uid' in session:
         return redirect(url_for('garden'))
-    return redirect(url_for('login'))
+    return redirect(url_for('main.login'))
 
 @main.route('/login')
 def login():
@@ -57,7 +57,7 @@ def garden():
         user = firebase_auth.get_user(session['uid'])
         return render_template('index.html', user=user)
     else:
-        return redirect(url_for('login'))
+        return redirect(url_for('main.login'))
 
 @main.route('/session', methods=['POST'])
 def create_session():
@@ -78,8 +78,8 @@ def create_session():
 def logout():
     if request.method == 'POST':
         session.pop('uid', None)
-        return redirect(url_for('login'))
-    return redirect(url_for('login'))  # Fallback for GET requests
+        return redirect(url_for('main.login'))
+    return redirect(url_for('main.login'))  # Fallback for GET requests
 
 # db = firestore.client()
 
@@ -91,5 +91,5 @@ def profile():
         if user_data.exists:
             return render_template('profile.html', user=user_data.to_dict())
         else:
-            return redirect(url_for('login'))
-    return redirect(url_for('login'))
+            return redirect(url_for('main.login'))
+    return redirect(url_for('main.login'))

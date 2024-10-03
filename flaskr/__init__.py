@@ -10,7 +10,7 @@ from firebase_admin import credentials, auth as firebase_auth
 # import json
 from firebase_admin import firestore
 
-db = SQLAlchemy()
+db = None
 login_manager = LoginManager()
 login_manager.login_view = 'main.login'
 bcrypt = Bcrypt()
@@ -28,8 +28,6 @@ def createApp(config_class=Config):
     firebase_admin.initialize_app(cred)
 
     db = firestore.client()
-
-    #db.init_app(app)
     login_manager.init_app(app)
     bcrypt.init_app(app)
 
