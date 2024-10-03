@@ -11,7 +11,7 @@ import os
 
 
 app = Flask(__name__)
-app.secret_key = os.getenv('FLASK_SECRET_KEY', '') # fill in when you test, but dont push to public repo
+app.secret_key = os.getenv('FLASK_SECRET_KEY', '3729fusnjcjwhafuJKAJFadkfj@74920akdj&hejahreu2hakjdc') # fill in when you test, but dont push to public repo
 
 # Initialize Firebase Admin SDK
 cred = credentials.Certificate("secrets/secrets.json")  
