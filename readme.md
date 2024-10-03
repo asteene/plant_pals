@@ -57,14 +57,16 @@ Within each garden journal, users can browse all their posts and updates, creati
 2. Create venv:
 
    python3 -m venv venv (linux)
+   
    python -m venv venv (windows)
 
-3. Activate venv::
+4. Activate venv::
 
    source venv/bin/activate (linux)
+   
    .\venv\Scripts\Activate (windows)
 
-5. Install dependencies:
+6. Install dependencies:
 
    pip install -r requirements.txt
 
