@@ -51,18 +51,23 @@ Within each garden journal, users can browse all their posts and updates, creati
 ## How to Run
 
 1. Clone the repository:
+
    git clone https://github.com/asteene/plant_pals.git
 
 2. Create venv:
+
    python3 -m venv venv (linux)
    python -m venv venv (windows)
 
 3. Activate venv::
+
    source venv/bin/activate (linux)
    .\venv\Scripts\Activate (windows)
 
-4. Install dependencies:
+5. Install dependencies:
+
    pip install -r requirements.txt
 
-5. Run the app::
+7. Run the app::
+
    python app.py
