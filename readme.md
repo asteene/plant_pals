@@ -51,7 +51,7 @@ Within each garden journal, users can browse all their posts and updates, creati
 ## How to Run
 
 1. Clone the repository:
-   git clone https://github.com/YourUsername/PlantPals.git
+   git clone https://github.com/asteene/plant_pals.git
 
 2. Create venv:
    python3 -m venv venv (linux)
