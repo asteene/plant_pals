@@ -10,10 +10,9 @@ from firebase_admin import credentials, auth as firebase_auth
 # import json
 from firebase_admin import firestore
 
-db = None
-login_manager = LoginManager()
-login_manager.login_view = 'main.login'
-bcrypt = Bcrypt()
+cred = credentials.Certificate("secrets/secrets.json")  
+firebase_admin.initialize_app(cred)
+db = firestore.client()
 
 def createApp(config_class=Config):
     '''  
@@ -22,14 +21,6 @@ def createApp(config_class=Config):
 
     app = Flask(__name__)
     app.config.from_object(Config)
-
-   
-    cred = credentials.Certificate("secrets/secrets.json")  
-    firebase_admin.initialize_app(cred)
-
-    db = firestore.client()
-    login_manager.init_app(app)
-    bcrypt.init_app(app)
 
     from flaskr.main.routes import main
 
