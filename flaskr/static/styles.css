@@ -34,7 +34,7 @@ footer{
 }
 .section-right {
     background-color:var(--greyBackground); /* Slightly darker background for right section */
-    height: 100vh; /* Full viewport height */
+    /* height: 100vh; Full viewport height */
 }
 
 .nav-color{
@@ -88,3 +88,8 @@ footer{
     opacity: .7;
 }
 
+.custom-img {
+    max-width: 100%;
+    max-height: 100vh;
+    object-fit: cover;
+}

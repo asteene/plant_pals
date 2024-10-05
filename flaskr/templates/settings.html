@@ -5,18 +5,191 @@
 {% block body %}
 <body>
     <header>
-        <h1>Welcome to My Garden Portfolio</h1>
+        <h1>Settings</h1>
     </header>
     <main>
-        <section>
-           
-        </section>
-        <section>
+        
+        <section class="settings-section">
             {% block right %}
-            <h2>Settings</h2>
+
+            <div class="container mt-5">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        
+                        <h1 class="text-center">Settings</h1>
+                        
+                        <!-- Profile Information Section -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h3>Profile Information</h3>
+                            </div>
+                            <div class="card-body">
+                                <form id="profile-form">
+                                    <div class="form-group mb-3">
+                                        <label for="username">Username</label>
+                                        <input type="text" class="form-control" id="username" value="{{ user.username }}" placeholder="Enter your username" required>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="email">Email</label>
+                                        <input type="email" class="form-control" id="email" value="{{ user.email }}" placeholder="Enter your email" required>
+                                    </div>
+                                    <!-- Profile Photo Section -->
+                                    <div class="form-group mb-3">
+                                        <label for="photo">Profile Photo</label>
+                                        <div class="d-flex align-items-center">
+                                            <img id="photo-preview" src="/static/gallery/profile.jpg" alt="Profile Photo" class="rounded-circle me-3" width="50">
+                                            <input type="file" id="photo" class="form-control-file">
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Update Profile</button>
+                                </form>
+                            </div>
+                        </div>
+            
+                        <!-- Password Section -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h3>Change Password</h3>
+                            </div>
+                            <div class="card-body">
+                                <form id="password-form">
+                                    <div class="form-group mb-3">
+                                        <label for="current-password">Current Password</label>
+                                        <input type="password" class="form-control" id="current-password" placeholder="Current password" required>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="new-password">New Password</label>
+                                        <input type="password" class="form-control" id="new-password" placeholder="New password" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-danger">Update Password</button>
+                                </form>
+                            </div>
+                        </div>
+            
+                        <!-- Blocked Users Section -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h3>Blocked Users</h3>
+                            </div>
+                            <div class="card-body">
+                                {% if blocked_users %}
+                                <ul class="list-group">
+                                    {% for user in blocked_users %}
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        {{ user.username }}
+                                        <button class="btn btn-warning btn-sm">Unblock</button>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                                {% else %}
+                                <p class="text-muted">No blocked users.</p>
+                                {% endif %}
+                            </div>
+                        </div>
+            
+                        <!-- Search Users Section -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h3>Search Users</h3>
+                            </div>
+                            <div class="card-body">
+                                <form id="search-form" class="d-flex mb-3">
+                                    <input type="text" id="search-query" class="form-control me-2" placeholder="Search for a user...">
+                                    <button type="submit" class="btn btn-success">Search</button>
+                                </form>
+                                <div id="search-results">
+                                    <!-- User search results will be displayed here -->
+                                </div>
+                            </div>
+                        </div>
+            
+                    </div>
+                </div>
+            </div>
             {% endblock %}
         </section>
     </main>
-    
+
+    <script type="module">
+        import { getAuth, updateEmail, updatePassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js";
+        import { doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+
+        const auth = getAuth();
+        const storage = getStorage();
+
+        // Update Username
+        document.getElementById('update-username').addEventListener('click', async () => {
+            const newUsername = document.getElementById('username').value;
+            try {
+                await updateProfile(auth.currentUser, { displayName: newUsername });
+                alert('Username updated successfully.');
+            } catch (error) {
+                alert(error.message);
+            }
+        });
+
+        // Update Email
+        document.getElementById('update-email').addEventListener('click', async () => {
+            const newEmail = document.getElementById('email').value;
+            try {
+                await updateEmail(auth.currentUser, newEmail);
+                alert('Email updated successfully.');
+            } catch (error) {
+                alert(error.message);
+            }
+        });
+
+        // Update Password
+        document.getElementById('update-password').addEventListener('click', async () => {
+            const newPassword = document.getElementById('password').value;
+            try {
+                await updatePassword(auth.currentUser, newPassword);
+                alert('Password updated successfully.');
+            } catch (error) {
+                alert(error.message);
+            }
+        });
+
+        // Change Profile Photo
+        document.getElementById('update-photo').addEventListener('click', async () => {
+            const file = document.getElementById('profile-photo').files[0];
+            if (!file) {
+                alert('Please select a photo.');
+                return;
+            }
+
+            const storageRef = ref(storage, `profile_photos/${auth.currentUser.uid}`);
+            try {
+                await uploadBytes(storageRef, file);
+                const photoURL = await getDownloadURL(storageRef);
+                await updateProfile(auth.currentUser, { photoURL });
+                alert('Profile photo updated successfully.');
+            } catch (error) {
+                alert(error.message);
+            }
+        });
+
+        // Search for users
+        document.getElementById('search-btn').addEventListener('click', async () => {
+            const searchQuery = document.getElementById('search-user').value;
+            const searchResults = document.getElementById('search-results');
+            searchResults.innerHTML = '';
+
+            try {
+                // Implement Firestore query to search users by username
+                const usersRef = doc(db, "users", searchQuery);
+                const userDoc = await getDoc(usersRef);
+
+                if (userDoc.exists()) {
+                    searchResults.innerHTML = `<li>${userDoc.data().username} - ${userDoc.data().email}</li>`;
+                } else {
+                    searchResults.innerHTML = '<li>No users found.</li>';
+                }
+            } catch (error) {
+                alert(error.message);
+            }
+        });
+    </script>
 </body>
 {% endblock %}
