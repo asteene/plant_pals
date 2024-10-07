@@ -4,9 +4,8 @@
 
 Gardening enthusiasts often struggle to track and share their garden progress due to a lack of structured and engaging platforms. This problem affects home gardeners, hobbyists, and beginners who wish to document their gardening journey and connect with a like-minded community. **PlantPals** solves this by providing a platform where users can create virtual garden portfolios, engage with other gardeners, and share their progress.
 
-### [Insert Video Prototype Here] 
 
-*(Insert your project demonstration video here once available)*
+https://github.com/user-attachments/assets/da72cb73-adce-46e2-8788-6e958f3b5fa7
 
 ## Features
 
