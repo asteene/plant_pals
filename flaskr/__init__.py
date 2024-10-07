@@ -8,11 +8,14 @@ from flaskr.config import Config
 import firebase_admin
 from firebase_admin import credentials, auth as firebase_auth
 # import json
-from firebase_admin import firestore
+from firebase_admin import firestore, storage
 
 cred = credentials.Certificate("secrets/secrets.json")  
-firebase_admin.initialize_app(cred)
+firebase_admin.initialize_app(cred, {
+    'storageBucket': ''  # Replace with your actual bucket name
+})
 db = firestore.client()
+bucket = storage.bucket()
 
 def createApp(config_class=Config):
     '''  

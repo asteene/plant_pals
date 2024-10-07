@@ -1,22 +1,22 @@
-{% extends '_layout.html' %}
+{% extends 'layout2.html' %}
 
-{% block title %}insert names profile{% endblock %}
+{% block title %}Profile - PlantPals{% endblock %}
 
-{% block body %}
-<body>
-    <header>
-        <h1>Welcome to My Garden Portfolio</h1>
-    </header>
-    <main>
-        <section>
-           
-        </section>
-        <section>
-            {% block right %}
-            <h2>User/Friends Profile</h2>
-            {% endblock %}
-        </section>
-    </main>
-    
-</body>
+{% block left %}
+    <div class="profile-container">
+        <h2>Your Profile</h2>
+        <div class="profile-info">
+            <p><strong>Username:</strong> {{ user.username }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Joined:</strong> {{ user.dateJoined }}</p>
+        </div>
+        <a href="/logout" class="btn btn-danger">Logout</a>
+        <a href="/garden" class="btn btn-primary">Garden</a>
+    </div>
+{% endblock %}
+
+{% block right %}
+    <div class="filler-content">
+        <img src="/static/gallery/profile.jpg" alt="Garden Profile" class="img-fluid custom-img">
+    </div>
 {% endblock %}
