@@ -92,7 +92,7 @@ def profile():
         if user_doc.exists:
             user_data = user_doc.to_dict()
             if 'dateJoined' in user_data:
-                user_data['dateJoined'] = user_data['dateJoined'].strftime('%B %d, %Y at %I:%M %p')
+                user_data['dateJoined'] = user_data['dateJoined'].strftime('%B %d, %Y')
             return render_template('profile.html', user=user_data)
         else:
             return redirect(url_for('main.login'))
