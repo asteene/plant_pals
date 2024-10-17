@@ -12,7 +12,7 @@ from firebase_admin import firestore, storage
 
 cred = credentials.Certificate("secrets/secrets.json")  
 firebase_admin.initialize_app(cred, {
-    'storageBucket': ''  # Replace with your actual bucket name
+    'storageBucket': 'bucket'  # Replace with your actual bucket name
 })
 db = firestore.client()
 bucket = storage.bucket()
