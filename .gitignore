@@ -6,3 +6,5 @@ __pycache__/
 flaskr/secrets/secrets.json
 
 flaskr/config.py
+
+flaskr/static/components/firebaseConfig.json
