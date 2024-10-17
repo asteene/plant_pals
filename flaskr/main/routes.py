@@ -21,9 +21,6 @@ def home():
 def login():
     return render_template('login.html')
 
-# @main.route('/signup')
-# def signup():
-#     return render_template('signup.html')
 
 @main.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -110,13 +107,13 @@ def friend():
 def create_post():
     if 'uid' in session:
         user = firebase_auth.get_user(session['uid'])
-        return render_template('new.html', user=user)
+        return render_template('new.html', user=user) # change to addPlant.html if needed
     else:
         return redirect(url_for('main.login'))
     
 
 @main.route('/journals')
-def jounral(): # beware that when you create route to journal, that this is rightfully renamed or the other is or might cause issues
+def journal(): # beware that when you create route to journal, that this is rightfully renamed or the other is or might cause issues
     if 'uid' in session:
         user = firebase_auth.get_user(session['uid'])
         return render_template('journals.html', user=user)
@@ -252,3 +249,8 @@ def search_users():
         except Exception as e:
             return jsonify({'status': 'error', 'message': str(e)})
     return jsonify({'status': 'error', 'message': 'User not authenticated.'}), 403
+
+
+@main.route('/forgot-password')
+def forgot_password():
+    return render_template('forgot_password.html')  # Your forgot password page
