@@ -15,33 +15,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <script type="module">
-        
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-analytics.js";
-        import { getAuth } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
-        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
-
-        // https://firebase.google.com/docs/web/setup#available-libraries
-      
-        const firebaseConfig = {
-            apiKey: "AIzaSyAdZuAZsqK4u7P61EHP7Y6bSDWrF0V8QDg",
-            authDomain: "plantpals-dab2c.firebaseapp.com",
-            projectId: "plantpals-dab2c",
-            storageBucket: "plantpals-dab2c.appspot.com",
-            messagingSenderId: "281570721615",
-            appId: "1:281570721615:web:be1e0e7630db8f3fbe8f3a",
-            measurementId: "G-JLS49PCJYX"
-        };
-      
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        window.auth = auth;
-      </script>
+    
+    <script type="module" src="../static/components/layout2.js"></script>
 
     <nav class="navbar bordered-horizontal">
         <h1>PlantPals</h1>

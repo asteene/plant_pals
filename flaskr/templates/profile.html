@@ -2,7 +2,7 @@
 
 {% block title %}Profile - PlantPals{% endblock %}
 
-{% block left %}
+{% block left %}   <!-- Make this the menu on the left like others -->
     <div class="profile-container">
         <h2>Your Profile</h2>
         <div class="profile-info">
@@ -16,7 +16,55 @@
 {% endblock %}
 
 {% block right %}
-    <div class="filler-content">
+    <!-- <div class="filler-content">
         <img src="/static/gallery/profile.jpg" alt="Garden Profile" class="img-fluid custom-img">
+    </div> -->
+    <div class="container-fluid">
+        <!-- Profile Header Section -->
+        <div class="row align-items-center mb-4" style="padding-top: 20px;">
+            <!-- Profile Image -->
+            <div class="col-md-2 text-center">
+                <img src="/static/gallery/profile.jpg" alt="Profile Picture" class="rounded-circle" style="width: 160px; height: 160px; object-fit: cover;">
+            </div>
+    
+            <!-- User Info and Stats -->
+            <div class="col-md-7 d-flex flex-column justify-content-center">
+                <h3 class="mb-1">{{ user.username }} <span class="text-muted" style="font-size: 14px;">{{ user.pronouns }}</span></h3>
+                <p class="text-muted" style="font-size: 14px;">One day & plant at a time...</p>
+                <p class="text-muted" style="font-size: 12px;">Followed by {{ followers }} and {{ user.friends }} others</p>
+            </div>
+    
+            <!-- Stats (Posts, Followers, Following) - Aligned to the right -->
+            <div class="col-md-3 text-end">
+                <ul class="list-inline mb-0">
+                    <li class="list-inline-item">
+                        <strong>456</strong> <!-- {{ user.postCount }} -->
+                        <p class="text-muted">Posts</p>
+                    </li>
+                    <li class="list-inline-item">
+                        <strong>5634</strong> <!-- {{ user.postCount }} -->
+                        <p class="text-muted">Followers</p>
+                    </li>
+                    <li class="list-inline-item">
+                        <strong>9101</strong> <!-- {{ user.followingCount }} -->
+                        <p class="text-muted">Following</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    
+        <!-- Gallery Section (Post Grid) -->
+        <div class="row">
+            {% for image in gallery %}  <!-- Assuming gallery is a list of images. use it later when you add storage. maybe add gallery list in user for nosql db then each index is link to image in storage. think of logic later. -->
+            <div class="col-md-4 col-sm-6 mb-4">
+                <div class="card">
+                    <img src="{{ image.url }}" alt="Plant Image" class="card-img-top" style="object-fit: cover; height: 250px;">
+                    <div class="card-body text-center">
+                        <p class="card-text">{{ image.name }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}
