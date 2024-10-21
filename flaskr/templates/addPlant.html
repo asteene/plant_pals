@@ -1,0 +1,35 @@
+{% extends '_layout.html' %}
+
+{% block title %}Add Plant{% endblock %}
+
+{% block body %}
+<body>
+    <header>
+        <h1>Add a Plant to Your Garden</h1>
+    </header>
+    <main>
+        <section>
+           
+        </section>
+        <section>
+            {% block right %}
+            <div class="container mt-5">
+                <h2>Select a Plant to Add to Your Garden</h2>
+                <div id="loading" class="text-center mb-4" style="display: none;">
+                    <p>Loading plants...</p>
+                    <div class="spinner-border text-primary" role="status"></div>
+                </div>
+                <div id="plant-gallery" class="row">
+                    <!-- Plant images will be populated here -->
+                </div>
+                <button id="add-plant-button" class="btn btn-primary mt-4" disabled>Add Plant to Garden</button>
+            </div>
+            
+            
+            
+            {% endblock %}
+        </section>
+    </main>
+    <script type="module" src="../static/components/addPlant.js"></script>
+</body>
+{% endblock %}
