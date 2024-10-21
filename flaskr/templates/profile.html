@@ -8,8 +8,8 @@
         <div class="d-flex align-items-center mb-3">
             <img id="photo-preview" src="/static/gallery/profile.jpg" alt="Profile Photo" class="rounded-circle me-3" width="50">
             <div>
-                <h1 class="mb-0">Username</h1>
-                <h6 class="mb-0">She/her</h6>
+                <h1 class="mb-0">{{ user.username }}</h1>
+                <h6 class="mb-0">{{ user.dateJoined }}</h6>
             </div>
         </div>
         <div>
@@ -46,4 +46,3 @@
 {% endfor %}
 
 {% endblock %}
-
