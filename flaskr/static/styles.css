@@ -4,11 +4,18 @@
     --blackGreen: #0A0C07;
     --lightBlue:#719294;
     --darkBlue:#52848A;
+    --footerHeight: 60px;
   }
 /*Tag mods*/
-body {
+html, body {
     color: var(--blackGreen);
     background-color: var(--greyBackground);
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
   }
 
 h3{
@@ -22,19 +29,29 @@ h1, h2{
 footer{
     background-color: var(--darkGreen);
     color: var(--greyBackground);
+    /* position: relative; */
+    width: 100%;
+    height: var(--footerHeight);
     
 }
 /* Layout_ file*/
-
+.main-container {
+  display: flex;  /* Use flexbox for main layout */
+  flex: 1;  /* Allow main container to grow */
+}
   
 .section-left {
     background-color: var(--greyBackground);/* Light background for left section */
     height: 100vh; /* Full viewport height */
+    width: 20%; /* Full viewport width */
+    padding: 10px; 
    
 }
 .section-right {
     background-color:var(--greyBackground); /* Slightly darker background for right section */
-    height: 100vh; /* Full viewport height */
+    /* height: 100vh; Full viewport height */
+    flex: 1; /* Take remaining space*/
+    padding: 10px;
 }
 
 .nav-color{
@@ -55,19 +72,19 @@ footer{
 
 .bordered-vertical {
     position: relative; 
+    min-height: calc(100vh - var(--footerHeight));
 }
 
-.bordered-vertical::after {
+ .bordered-vertical::after {
     content: '';
     position: absolute;
-    top: 15px; 
-    right: 10px; 
-    bottom: 15px; 
+    top: 0; 
+    right: 0; 
+    bottom: 0; 
     width: 1px; 
     opacity: 0.33;
     background-color: var(--blackGreen);
-    height: 98%;
-}
+} 
 
 .bordered-horizontal {
     position: relative; 
