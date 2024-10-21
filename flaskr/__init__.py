@@ -10,7 +10,7 @@ from firebase_admin import credentials, auth as firebase_auth
 # import json
 from firebase_admin import firestore, storage
 
-cred = credentials.Certificate("secrets/secrets.json")  
+cred = credentials.Certificate("flaskr/secrets/secrets.json")  
 firebase_admin.initialize_app(cred, {
     'storageBucket': 'bucket'  # Replace with your actual bucket name
 })
