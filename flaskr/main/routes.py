@@ -113,10 +113,20 @@ def create_post():
     
 
 @main.route('/journals')
-def journal(): # beware that when you create route to journal, that this is rightfully renamed or the other is or might cause issues
+
+def jounrals(): # beware that when you create route to journal, that this is rightfully renamed or the other is or might cause issues
+
     if 'uid' in session:
         user = firebase_auth.get_user(session['uid'])
         return render_template('journals.html', user=user)
+    else:
+        return redirect(url_for('main.login'))
+    
+@main.route('/journal')
+def jounral(): # beware that when you create route to journal, that this is rightfully renamed or the other is or might cause issues
+    if 'uid' in session:
+        user = firebase_auth.get_user(session['uid'])
+        return render_template('journal.html', user=user)
     else:
         return redirect(url_for('main.login'))
     
