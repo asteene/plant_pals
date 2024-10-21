@@ -7,6 +7,16 @@
 
           
 {% block right %}
+
+{% for journal in journals %}
+<div class="journal-entry">
+    <h2>{{ journal.title }}</h2>
+    <p>Date: {{ journal.date }}</p>
+    <p>{{ journal.content }}</p>
+</div>
+{% endfor %}
+
+
 <!--
 - This page is a Bootstrap carousel made up of cards. 
 - https://getbootstrap.com/docs/4.0/components/carousel/
