@@ -15,27 +15,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <script type="module">
-        
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-analytics.js";
-        import { getAuth } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
-        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
-
-        // https://firebase.google.com/docs/web/setup#available-libraries
-      
-        const firebaseConfig = {
-            // fill in when you test, but don't push to public repo
-        };
-      
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        window.auth = auth;
-      </script>
+    
+    <script type="module" src="../static/components/layout2.js"></script>
 
     <nav class="navbar bordered-horizontal">
         <h1>PlantPals</h1>
