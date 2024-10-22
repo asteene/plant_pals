@@ -141,7 +141,9 @@ footer{
   .carousel-inner {
     padding-top: 1em;
   }
- 
+  .carousel-control-top{
+    color: var(--blackGreen);
+  }
 
 
 
