@@ -24,6 +24,11 @@ footer{
     color: var(--greyBackground);
     
 }
+.btn{
+  background-color:var(--darkGreen);
+  color:var(--greyBackground);
+  
+}
 /* Layout_ file*/
 
   
@@ -142,3 +147,4 @@ footer{
     padding: 5px 5px;
 }
 /*Profile & friend pages*/
+
