@@ -6,6 +6,8 @@ from firebase_admin import credentials, auth as firebase_auth
 from firebase_admin import firestore, storage
 import datetime
 
+import flaskr.utils.api as trefle
+
 
 main = Blueprint('main', __name__)
 
@@ -51,10 +53,28 @@ def signup():
 
 @main.route('/garden')
 def garden():
-    # return render_template('index.html')
     if 'uid' in session:
+        # Get the current user
         user = firebase_auth.get_user(session['uid'])
-        return render_template('index.html', user=user)
+        uid = session['uid']
+
+        # Get the user's garden document from the Firestore database
+        garden_ref = db.collection('garden').document(uid)
+        garden_doc = garden_ref.get()
+
+        # Initialize plant_ids as empty if no garden exists
+        plant_ids = []
+        my_garden = []
+
+        if garden_doc.exists:
+            garden_data = garden_doc.to_dict()
+            plant_ids = garden_data.get('plant_ids', [])
+
+            for id in plant_ids:
+                my_garden.append(trefle.get_species_by_id(id))
+
+        # Pass the plant_ids to the template for rendering
+        return render_template('index.html', user=user, my_garden=my_garden)
     else:
         return redirect(url_for('main.login'))
 
@@ -104,7 +124,7 @@ def friend():
         return redirect(url_for('main.login'))
     
 @main.route('/new')
-def create_post():
+def create_post(): # TODO change to add_plant?
     if 'uid' in session:
         user = firebase_auth.get_user(session['uid'])
         return render_template('new.html', user=user) # change to addPlant.html if needed
@@ -113,7 +133,7 @@ def create_post():
     
 
 @main.route('/journals')
-def jounrals(): # beware that when you create route to journal, that this is rightfully renamed or the other is or might cause issues
+def journals(): # beware that when you create route to journal, that this is rightfully renamed or the other is or might cause issues
     if 'uid' in session:
         user = firebase_auth.get_user(session['uid'])
         return render_template('journals.html', user=user)
@@ -121,13 +141,61 @@ def jounrals(): # beware that when you create route to journal, that this is rig
         return redirect(url_for('main.login'))
 
 @main.route('/journal')
-def jounral(): # beware that when you create route to journal, that this is rightfully renamed or the other is or might cause issues
+def journal(): # beware that when you create route to journal, that this is rightfully renamed or the other is or might cause issues
     if 'uid' in session:
         user = firebase_auth.get_user(session['uid'])
         return render_template('journal.html', user=user)
     else:
         return redirect(url_for('main.login'))
+
+
+@main.route('/addplant', methods=['POST', 'GET'])
+def add_plant():
+    # call the api for the default values
     
+
+    if 'uid' in session:
+        user = firebase_auth.get_user(session['uid'])
+        default_plants = trefle.get_default_species()
+
+        # Get user's uid from session
+        uid = session['uid']
+
+        # Check if the garden document exists for the user
+        garden_ref = db.collection('garden').document(uid)
+        garden_doc = garden_ref.get()
+
+        # If garden document doesn't exist, create it
+        if not garden_doc.exists:
+            garden_ref.set({
+                'uid': uid,
+                'plant_ids': []
+            })
+
+        # Check if it's a POST request to add a plant
+        if request.method == 'POST':
+            # Get plant_id from form data
+            plant_id = request.form.get('plant_id')
+
+            # If plant_id is provided, add it to the garden
+            if plant_id:
+                garden_data = garden_ref.get().to_dict()
+                plant_ids = garden_data.get('plant_ids', [])
+
+                # Add the new plant_id to the list if it's not already there
+                if plant_id not in plant_ids:
+                    plant_ids.append(plant_id)
+                    garden_ref.update({'plant_ids': plant_ids})
+
+            return redirect(url_for('main.garden'))
+
+        
+
+        return render_template('addPlant.html', user=user, default_plants=default_plants)
+    else:
+        return redirect(url_for('main.login'))
+
+
 @main.route('/settings')
 def setting():
     # if 'uid' in session:

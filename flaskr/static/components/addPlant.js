@@ -15,11 +15,12 @@ const db = getFirestore();
 const auth = getAuth();
 
 // API base URL (replace this with the actual API URL you are using)
-const API_BASE_URL = 'https://trefle.io/api/v1/genus?token=YOUR_TREFLE_TOKEN'; // fill in with token
+const API_BASE_URL = 'https://trefle.io/api/v1/species'; // fill in with token
+const API_TOKEN = process.env.API_KEY; // API_KEY is the name of the env variable for the token 
 
 // Function to fetch plant data from the API
-async function fetchPlantData(plantName) { // update with Alec once he has established the api in routes and reference that instead.
-    const response = await fetch(`${API_BASE_URL}?name=${encodeURIComponent(plantName)}`);
+async function fetchPlantData(plantID) { // update with Alec once he has established the api in routes and reference that instead.
+    const response = await fetch(`${API_BASE_URL}/${plantID}?token=${API_TOKEN}`);
     if (!response.ok) {
         throw new Error('Failed to fetch plant data');
     }
@@ -28,7 +29,7 @@ async function fetchPlantData(plantName) { // update with Alec once he has estab
 }
 
 // Function to add plant to Firestore and user's garden
-async function addPlantToGarden(plantName) {
+async function addPlantToGarden(plantID) {
     try {
         const user = auth.currentUser;
         if (!user) {
@@ -39,34 +40,34 @@ async function addPlantToGarden(plantName) {
         // Firestore references
         const plantsCollection = collection(db, 'plants');
         const userDocRef = doc(db, 'users', user.uid);
-        
+
         // Check if the plant already exists in the plants collection
-        const plantDocRef = doc(plantsCollection, plantName);
+        const plantDocRef = doc(plantsCollection, plantID);
         const plantDocSnap = await getDoc(plantDocRef);
 
         if (!plantDocSnap.exists()) {
             // Fetch plant data from the API if it doesn't exist
-            const plantData = await fetchPlantData(plantName);
+            const plantData = await fetchPlantData(plantID);
 
             // Add plant to Firestore
             const plantDetails = {
                 commonName: plantData.common_name || 'Unknown',
                 scientificName: plantData.scientific_name || 'Unknown',
-                yearOfDiscovery: plantData.year_of_discovery || 'Unknown',
-                imageURL: plantData.image_url || '',
+                id: plantData.id || 'Unknown',
+                imageURL: plantData.image || '',
             };
             await setDoc(plantDocRef, plantDetails);
-            console.log(`Plant ${plantName} added to Firestore.`);
+            console.log(`Plant ${plantData.common_name} added to Firestore.`);
         } else {
-            console.log(`Plant ${plantName} already exists in Firestore.`);
+            console.log(`Plant ${plantData.common_name} already exists in Firestore.`);
         }
 
         // Add plant to user's garden (array in user document)
         await updateDoc(userDocRef, {
-            plants: arrayUnion(plantName) // Add the plant to the user's garden array
+            plants: arrayUnion(plantID) // Add the plant to the user's garden array
         });
-        console.log(`Plant ${plantName} added to user's garden.`);
-
+        console.log(`Plant ${plantID} added to user's garden.`);
+        /*
         // Create or update the user's journal for the plant
         const journalCollectionRef = collection(userDocRef, 'journals');
         const journalDocRef = doc(journalCollectionRef, plantName); // Use the plant name as the document ID for the journal
@@ -98,14 +99,14 @@ async function addPlantToGarden(plantName) {
         // Add the post to the posts collection under the journal
         await setDoc(tempPostRef, postData);
         console.log(`Post added to journal for plant ${plantName}.`);
-
+        */
     } catch (error) {
         console.error("Error adding plant to garden:", error.message);
     }
 }
 
 // Event listener for the plant selection (example, assuming there's a form)
-document.getElementById('add-plant-form').addEventListener('submit', async (event) => {
+document.getElementById('add-plant-form').addEventListener('submit', async(event) => {
     event.preventDefault();
 
     // Get the plant name from the form input

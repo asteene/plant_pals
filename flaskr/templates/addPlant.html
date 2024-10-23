@@ -20,9 +20,23 @@
                     <div class="spinner-border text-primary" role="status"></div>
                 </div>
                 <div id="plant-gallery" class="row">
-                    <!-- Plant images will be populated here -->
+                    {% for plant in default_plants %}
+                        <div class="card" style="width: 18rem;">
+                            <img class="card-img-top" src="{{ plant['image'] }}" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ plant['common_name'] }}</h5>
+                                <p class="card-text">{{ plant['scientific_name'] }}</p>
+                                <!-- Add form around the button -->
+                                <form method="POST" action="{{ url_for('main.add_plant') }}">
+                                    <input type="hidden" name="plant_id" value="{{ plant['id'] }}">
+                                    <button type="submit" class="btn btn-primary">Add to My Garden</button>
+                                </form>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
-                <button id="add-plant-button" class="btn btn-primary mt-4" disabled>Add Plant to Garden</button>
+                
+                <button onclick=addPlantToGarden() id="add-plant-button" class="disabled btn btn-primary mt-4" disabled>Find A Different Plant</button>
             </div>
             
             
@@ -30,6 +44,6 @@
             {% endblock %}
         </section>
     </main>
-    <script type="module" src="../static/components/addPlant.js"></script>
+    <script type="module" src="flaskr/static/components/addPlant.js"></script>
 </body>
 {% endblock %}
