@@ -8,5 +8,3 @@ flaskr/secrets/secrets.json
 flaskr/config.py
 
 flaskr/static/components/firebaseConfig.json
-
-flaskr/__init__.py
