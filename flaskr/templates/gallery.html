@@ -1,0 +1,46 @@
+{% extends '_layout.html' %}
+
+{% block title %}Gallery{% endblock %}
+
+{% block body %}
+
+{% block right %}
+<div class="container">
+    <h2>Journals for {{ plant_name }}</h2>
+    <!-- Create multiple rows with 4 columns in each -->
+    {% for row in range(2) %} <!-- Adjust the range for the number of rows you want -->
+    <div class="row">
+        {% for col in range(4) %} <!-- This loop creates 4 cards per row -->
+        <div class="col-md-3"> <!-- Use col-md-3 for 4 columns in a row -->
+            <div class="card mb-4 shadow-sm">
+                <img src="/static/gallery/testing1.png" class="card-img-top" alt="Testing Image">
+                <div class="card-body">
+                    <h5 class="card-title">Sample Journal Entry {{ row * 4 + col + 1 }}</h5>
+                    <p class="card-text">This is a test journal snippet...</p>
+                    <p class="card-text"><small class="text-muted">October 22, 2024</small></p>
+                    <a href="#" class="btn btn-primary">Read More</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+
+        <!-- Add dynamic journals back once ready -->
+        {% for journal in journals %}
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <img src="{{ journal.image_url }}" class="card-img-top" alt="Journal image">
+                <div class="card-body">
+                    <h5 class="card-title">{{ journal.title }}</h5>
+                    <p class="card-text">{{ journal.snippet }}...</p>
+                    <p class="card-text"><small class="text-muted">{{ journal.date }}</small></p>
+                    <a href="/journal/{{ journal.id }}" class="btn btn-primary">Read More</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+{% endblock %}

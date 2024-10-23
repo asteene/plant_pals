@@ -130,6 +130,15 @@ def jounral(): # beware that when you create route to journal, that this is righ
     else:
         return redirect(url_for('main.login'))
     
+@main.route('/gallery')
+def gallery():
+    if 'uid' in session:
+        user = firebase_auth.get_user(session['uid'])
+        return render_template('gallery.html', user=user)
+    else:
+        return redirect(url_for('main.login'))
+
+       
 @main.route('/settings')
 def setting():
     # if 'uid' in session:
