@@ -5,66 +5,48 @@
 {% block body %}
 
 {% block right %}
-<div class="container">
-    <h2>New Post</h2>
-    <form>
-        <div class="form-group">
-            <label for="plantName">Post Name</label>
-            <input type="text" class="form-control" id="plantName" placeholder="Enter post name" required>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-4">
-                <label for="date">Date</label>
-                <div class="input-group">
-                    <input type="text" class="form-control" id="date" placeholder="Select date" readonly required>
-                    <div class="input-group-append">
-                        <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#dateModal">Select</button>
+<div class="container mt-5">
+    <h1 class="ml-3">Create post</h1>
+            <div class="d-flex flex-row ">
+                
+                <div class="row">
+                    <!--https://bootstrap-datepicker.readthedocs.io/en/latest/-->
+                    <div class="col-md-2">
+                        <div class="datepicker" data-date-format="mm/dd/yyyy"></div>
                     </div>
                 </div>
-            </div>
-            <div class="form-group col-md-4">
-                <label for="journal">Journal</label>
-                <div class="input-group">
-                    <input type="text" class="form-control" id="journal" placeholder="Select journal" readonly required>
-                    <div class="input-group-append">
-                        <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#journalModal">Select</button>
+                <div class="m-5">
+                    <div class="form-group form-sizing">
+                        <input type="text" class="form-control" id="plantName" placeholder="Enter title" required>
                     </div>
+                    
+                    <div class="form-group ">
+                        <textarea class="form-control form-input" id="description" rows="4" placeholder="How's your plant doing?" required></textarea>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="d-flex flex-row journal-select">
+                <div class="form-group d-flex align-items-center">
+                    <div class="input-group" style="cursor: pointer;" data-toggle="modal" data-target="#journalModal">
+                        <input type="text" class="form-control" id="journal" placeholder="Select journal" readonly required>
+                    </div>
+                <div class="form-group ml-4">
+                    <label for="imageUpload">Upload Images</label>
+                    <input type="file" class="form-control-file" id="imageUpload" accept="image/*">
                 </div>
             </div>
         </div>
-        <div class="form-group">
-            <label for="description">Description</label>
-            <textarea class="form-control" id="description" rows="4" placeholder="Describe your plant..." required></textarea>
-        </div>
-        <div class="form-group">
-            <label for="imageUpload">Upload Images</label>
-            <input type="file" class="form-control-file" id="imageUpload" accept="image/*">
-        </div>
-        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+        
+        
+            <div class="d-flex justify-content-end mt-4 mr-5"> <!-- Align right -->
+                <button type="submit" class="btn btn-primary px-4">Submit</button>
+            </div>
     </form>
 </div>
 
 
-<!-- Date Modal -->
-<div class="modal fade" id="dateModal" tabindex="-1" role="dialog" aria-labelledby="dateModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="dateModalLabel">Select Date</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <input type="date" class="form-control" id="modalDate" required>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="setDate()">Select Date</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <!-- Journal Modal -->
 <div class="modal fade" id="journalModal" tabindex="-1" role="dialog" aria-labelledby="journalModalLabel" aria-hidden="true">
@@ -77,13 +59,13 @@
                 </button>
             </div>
             <div class="modal-body">
-                <ul class="list-group"> <!--This will be conected to the DB in the future-->
-                    <li class="list-group-item" onclick="selectJournal('My Garden')">My Garden</li>
-                    <li class="list-group-item" onclick="selectJournal('Indoor Plants')">Indoor Plants</li>
-                    <li class="list-group-item" onclick="selectJournal('Succulent Collection')">Succulent Collection</li>
-                    <li class="list-group-item" onclick="selectJournal('Tropical Plants')">Tropical Plants</li>
-                    <li class="list-group-item" onclick="selectJournal('Herb Garden')">Herb Garden</li>
-                    <li class="list-group-item" onclick="openNewJournalModal()">New Journal</li>
+                <ul class="list-group list-group-flush"> <!--This will be conected to the DB in the future-->
+                    <li class="list-group-item list-group-item-action" onclick="selectJournal('My Garden')">My Garden</li>
+                    <li class="list-group-item list-group-item-action" onclick="selectJournal('Indoor Plants')">Indoor Plants</li>
+                    <li class="list-group-item list-group-item-action" onclick="selectJournal('Succulent Collection')">Succulent Collection</li>
+                    <li class="list-group-item list-group-item-action" onclick="selectJournal('Tropical Plants')">Tropical Plants</li>
+                    <li class="list-group-item list-group-item-action" onclick="selectJournal('Herb Garden')">Herb Garden</li>
+                    <li class="list-group-item list-group-item-action" onclick="openNewJournalModal()">New Journal</li>
                 </ul>
             </div>
         </div>
@@ -115,7 +97,13 @@
 
 {% endblock %}  
 
-{% block scripts %} <script  src="../static/components/newPost.js"></script> {% endblock %}
+{% block scripts %} <script  src="../static/components/newPost.js"></script> 
+<script>
+   
+</script>
+
+{% endblock %}
+
 
 
 {% endblock %}
