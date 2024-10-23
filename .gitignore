@@ -3,7 +3,7 @@ venv/
 # Ignore all __pycache__ directories
 __pycache__/
 
-flaskr/secrets/secrets.json
+#flaskr/secrets/secrets.json
 
 flaskr/config.py
 
