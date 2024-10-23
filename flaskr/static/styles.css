@@ -22,6 +22,7 @@ h1 {
     font-family: "Italiana", sans-serif;
 }
 
+
 h2,
 h3,
 h4,
@@ -29,6 +30,7 @@ h5,
 h6,
 p {
     font-family: "raleway", sans-serif;
+    color:var(--blackGreen);
 }
 
 .title {
@@ -43,6 +45,12 @@ footer {
 .btn {
     background-color: var(--darkGreen);
     color: var(--greyBackground);
+}
+a:hover{
+    color:#A4C8C0;
+}
+a{
+    color:var(--darkBlue);
 }
 
 
