@@ -6,29 +6,40 @@
     --darkBlue:#52848A;
   }
 /*Tag mods*/
+
+html{
+  scroll-behavior: smooth; 
+}
 body {
     color: var(--blackGreen);
     background-color: var(--greyBackground);
   }
 
-h3{
-    font-family: "Nanum Myeongjo", serif;
-  }
 
-h1, h2{
+
+h1{
     font-family: "Italiana", sans-serif;
       }
+h2, h3, h4, h5, h6, p {
+  font-family: "raleway", sans-serif;
+}
+
+.title{
+  font-family: "Poppins ", sans-serif;
+} 
 
 footer{
     background-color: var(--darkGreen);
     color: var(--greyBackground);
     
 }
+
 .btn{
   background-color:var(--darkGreen);
   color:var(--greyBackground);
   
 }
+
 /* Layout_ file*/
 
   
@@ -54,8 +65,7 @@ footer{
 
 .material-icons{
     font-size: 33.6px;
-    margin-bottom: .4em;
-    margin-right: .4em;
+   
 }
 
 .bordered-vertical {
@@ -75,6 +85,7 @@ footer{
 
 .bordered-horizontal {
     position: relative; 
+    margin-bottom: 10px;
 }
 
 .bordered-horizontal::after {
@@ -107,8 +118,13 @@ footer{
   .card img {
     max-width: 100%;
     max-height: 100%;
+    
   }
-
+  .card img:hover {
+    max-width: 100%;
+    max-height: 100%;
+    opacity: 80%;
+  }
   .card {
     margin: 0 0.5em;
     background-color: var(--greyBackground);
@@ -123,7 +139,7 @@ footer{
   }
 
   .card h5{
-    font-family: "Nanum Myeongjo", serif;
+    
     color: var(--blackGreen);
     text-align: center;
   }
@@ -131,6 +147,15 @@ footer{
   .carousel-inner {
     padding-top: 1em;
   }
+  .carousel-control-top{
+    color: var(--blackGreen);
+  }
+  .carousel-control-top:hover{
+    color: var(--blackGreen);
+  }
+
+
+
 
 
 
@@ -140,12 +165,13 @@ footer{
     padding: 0; 
 }
   .gallery img {
-    border-radius: 3%;
+    border-radius: 10px;
     width: 100%;
     height: 200px; 
     object-fit: cover; 
     padding: 5px 5px;
 }
+
 .list-group-item-action {
   color:var(--blackGreen);
 }
@@ -202,3 +228,4 @@ footer{
   color: var(--greyBackground); /* Optional: Change text color for contrast */
   border-color: (var(--darkGreen));
 }
+
