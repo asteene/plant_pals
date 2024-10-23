@@ -27,7 +27,8 @@ h2,
 h3,
 h4,
 h6,
-p {
+p,
+label {
     font-family: "raleway", sans-serif;
     color:var(--blackGreen);
 }
