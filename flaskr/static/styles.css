@@ -34,6 +34,12 @@ footer{
     
 }
 
+.btn{
+  background-color:var(--darkGreen);
+  color:var(--greyBackground);
+  
+}
+
 /* Layout_ file*/
 
   
@@ -165,4 +171,61 @@ footer{
     object-fit: cover; 
     padding: 5px 5px;
 }
+
+.list-group-item-action {
+  color:var(--blackGreen);
+}
+.list-group-item-action:hover {
+  background-color: var(--darkGreen); 
+  color: var(--greyBackground); 
+}
+
+.datepicker {
+  font-size: 1.5rem; 
+  width: 350px; 
+  
+}
+
+.datepicker table {
+  width: 100%; /* Ensure the calendar table takes full width */
+}
+
+.datepicker th {
+  font-size: 1.2rem; /* Increase header font size */
+}
+
+.datepicker td, .datepicker th {
+  height: 50px; /* Increase height of date cells */
+  line-height: 50px; /* Center text vertically */
+}
+.datepicker table tr td.active, .datepicker table tr td.active:hover {
+  /*background-image: linear-gradient(to bottom,var(--darkGreen),#77c);*/
+  background-image: linear-gradient(to bottom,#668066, var(--darkGreen));
+  color:var(--greyBackground);
+}
+
+.datepicker table tr td.today, .datepicker table tr td.today:hover{
+  background-image: linear-gradient(to bottom,var(--darkBlue),var(--lightBlue));
+  color:var(--greyBackground);
+}
+
+.journal-select .form-control[readonly], .journal-select .form-control::placeholder{
+  background-color: #505946;
+  color:var(--greyBackground);
+  width: 50px;
+}
+
+.form-sizing{
+  width:610px;
+}
+.form-input{
+  padding-bottom: 210px;
+}
 /*Profile & friend pages*/
+
+.btn:hover, .btn-primary:hover, .btn-primary{
+  background-color: var(--darkGreen); /* Your desired hover color */
+  color: var(--greyBackground); /* Optional: Change text color for contrast */
+  border-color: (var(--darkGreen));
+}
+

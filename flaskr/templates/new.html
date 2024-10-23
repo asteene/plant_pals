@@ -3,21 +3,107 @@
 {% block title %}New{% endblock %}
 
 {% block body %}
-<body>
-    <header>
-        <h1>Create New Post</h1>
-    </header>
-    <main>
-        <section>
-           
-        </section>
-        <section>
-            {% block right %}
-            <h2>New Plant</h2>
-            <!-- Add your garden designs here -->
-            {% endblock %}
-        </section>
-    </main>
-    
-</body>
+
+{% block right %}
+<div class="container mt-5">
+    <h1 class="ml-3">Create post</h1>
+            <div class="d-flex flex-row ">
+                
+                <div class="row">
+                    <!--https://bootstrap-datepicker.readthedocs.io/en/latest/-->
+                    <div class="col-md-2">
+                        <div class="datepicker" data-date-format="mm/dd/yyyy"></div>
+                    </div>
+                </div>
+                <div class="m-5">
+                    <div class="form-group form-sizing">
+                        <input type="text" class="form-control" id="plantName" placeholder="Enter title" required>
+                    </div>
+                    
+                    <div class="form-group ">
+                        <textarea class="form-control form-input" id="description" rows="4" placeholder="How's your plant doing?" required></textarea>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="d-flex flex-row journal-select">
+                <div class="form-group d-flex align-items-center">
+                    <div class="input-group" style="cursor: pointer;" data-toggle="modal" data-target="#journalModal">
+                        <input type="text" class="form-control" id="journal" placeholder="Select journal" readonly required>
+                    </div>
+                <div class="form-group ml-4">
+                    <label for="imageUpload">Upload Images</label>
+                    <input type="file" class="form-control-file" id="imageUpload" accept="image/*">
+                </div>
+            </div>
+        </div>
+        
+        
+            <div class="d-flex justify-content-end mt-4 mr-5"> <!-- Align right -->
+                <button type="submit" class="btn btn-primary px-4">Submit</button>
+            </div>
+    </form>
+</div>
+
+
+
+
+<!-- Journal Modal -->
+<div class="modal fade" id="journalModal" tabindex="-1" role="dialog" aria-labelledby="journalModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="journalModalLabel">Select Journal</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul class="list-group list-group-flush"> <!--This will be conected to the DB in the future-->
+                    <li class="list-group-item list-group-item-action" onclick="selectJournal('My Garden')">My Garden</li>
+                    <li class="list-group-item list-group-item-action" onclick="selectJournal('Indoor Plants')">Indoor Plants</li>
+                    <li class="list-group-item list-group-item-action" onclick="selectJournal('Succulent Collection')">Succulent Collection</li>
+                    <li class="list-group-item list-group-item-action" onclick="selectJournal('Tropical Plants')">Tropical Plants</li>
+                    <li class="list-group-item list-group-item-action" onclick="selectJournal('Herb Garden')">Herb Garden</li>
+                    <li class="list-group-item list-group-item-action" onclick="openNewJournalModal()">New Journal</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- New Journal Modal -->
+<div class="modal fade" id="newJournalModal" tabindex="-1" role="dialog" aria-labelledby="newJournalModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newJournalModalLabel">Create New Journal</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control" id="newJournalName" placeholder="Enter journal name" required>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="createNewJournal()">Create Journal</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}  
+
+{% block scripts %} <script  src="../static/components/newPost.js"></script> 
+<script>
+   
+</script>
+
+{% endblock %}
+
+
+
 {% endblock %}
