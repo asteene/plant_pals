@@ -1,24 +1,31 @@
-
 {% extends '_layout.html' %}
 
 {% block title %}Journals{% endblock %}
 
 {% block body %}
-
           
 {% block right %}
-<!--
-- This page is a Bootstrap carousel made up of cards. 
-- https://getbootstrap.com/docs/4.0/components/carousel/
-- Loop X controls the amount of Carousels
-- Loop Y controls the slides per Carousel
-- Loop Z controls how many posts are per slide
-
--->
+<!-- Carousel with controls -->
 {% for x in range(3) %}
     <div id="carouselExampleControls{{ x }}" class="carousel slide" data-interval="false">
         <div class="carousel-inner">
-            <h1>Carousel No. {{ x }}</h1>
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px;">
+                <h3 class="title">Carousel No. {{ x }}</h3>
+                <div style="display: flex; align-items: center;">
+                    <a class="carousel-control-top" href="#carouselExampleControls{{ x }}" role="button" data-slide="next" style="margin-left: 10px;">
+                        <span class="material-symbols-outlined">
+                            chevron_left
+                        </span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                    <a class="carousel-control-top" href="#carouselExampleControls{{ x }}" role="button" data-slide="prev" style="margin-left: 10px;">
+                        <span class="material-symbols-outlined">
+                            chevron_right
+                        </span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </div>
+            </div>
             {% for y in range(3) %}
                 <div class="carousel-item {% if loop.index == 1 %}active{% endif %}">
                     <div class="cards-wrapper">
@@ -36,19 +43,10 @@
                 </div> 
             {% endfor %}
         </div> 
-        
-        <a class="carousel-control-prev" href="#carouselExampleControls{{ x }}" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleControls{{ x }}" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
     </div>
 {% endfor %}  
 {% endblock %}
-        </section>
-    </main>
+</section>
+</main>
 </body>
 {% endblock %}
