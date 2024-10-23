@@ -12,7 +12,7 @@ from firebase_admin import firestore, storage
 
 cred = credentials.Certificate("flaskr/secrets/secrets.json")  
 firebase_admin.initialize_app(cred, {
-    'storageBucket': 'gs://plantpals-dab2c.appspot.com'  # Replace with your actual bucket name
+    'storageBucket': ''  # Replace with your actual bucket name
 })
 db = firestore.client()
 bucket = storage.bucket()
