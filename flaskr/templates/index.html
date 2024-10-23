@@ -28,6 +28,10 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{ plant['common_name'] }}</h5>
                                 <p class="card-text">{{ plant['scientific_name'] }}</p>
+                                <form method="POST" action="{{ url_for('main.create_journal') }}">
+                                    <input type="hidden" name="plant_id" value="{{ plant['id'] }}">
+                                    <button type="submit" class="btn btn-primary">Add Journal for Plant</button>
+                                </form>
                             </div>
                         </div>
                         {% endfor %}

@@ -132,15 +132,69 @@ def create_post(): # TODO change to add_plant?
         return redirect(url_for('main.login'))
     
 
-@main.route('/journals')
-def journals(): # beware that when you create route to journal, that this is rightfully renamed or the other is or might cause issues
+@main.route('/create_journal', methods=['POST','GET'])
+def create_journal():
     if 'uid' in session:
-        user = firebase_auth.get_user(session['uid'])
-        return render_template('journals.html', user=user)
+        uid = session['uid']
+
+        # Get plant_id from the form data
+        plant_id = request.form.get('plant_id')
+
+        # If plant_id is provided, create a new journal entry
+        if plant_id:
+            new_journal_ref = db.collection('journals').document()  # Firestore will generate a new doc ID
+
+            # Create a new journal document with the plant_id
+            new_journal_ref.set({
+                'uid': uid,               # User's UID
+                'name': '',               # Placeholder for journal name
+                'plant_id': int(plant_id), # Plant ID associated with this journal
+                'post_ids': []            # Empty list for posts
+            })
+
+        # Redirect back to the garden page after creating the journal
+        return redirect(url_for('main.garden'))
     else:
         return redirect(url_for('main.login'))
 
-@main.route('/journal')
+
+@main.route('/journals', methods=['POST', 'GET'])
+def journals(): # beware that when you create route to journal, that this is rightfully renamed or the other is or might cause issues
+    if 'uid' in session:
+        user = firebase_auth.get_user(session['uid'])
+        default_plants = trefle.get_default_species()
+
+        # Get user's uid from session
+        uid = session['uid']
+
+        # Check if the garden document exists for the user
+        journals_ref = db.collection('journals').document(uid)
+        journals_doc = journals_ref.get()
+
+        # If journal document doesn't exist, create it
+        if request.method == 'POST':
+            # Get plant_id from the form data
+            plant_id = request.form.get('plant_id')
+
+            # If plant_id is provided, create a new journal entry
+            if plant_id:
+                # Create a new journal document (e.g., using the plant_id as document ID or a random ID)
+                new_journal_ref = db.collection('journals').document()  # Firestore will generate a new doc ID
+                
+                new_journal_ref.set({
+                    'uid': uid,               # User's UID
+                    'name': '',               # Placeholder for journal name
+                    'plant_id': int(plant_id), # Plant ID associated with this journal
+                    'post_ids': []            # Empty list for posts
+                })
+
+            return redirect(url_for('main.garden'))      
+
+        return render_template('journals.html', user=user, default_plants=default_plants)
+    else:
+        return redirect(url_for('main.login'))
+
+@main.route('/journals/<journal_id>')
 def journal(): # beware that when you create route to journal, that this is rightfully renamed or the other is or might cause issues
     if 'uid' in session:
         user = firebase_auth.get_user(session['uid'])
