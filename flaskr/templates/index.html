@@ -51,10 +51,12 @@
                                 </form>
                             {% else %}
                                 <div class="card" style="width: 15rem; margin: 10px;">
-                                    <img class="card-img-top" src="/static/gallery/grey.png" style="border-radius: 3%; height:15rem;" alt="Add a new journal">
-                                    <div class="card-body">
-                                        <h5 class="card-title" style="margin-bottom: 0;">Add a New Journal</h5>
-                                    </div>
+                                    <a href="/addplant">
+                                        <img class="card-img-top" src="/static/gallery/grey.png" style="border-radius: 3%; height:15rem;" alt="Add a new journal">
+                                        <div class="card-body">
+                                            <h5 class="card-title" style="margin-bottom: 0;">Add a New Journal</h5>
+                                        </div>
+                                    </a>
                                 </div>
                             {% endif %}
                         {% endfor %}
