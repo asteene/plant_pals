@@ -30,28 +30,26 @@
                 <div class="carousel-item {% if loop.index == 1 %}active{% endif %}">
                     <div class="cards-wrapper">
                         {% for plant in my_garden %}
-                        <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="{{ plant['image'] }}" alt="Card image cap">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ plant['common_name'] }}</h5>
-                                <p class="card-text">{{ plant['scientific_name'] }}</p>
-                                <form method="POST" action="{{ url_for('main.create_journal') }}">
-                                    <input type="hidden" name="plant_id" value="{{ plant['id'] }}">
-                                    <button type="submit" class="btn btn-primary">Add Journal for Plant</button>
-                                </form>
+                        <form method="POST" action="{{ url_for('main.create_journal') }}">
+                            <input type="hidden" name="plant_id" value="{{ plant['id'] }}">
+                            <div class="card" style="width: 15rem;">
+                                <button type="submit" class="btn-fix">
+                                <img class="card-img-top" src="{{ plant['image'] }}" style="border-radius: 3%; height:15rem;" alt="{{ plant['common_name'] }}">
+                                <div class="card-body">
+                                    <h5 class="card-title" style="margin-bottom: 0;">{{ plant['common_name'] }}</h5>
+                                    <p class="card-text text-center" style="opacity: 70%; margin-bottom: .5rem;"><small>{{ plant['scientific_name'] }}</small></p>
+                                    
+                                </div>
+                            </button>
                             </div>
-                        </div>
+                        </form>
                         {% endfor %}
                     </div>
                 </div>
             {% endfor %}
         </div>
-
-       
     </div>
 {% endfor %}
 {% endblock %}
-</section>
-</main>
-</body>
 {% endblock %}
+

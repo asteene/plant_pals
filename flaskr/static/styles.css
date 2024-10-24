@@ -141,6 +141,21 @@ footer {
 
 
 /*Carousel*/
+.btn-fix {
+    border: none;          /* Remove border */
+    background: none;     /* Remove background */
+    padding: 0;           /* Remove padding */
+    cursor: pointer;      /* Change cursor to pointer */
+    color: inherit;       /* Inherit text color from parent */
+    text-decoration: none; /* Remove underline */
+    transition: none;     /* Disable transitions */
+}
+
+.btn-fix:hover {
+    outline: none;        /* Remove outline on focus */
+    background-color: transparent; /* Ensure background remains transparent */
+    color: inherit;       /* Maintain text color */
+}
 .card a:hover{
     text-decoration: none;
     opacity: 80%;
