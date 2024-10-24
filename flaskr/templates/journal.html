@@ -19,7 +19,7 @@
             {% for post in posts %}
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
-                        <h5 class="card-title" style="margin-bottom: 0.1rem;">{{ post['title'] }}</h5>
+                        <h5 class="card-title truncated-title" style="margin-bottom: 0.1rem;">{{ post['title'] }}</h5>
                         <small>{{ post['time_readable'] }}</small>
                         <p class="card-text">{{ post['text'] }}</p>
                         <div class="truncated-text" style="display: none;"></div>
