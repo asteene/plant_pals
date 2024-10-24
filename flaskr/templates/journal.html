@@ -10,8 +10,7 @@
     <div class="gallery">
 
         <div class="text-center">
-            <h2 style="display: inline;"><!-- {{ journal['name'] }} -  -->{{ user.username|capitalize }}'s {{ plant['common_name'] }}</h2>
-            <!-- <p style="display: inline;"> July 7th, 2024</p> -->
+            <h2 style="display: inline;">{{ user.username|capitalize }}'s {{ plant['common_name'] }}</h2>
             <p>{{ journal['desc'] }}</p>
         </div>
         
@@ -20,12 +19,10 @@
             {% for post in posts %}
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
-                        
-                            <h5 class="card-title" style="margin-bottom: 0.1rem;">{{ post['title'] }}</h5>
-                            <small>{{ post['time_readable'] }}</small>
-                        
-                        
-                        <p class="card-text">{{ post['text'] | truncate(100, True, '...') }}</p>
+                        <h5 class="card-title" style="margin-bottom: 0.1rem;">{{ post['title'] }}</h5>
+                        <small>{{ post['time_readable'] }}</small>
+                        <p class="card-text">{{ post['text'] }}</p>
+                        <div class="truncated-text" style="display: none;"></div>
                     </div>
                 </div>
             {% endfor %}
@@ -48,15 +45,16 @@
             <input type="hidden" name="journal_id" value="{{ journal_id }}">
             
             <button type="submit" class="btn btn-primary justify-content-end">Submit</button>
-          </form>
+        </form>
           
     </div>
-{% endblock %}
-</section>
-</main>
+</div>
 
-</body>
+<script type="module" src="../static/components/journal.js"></script>
+
 {% endblock %}
+{% endblock %}
+
 
 <!-- In the future this should be done by a Jinja script
             I'll most likely do soemthing like 
