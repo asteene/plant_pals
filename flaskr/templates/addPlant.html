@@ -3,47 +3,49 @@
 {% block title %}Add Plant{% endblock %}
 
 {% block body %}
-<body>
-    <header>
-        <h1>Add a Plant to Your Garden</h1>
-    </header>
-    <main>
-        <section>
-           
-        </section>
-        <section>
             {% block right %}
             <div class="container mt-5">
-                <h2>Select a Plant to Add to Your Garden</h2>
+                <h2>Add to Your Garden</h2>
                 <div id="loading" class="text-center mb-4" style="display: none;">
                     <p>Loading plants...</p>
                     <div class="spinner-border text-primary" role="status"></div>
                 </div>
                 <div id="plant-gallery" class="row">
+                    <div class="cards-wrapper d-flex flex-wrap justify-content-start">
                     {% for plant in default_plants %}
-                        <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="{{ plant['image'] }}" alt="Card image cap">
+                    <form method="POST" action="{{ url_for('main.add_plant') }}"  class="text-center">
+                        <input type="hidden" name="plant_id" value="{{ plant['id'] }}">
+                        
+                        <div class="card" style="width: 15rem;">
+                            <button type="submit" class="btn-fix">
+                            <img style="border-radius: 3%; height:15rem;" class="card-img-top" src="{{ plant['image'] }}" alt="Card image cap">
                             <div class="card-body">
-                                <h5 class="card-title">{{ plant['common_name'] }}</h5>
-                                <p class="card-text">{{ plant['scientific_name'] }}</p>
+                                <h5 class="card-title" style="margin-bottom: 0;">{{ plant['common_name'] }}</h5>
+                                <p class="card-text text-center" style="opacity: 70%; margin-bottom: .5rem;"><small>{{ plant['scientific_name'] }}</small></p>
                                 <!-- Add form around the button -->
-                                <form method="POST" action="{{ url_for('main.add_plant') }}">
-                                    <input type="hidden" name="plant_id" value="{{ plant['id'] }}">
-                                    <button type="submit" class="btn btn-primary">Add to My Garden</button>
-                                </form>
+                                
                             </div>
+                            </button>
+                               
                         </div>
+                    </form>
+                        <!--
+                        
+                        -->
                     {% endfor %}
+                    </div>
                 </div>
                 
-                <button onclick=addPlantToGarden() id="add-plant-button" class="disabled btn btn-primary mt-4" disabled>Find A Different Plant</button>
+                <div class="mt-4 mb-4">
+                    <button onclick="addPlantToGarden()" id="add-plant-button" class="disabled btn btn-primary" style="background-color:var(--darkGreen);"disabled>Find A Different Plant</button>
+                </div>
+                
             </div>
             
             
             
             {% endblock %}
-        </section>
-    </main>
+     
     <script type="module" src="flaskr/static/components/addPlant.js"></script>
-</body>
+
 {% endblock %}

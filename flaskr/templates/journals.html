@@ -5,18 +5,20 @@
 {% block body %}
           
 {% block right %}
-
-            {% for journal in journals %}
-            <div class="card" style="width: 18rem;">
-                
+<h2>Spring back into your garden</h2>
+    <div class="card-container d-flex flex-wrap" style="gap: 1rem;">
+        {% for journal in journals %}
+            <div class="card" style="width: 15rem;"> 
+                <a href="{{ url_for('main.journal', journal_id=journal['id']) }}">
+                <img class="card-img-top" src="{{ journal['image'] }}" style="border-radius: 3%; height:15rem;" alt="Add a new journal">
                 <div class="card-body">
-                    <h5 class="card-title">{{ journal['name'] }}</h5>
-                    <a href="{{ url_for('main.journal', journal_id=journal['id']) }}"><button class="btn btn-primary">View Journal</button></a>
+                    <h5 class="card-title mb-0" style="text-align:center;">{{ user.username|capitalize }}'s {{ journal['plant_name'] }}</h5>
+                   
                 </div>
+            </a>
             </div>
-            {% endfor %}
+           
+        {% endfor %}
+    </div>
 {% endblock %}
-</section>
-</main>
-</body>
 {% endblock %}

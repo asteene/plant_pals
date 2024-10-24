@@ -5,7 +5,7 @@ from firebase_admin import credentials, auth as firebase_auth
 # import json
 from firebase_admin import firestore, storage
 import datetime
-from datetime import datetime
+from datetime import datetime, timezone
 
 import flaskr.utils.api as trefle
 
@@ -176,8 +176,17 @@ def create_journal():
 
         # If plant_id is provided, create a new journal entry
         if plant_id:
-            new_journal_ref = db.collection('journals').document()  # Firestore will generate a new doc ID
+            journals_ref = db.collection('journals')
+            query = journals_ref.where('uid', '==', uid).where('plant_id', '==', int(plant_id)).limit(1)
+            existing_journal = query.stream()
 
+            # Check if a journal with this plant_id already exists
+            journal_list = list(existing_journal)
+            if journal_list:  # If a journal already exists
+                existing_journal_id = journal_list[0].id  # Get the document ID of the existing journal
+                return redirect(url_for('main.journal', journal_id=existing_journal_id))
+
+            new_journal_ref = db.collection('journals').document()  # Firestore will generate a new doc ID
             # Create a new journal document with the plant_id
             new_journal_ref.set({
                 'uid': uid,               # User's UID
@@ -197,6 +206,9 @@ def create_journal():
 def journals():
     if 'uid' in session:
         user = firebase_auth.get_user(session['uid'])
+        user_ref = db.collection('users').document(session['uid'])
+        user_doc = user_ref.get()
+        user_doc = user_doc.to_dict()
         uid = session['uid']
 
         # Query to get all journals associated with the user's UID
@@ -208,10 +220,15 @@ def journals():
         for journal in journals_ref:
             journal_data = journal.to_dict()  # Convert to a dictionary
             journal_data['id'] = journal.id    # Add the document ID to the journal data
+            print(journal_data)
+            plant = trefle.get_species_by_id(int(journal_data['plant_id']))
+            print(plant)
+            journal_data['image'] = plant['image']
+            journal_data['plant_name'] = plant['common_name']
             journals_list.append(journal_data)  # Append to the list
 
         # Pass the journals list to the template
-        return render_template('journals.html', user=user, journals=journals_list)
+        return render_template('journals.html', user=user_doc, journals=journals_list)
     else:
         return redirect(url_for('main.login'))
 
@@ -247,7 +264,10 @@ def journal(journal_id): # beware that when you create route to journal, that th
                 post_ref = db.collection('posts').document(post_id)
                 post_doc = post_ref.get()
                 if post_doc.exists:
-                    posts.append(post_doc.to_dict())
+                    post_data = post_doc.to_dict()
+                    timestamp = post_data['time_created'].timestamp() 
+                    post_data['time_readable'] = datetime.fromtimestamp(timestamp, tz=timezone.utc).strftime('%B %d, %Y')  # Format the date
+                    posts.append(post_data)
 
             print(posts)
 
