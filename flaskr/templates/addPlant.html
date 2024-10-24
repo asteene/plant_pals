@@ -22,18 +22,22 @@
                 <div id="plant-gallery" class="row">
                     <div class="cards-wrapper d-flex flex-wrap justify-content-start">
                     {% for plant in default_plants %}
+                    <form method="POST" action="{{ url_for('main.add_plant') }}"  class="text-center">
+                        <input type="hidden" name="plant_id" value="{{ plant['id'] }}">
+                        
                         <div class="card" style="width: 15rem;">
+                            <button type="submit " class="btn btn-primary">
                             <img style="border-radius: 3%; height:15rem;" class="card-img-top" src="{{ plant['image'] }}" alt="Card image cap">
                             <div class="card-body">
                                 <h5 class="card-title" style="margin-bottom: 0;">{{ plant['common_name'] }}</h5>
                                 <p class="card-text text-center" style="opacity: 70%; margin-bottom: .5rem;"><small>{{ plant['scientific_name'] }}</small></p>
                                 <!-- Add form around the button -->
-                                <form method="POST" action="{{ url_for('main.add_plant') }}"  class="text-center">
-                                    <input type="hidden" name="plant_id" value="{{ plant['id'] }}">
-                                    <button type="submit " class="btn btn-primary">Add to My Garden</button>
-                                </form>
+                                
                             </div>
+                            </button>
+                               
                         </div>
+                    </form>
                         <!--
                         
                         -->

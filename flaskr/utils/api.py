@@ -103,11 +103,11 @@ def get_default_species() -> Union[List[Dict], Exception]:
            204043, # chives
            87441, #garden thyme
            61646, # spearmint
-           78383, # rosemary
-           143463, # garden dill
-           115385, # spinach
-           28023, # garden lettuce
-           167936 # Cucumber
+        #    78383, # rosemary
+        #    143463, # garden dill
+        #    115385, # spinach
+        #    28023, # garden lettuce
+        #    167936 # Cucumber
            )
     
     params = {
