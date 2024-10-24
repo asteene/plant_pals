@@ -5,7 +5,7 @@ from firebase_admin import credentials, auth as firebase_auth
 # import json
 from firebase_admin import firestore, storage
 import datetime
-from datetime import datetime
+from datetime import datetime, timezone
 
 import flaskr.utils.api as trefle
 
@@ -208,6 +208,7 @@ def journals():
         for journal in journals_ref:
             journal_data = journal.to_dict()  # Convert to a dictionary
             journal_data['id'] = journal.id    # Add the document ID to the journal data
+            print(journal_data)
             journals_list.append(journal_data)  # Append to the list
 
         # Pass the journals list to the template
@@ -247,7 +248,10 @@ def journal(journal_id): # beware that when you create route to journal, that th
                 post_ref = db.collection('posts').document(post_id)
                 post_doc = post_ref.get()
                 if post_doc.exists:
-                    posts.append(post_doc.to_dict())
+                    post_data = post_doc.to_dict()
+                    timestamp = post_data['time_created'].timestamp() 
+                    post_data['time_readable'] = datetime.fromtimestamp(timestamp, tz=timezone.utc).strftime('%B %d, %Y')  # Format the date
+                    posts.append(post_data)
 
             print(posts)
 

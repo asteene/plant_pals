@@ -5,18 +5,18 @@
 {% block body %}
           
 {% block right %}
-
-            {% for journal in journals %}
-            <div class="card" style="width: 18rem;">
-                
-                <div class="card-body">
-                    <h5 class="card-title">{{ journal['name'] }}</h5>
-                    <a href="{{ url_for('main.journal', journal_id=journal['id']) }}"><button class="btn btn-primary">View Journal</button></a>
+    <div class="card-container d-flex flex-wrap" style="gap: 1rem;">
+        {% for journal in journals %}
+           
+                <div class="card-body d-flex">
+                    <h5 class="card-title mb-0">{{ journal['name'] }}</h5>
+                    <a href="{{ url_for('main.journal', journal_id=journal['id']) }}">
+                        <button class="btn btn-primary">View Journal</button>
+                    </a>
                 </div>
-            </div>
-            {% endfor %}
+                
+           
+        {% endfor %}
+    </div>
 {% endblock %}
-</section>
-</main>
-</body>
 {% endblock %}
