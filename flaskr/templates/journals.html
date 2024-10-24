@@ -5,46 +5,18 @@
 {% block body %}
           
 {% block right %}
-<!-- Carousel with controls -->
-{% for x in range(3) %}
-    <div id="carouselExampleControls{{ x }}" class="carousel slide" data-interval="false">
-        <div class="carousel-inner">
-            <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px;">
-                <h3 class="title">Carousel No. {{ x }}</h3>
-                <div style="display: flex; align-items: center;">
-                    <a class="carousel-control-top" href="#carouselExampleControls{{ x }}" role="button" data-slide="next" style="margin-left: 10px;">
-                        <span class="material-symbols-outlined">
-                            chevron_left
-                        </span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                    <a class="carousel-control-top" href="#carouselExampleControls{{ x }}" role="button" data-slide="prev" style="margin-left: 10px;">
-                        <span class="material-symbols-outlined">
-                            chevron_right
-                        </span>
-                        <span class="sr-only">Previous</span>
-                    </a>
+
+            {% for journal in journals %}
+            <div class="card" style="width: 18rem;">
+                
+                <div class="card-body">
+                    <h5 class="card-title">{{ journal['name'] }}</h5>
+                    <a href="{{ url_for('main.journal', journal_id=journal['id']) }}"><button class="btn btn-primary">View Journal</button></a>
                 </div>
             </div>
-            {% for y in range(3) %}
-                <div class="carousel-item {% if loop.index == 1 %}active{% endif %}">
-                    <div class="cards-wrapper">
-                        {% for z in range(5) %}
-                            <div class="card" style="width: 15rem;">
-                                <a href="/journal">
-                                    <img src="/static/gallery/testing1.png" style="border-radius: 3%;" class="card-img-top" alt="...">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Plant No. {{ z }}</h5>
-                                    </div>
-                                </a>
-                            </div>
-                        {% endfor %}
-                    </div> 
-                </div> 
             {% endfor %}
-        </div> 
-    </div>
-{% endfor %}  
 {% endblock %}
-<
+</section>
+</main>
+</body>
 {% endblock %}

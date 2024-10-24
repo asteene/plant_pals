@@ -6,7 +6,6 @@
           
 {% block right %}
 <!-- Carousel with controls -->
-<!-- Carousel with controls -->
 {% for x in range(3) %}
     <div id="carouselExampleControls{{ x }}" class="carousel slide" data-interval="false">
         <div class="carousel-inner">
@@ -30,22 +29,29 @@
             {% for y in range(3) %}
                 <div class="carousel-item {% if loop.index == 1 %}active{% endif %}">
                     <div class="cards-wrapper">
-                        {% for z in range(5) %}
-                            <div class="card" style="width: 15rem;">
-                                <a href="/journal">
-                                    <img src="/static/gallery/testing1.png" style="border-radius: 3%;" class="card-img-top" alt="...">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Plant No. {{ z }}</h5>
-                                    </div>
-                                </a>
+                        {% for plant in my_garden %}
+                        <div class="card" style="width: 18rem;">
+                            <img class="card-img-top" src="{{ plant['image'] }}" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ plant['common_name'] }}</h5>
+                                <p class="card-text">{{ plant['scientific_name'] }}</p>
+                                <form method="POST" action="{{ url_for('main.create_journal') }}">
+                                    <input type="hidden" name="plant_id" value="{{ plant['id'] }}">
+                                    <button type="submit" class="btn btn-primary">Add Journal for Plant</button>
+                                </form>
                             </div>
+                        </div>
                         {% endfor %}
-                    </div> 
-                </div> 
+                    </div>
+                </div>
             {% endfor %}
-        </div> 
+        </div>
+
+       
     </div>
 {% endfor %}
 {% endblock %}
-
+</section>
+</main>
+</body>
 {% endblock %}
