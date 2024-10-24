@@ -6,11 +6,10 @@
           
 {% block right %}
 <!-- Carousel with controls -->
-{% for x in range(3) %}
     <div id="carouselExampleControls{{ x }}" class="carousel slide" data-interval="false">
         <div class="carousel-inner">
             <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px;">
-                <h3 class="title">Carousel No. {{ x }}</h3>
+                <h3 class="title">Hop into your Journals</h3>
                 <div style="display: flex; align-items: center;">
                     <a class="carousel-control-top" href="#carouselExampleControls{{ x }}" role="button" data-slide="prev" style="margin-left: 10px;">
                         <span class="material-symbols-outlined">
@@ -26,7 +25,24 @@
                     </a>
                 </div>
             </div>
-
+            {% if my_garden | length == 0 %}
+                <!-- Display grey cards if my_garden is empty -->
+                 
+                <div class="carousel-item active">
+                    <div class="cards-wrapper" style="display: flex; flex-wrap: wrap; justify-content: center;">
+                        {% for _ in range(4) %}
+                            <div class="card" style="width: 15rem; margin: 10px;">
+                                <a href="/addplant">
+                                    <img class="card-img-top" src="/static/gallery/grey.png" style="border-radius: 3%; height:15rem;" alt="Add a new journal">
+                                    <div class="card-body">
+                                        <h5 class="card-title" style="margin-bottom: 0;">Add a New Journal</h5>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% else %}
             {% set total_cards = my_garden | length %}
             {% set full_slides = total_cards // 4 %}
             {% set remainder = total_cards % 4 %}
@@ -63,8 +79,8 @@
                     </div>
                 </div>
             {% endfor %}
+            {% endif %}
         </div>
     </div>
-{% endfor %}
 {% endblock %}
 {% endblock %}
