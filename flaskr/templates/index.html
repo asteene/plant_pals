@@ -12,13 +12,13 @@
             <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px;">
                 <h3 class="title">Carousel No. {{ x }}</h3>
                 <div style="display: flex; align-items: center;">
-                    <a class="carousel-control-top" href="#carouselExampleControls{{ x }}" role="button" data-slide="next" style="margin-left: 10px;">
+                    <a class="carousel-control-top" href="#carouselExampleControls{{ x }}" role="button" data-slide="prev" style="margin-left: 10px;">
                         <span class="material-symbols-outlined">
                             chevron_left
                         </span>
                         <span class="sr-only">Next</span>
                     </a>
-                    <a class="carousel-control-top" href="#carouselExampleControls{{ x }}" role="button" data-slide="prev" style="margin-left: 10px;">
+                    <a class="carousel-control-top" href="#carouselExampleControls{{ x }}" role="button" data-slide="next" style="margin-left: 10px;">
                         <span class="material-symbols-outlined">
                             chevron_right
                         </span>
@@ -26,23 +26,37 @@
                     </a>
                 </div>
             </div>
-            {% for y in range(3) %}
+
+            {% set total_cards = my_garden | length %}
+            {% set full_slides = total_cards // 4 %}
+            {% set remainder = total_cards % 4 %}
+
+            {% for i in range(full_slides + (1 if remainder > 0 else 0)) %}
                 <div class="carousel-item {% if loop.index == 1 %}active{% endif %}">
-                    <div class="cards-wrapper">
-                        {% for plant in my_garden %}
-                        <form method="POST" action="{{ url_for('main.create_journal') }}">
-                            <input type="hidden" name="plant_id" value="{{ plant['id'] }}">
-                            <div class="card" style="width: 15rem;">
-                                <button type="submit" class="btn-fix">
-                                <img class="card-img-top" src="{{ plant['image'] }}" style="border-radius: 3%; height:15rem;" alt="{{ plant['common_name'] }}">
-                                <div class="card-body">
-                                    <h5 class="card-title" style="margin-bottom: 0;">{{ plant['common_name'] }}</h5>
-                                    <p class="card-text text-center" style="opacity: 70%; margin-bottom: .5rem;"><small>{{ plant['scientific_name'] }}</small></p>
-                                    
+                    <div class="cards-wrapper" style="display: flex; flex-wrap: wrap; justify-content: center;">
+                        {% for j in range(4) %}
+                            {% set current_index = i * 4 + j %}
+                            {% if current_index < total_cards %}
+                                <form method="POST" action="{{ url_for('main.create_journal') }}">
+                                    <input type="hidden" name="plant_id" value="{{ my_garden[current_index]['id'] }}">
+                                    <div class="card" style="width: 15rem; margin: 10px;">
+                                        <button type="submit" class="btn-fix">
+                                            <img class="card-img-top" src="{{ my_garden[current_index]['image'] }}" style="border-radius: 3%; height:15rem;" alt="{{ my_garden[current_index]['common_name'] }}">
+                                            <div class="card-body">
+                                                <h5 class="card-title" style="margin-bottom: 0;">{{ my_garden[current_index]['common_name'] }}</h5>
+                                                <p class="card-text text-center" style="opacity: 70%; margin-bottom: .5rem;"><small>{{ my_garden[current_index]['scientific_name'] }}</small></p>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </form>
+                            {% else %}
+                                <div class="card" style="width: 15rem; margin: 10px;">
+                                    <img class="card-img-top" src="/static/gallery/grey.png" style="border-radius: 3%; height:15rem;" alt="Add a new journal">
+                                    <div class="card-body">
+                                        <h5 class="card-title" style="margin-bottom: 0;">Add a New Journal</h5>
+                                    </div>
                                 </div>
-                            </button>
-                            </div>
-                        </form>
+                            {% endif %}
                         {% endfor %}
                     </div>
                 </div>
@@ -52,4 +66,3 @@
 {% endfor %}
 {% endblock %}
 {% endblock %}
-
