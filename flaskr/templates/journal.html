@@ -1,6 +1,6 @@
 {% extends '_layout.html' %}
 
-{% block title %}Journal name{% endblock %}
+{% block title %}{{ journal['name'] }}{% endblock %}
 
 {% block body %}
 
@@ -9,10 +9,9 @@
 <div class="container">
     <div class="row gallery">
         <div >
-            <h2 style="display: inline;">Example title</h2>
-            <p style="display: inline;"> July 7th, 2024</p>
-            <p>Username</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+            <h2 style="display: inline;">{{ journal['name'] }} - {{ user.username }}'s {{ plant['common_name'] }}</h2>
+            <!-- <p style="display: inline;"> July 7th, 2024</p> -->
+            <p>{{ journal['desc'] }}</p>
         </div>
         <!-- In the future this should be done by a Jinja script
             I'll most likely do soemthing like 
@@ -27,7 +26,7 @@
             Once the DB is done back or front end can work on fully implimenting this.
             
         -->
-        <div class="col-md-3">
+        <!--<div class="col-md-3">
             <img src="/static/gallery/testing1.png" style="height:25%">
             <img src="/static/gallery/testing1.png" style="height:30%">
             <img src="/static/gallery/garden.jpg" style="height:20%">
@@ -46,7 +45,38 @@
             <img src="/static/gallery/testing1.png" style="height:30%">
             <img src="/static/gallery/testing1.png" style="height:25%">
             <img src="/static/gallery/garden.jpg" style="height:20%">
-        </div>
+        </div>-->
+        {% if posts != None %}
+            {% for post in posts %}
+            <div class="card" style="width: 18rem;">
+                <!--<img class="card-img-top" src="{{ plant['image'] }}" alt="Card image cap">-->
+                <div class="card-body">
+                    <h5 class="card-title">{{ post['title'] }}</h5>
+                    <p class="card-text">{{ post['text'] }}</p>
+                    <small>{{ post['time_created'] }}</small>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <h2>No Posts...</h2>
+        {% endif %}
+
+        <form action="{{ url_for('main.create_post') }}" method="POST">
+            <div class="form-group">
+              <label for="title">Post Title</label>
+              <input type="text" class="form-control" id="title" name="title" placeholder="Enter post title" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="content">Content</label>
+              <textarea class="form-control" id="content" name="content" rows="4" placeholder="Enter post content" required></textarea>
+            </div>
+
+            <input type="hidden" name="journal_id" value="{{ journal_id }}">
+            
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+          
     </div>
 {% endblock %}
 </section>

@@ -5,6 +5,7 @@ from firebase_admin import credentials, auth as firebase_auth
 # import json
 from firebase_admin import firestore, storage
 import datetime
+from datetime import datetime
 
 import flaskr.utils.api as trefle
 
@@ -123,6 +124,7 @@ def friend():
     else:
         return redirect(url_for('main.login'))
     
+''' 
 @main.route('/new')
 def create_post(): # TODO change to add_plant?
     if 'uid' in session:
@@ -130,7 +132,39 @@ def create_post(): # TODO change to add_plant?
         return render_template('new.html', user=user) # change to addPlant.html if needed
     else:
         return redirect(url_for('main.login'))
-    
+'''
+
+@main.route('/create_post', methods=['POST','GET'])
+def create_post():
+    if 'uid' in session:
+        uid = session['uid']
+
+        journal_id = request.form.get('journal_id')
+        title = request.form.get('title')
+        content = request.form.get('content')
+
+        # If plant_id is provided, create a new journal entry
+        if journal_id:
+            new_post_ref = db.collection('posts').document()  # Firestore will generate a new doc ID
+
+            # Create a new journal document with the plant_id
+            new_post_ref.set({
+                'uid': uid,               # User's UID
+                'title': title,               # Placeholder for journal name
+                'journal_id': journal_id, # Plant ID associated with this journal
+                'text': content,
+                'time_created': datetime.now()
+            })
+
+            journal_ref = db.collection('journals').document(journal_id)
+            journal_ref.update({
+                'post_ids': firestore.ArrayUnion([new_post_ref.id])  # Use ArrayUnion to append the post ID
+            })
+
+        # Redirect back to the garden page after creating the journal
+        return redirect(url_for('main.journal', journal_id=journal_id))
+    else:
+        return redirect(url_for('main.login'))
 
 @main.route('/create_journal', methods=['POST','GET'])
 def create_journal():
@@ -149,7 +183,8 @@ def create_journal():
                 'uid': uid,               # User's UID
                 'name': '',               # Placeholder for journal name
                 'plant_id': int(plant_id), # Plant ID associated with this journal
-                'post_ids': []            # Empty list for posts
+                'post_ids': [],            # Empty list for posts
+                'desc': 'Test Description until the form is implemented'
             })
 
         # Redirect back to the garden page after creating the journal
@@ -159,46 +194,67 @@ def create_journal():
 
 
 @main.route('/journals', methods=['POST', 'GET'])
-def journals(): # beware that when you create route to journal, that this is rightfully renamed or the other is or might cause issues
+def journals():
     if 'uid' in session:
         user = firebase_auth.get_user(session['uid'])
-        default_plants = trefle.get_default_species()
-
-        # Get user's uid from session
         uid = session['uid']
 
-        # Check if the garden document exists for the user
-        journals_ref = db.collection('journals').document(uid)
-        journals_doc = journals_ref.get()
+        # Query to get all journals associated with the user's UID
+        journals_ref = db.collection('journals').where('uid', '==', uid).get()
 
-        # If journal document doesn't exist, create it
-        if request.method == 'POST':
-            # Get plant_id from the form data
-            plant_id = request.form.get('plant_id')
+        # Create a list to hold the journal documents
+        journals_list = []
 
-            # If plant_id is provided, create a new journal entry
-            if plant_id:
-                # Create a new journal document (e.g., using the plant_id as document ID or a random ID)
-                new_journal_ref = db.collection('journals').document()  # Firestore will generate a new doc ID
-                
-                new_journal_ref.set({
-                    'uid': uid,               # User's UID
-                    'name': '',               # Placeholder for journal name
-                    'plant_id': int(plant_id), # Plant ID associated with this journal
-                    'post_ids': []            # Empty list for posts
-                })
+        for journal in journals_ref:
+            journal_data = journal.to_dict()  # Convert to a dictionary
+            journal_data['id'] = journal.id    # Add the document ID to the journal data
+            journals_list.append(journal_data)  # Append to the list
 
-            return redirect(url_for('main.garden'))      
-
-        return render_template('journals.html', user=user, default_plants=default_plants)
+        # Pass the journals list to the template
+        return render_template('journals.html', user=user, journals=journals_list)
     else:
         return redirect(url_for('main.login'))
 
 @main.route('/journals/<journal_id>')
-def journal(): # beware that when you create route to journal, that this is rightfully renamed or the other is or might cause issues
+def journal(journal_id): # beware that when you create route to journal, that this is rightfully renamed or the other is or might cause issues
     if 'uid' in session:
         user = firebase_auth.get_user(session['uid'])
-        return render_template('journal.html', user=user)
+        user_ref = db.collection('users').document(session['uid'])
+        user_doc = user_ref.get()
+        user_doc = user_doc.to_dict()
+
+        # Fetch the journal document based on journal_id
+        journal_ref = db.collection('journals').document(journal_id)
+        journal_doc = journal_ref.get()
+
+        if journal_doc.exists:
+            # Convert the document to a dictionary
+            journal_data = journal_doc.to_dict()
+
+            # Get other relevant journal information (like name, plant_id, etc.)
+            journal_name = journal_data.get('name', 'Untitled Journal')
+            plant_id = journal_data.get('plant_id', -1)  # Assuming -1 means no plant associated
+
+            plant = trefle.get_species_by_id(plant_id)
+
+            # Fetch the posts from the journal, assuming they are stored in an array under 'post_ids'
+            post_ids = journal_data.get('post_ids', [])
+            print(post_ids)
+            posts = []
+
+            # Loop through post_ids and fetch each post from the posts collection
+            for post_id in post_ids:
+                post_ref = db.collection('posts').document(post_id)
+                post_doc = post_ref.get()
+                if post_doc.exists:
+                    posts.append(post_doc.to_dict())
+
+            print(posts)
+
+            if len(posts) == 0:
+                posts = None
+            # Pass the journal data and posts to the template
+            return render_template('journal.html', journal_id=journal_id, user=user_doc, journal=journal_data, posts=posts, journal_name=journal_name, plant=plant)
     else:
         return redirect(url_for('main.login'))
 
