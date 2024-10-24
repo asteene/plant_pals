@@ -440,3 +440,8 @@ def setting():
 @main.route('/forgot-password')
 def forgot_password():
     return render_template('forgot_password.html')  # Your forgot password page
+
+#Error Handler for 404 Page Not Found
+@main.app_errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
