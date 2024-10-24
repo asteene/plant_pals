@@ -197,6 +197,9 @@ def create_journal():
 def journals():
     if 'uid' in session:
         user = firebase_auth.get_user(session['uid'])
+        user_ref = db.collection('users').document(session['uid'])
+        user_doc = user_ref.get()
+        user_doc = user_doc.to_dict()
         uid = session['uid']
 
         # Query to get all journals associated with the user's UID
@@ -209,10 +212,14 @@ def journals():
             journal_data = journal.to_dict()  # Convert to a dictionary
             journal_data['id'] = journal.id    # Add the document ID to the journal data
             print(journal_data)
+            plant = trefle.get_species_by_id(int(journal_data['plant_id']))
+            print(plant)
+            journal_data['image'] = plant['image']
+            journal_data['plant_name'] = plant['common_name']
             journals_list.append(journal_data)  # Append to the list
 
         # Pass the journals list to the template
-        return render_template('journals.html', user=user, journals=journals_list)
+        return render_template('journals.html', user=user_doc, journals=journals_list)
     else:
         return redirect(url_for('main.login'))
 
