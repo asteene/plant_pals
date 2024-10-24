@@ -289,11 +289,15 @@ footer {
 .btn:hover,
 .btn-primary:hover,
 .btn-primary {
+    border: none;
     background-color: var(--darkGreen);
     /* Your desired hover color */
     color: var(--greyBackground);
     /* Optional: Change text color for contrast */
     border-color: (var(--darkGreen));
+}
+.btn {
+    border: none;
 }
 /*Plant stuff*/
 

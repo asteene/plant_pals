@@ -14,7 +14,7 @@
         <section>
             {% block right %}
             <div class="container mt-5">
-                <h2>Select a Plant to Add to Your Garden</h2>
+                <h2>Add to Your Garden</h2>
                 <div id="loading" class="text-center mb-4" style="display: none;">
                     <p>Loading plants...</p>
                     <div class="spinner-border text-primary" role="status"></div>
@@ -45,7 +45,10 @@
                     </div>
                 </div>
                 
-                <button onclick=addPlantToGarden() id="add-plant-button" class="disabled btn btn-primary mt-4 mb-4" disabled>Find A Different Plant</button>
+                <div class="text-right mt-4 mb-4">
+                    <button onclick="addPlantToGarden()" id="add-plant-button" class="disabled btn btn-primary" style="background-color:var(--darkGreen);"disabled>Find A Different Plant</button>
+                </div>
+                
             </div>
             
             
