@@ -5,7 +5,20 @@
     --lightBlue: #719294;
     --darkBlue: #52848A;
 }
+@font-face {
+    font-family: Italiana;
+    src: url(../static/gallery/fonts/Italiana-Regular.ttf);
+  }
 
+@font-face {
+    font-family: raleway;
+    src: url(../static/gallery/fonts/Raleway-VariableFont_wght.ttf);
+  }
+
+@font-face {
+    font-family: Lato;
+    src: url(../static/gallery/fonts/Poppins-Light.ttf);
+  }
 
 /*Tag mods*/
 
@@ -40,7 +53,7 @@ footer, footer a, footer a:hover{
     font-family: "raleway", sans-serif;
 }
 .title {
-    font-family: "Poppins ", sans-serif;
+    font-family: "Lato", sans-serif;
 }
 
 footer {
@@ -91,11 +104,17 @@ footer {
 .nav-color:hover {
     color: var(--greyBackground);
     background-color: var(--darkGreen);
+    
+}
+.nav-color:hover img{
+    filter: invert(95%) sepia(0%) saturate(450%) hue-rotate(204deg) brightness(93%) contrast(108%);
 }
 
-.material-icons {
-    font-size: 33.6px;
+.nav-icon{
+    height: 2rem;
+    filter: invert(4%) sepia(11%) saturate(1443%) hue-rotate(42deg) brightness(96%) contrast(98%);
 }
+
 
 .bordered-vertical {
     position: relative;
@@ -198,13 +217,10 @@ footer {
     padding-top: 1em;
 }
 
-.carousel-control-top {
-    color: var(--blackGreen);
-    
-}
+
 
 .carousel-control-top:hover {
-    color: var(--darkBlue);
+   opacity: 50%;
    
 }
 
