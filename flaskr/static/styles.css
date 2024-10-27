@@ -241,7 +241,26 @@ footer {
    opacity: 50%;
    
 }
+/*Jurnals*/
+.dropdown-menu {
+    background-color: var(--greyBackground);
+   
+    border-radius: 4px; 
+    z-index: 10; 
+    padding: 5px; 
+}
 
+.dropdown-menu a {
+    display: block;
+    padding: 8px; 
+    text-decoration: none; 
+    color: var(--blackGreen); 
+}
+
+.dropdown-menu a:hover {
+    background-color: var(--darkGreen); 
+    color:var(--greyBackground)
+}
 
 /*Journal post*/
 
