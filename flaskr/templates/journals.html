@@ -6,7 +6,7 @@
           
 {% block right %}
 <h2>Spring back into your garden</h2>
-    <div class="card-container d-flex flex-wrap" style="gap: 1rem;">
+    <div class="card-container d-flex flex-wrap">
         {% for journal in journals %}
             <div class="card" style="width: 15rem;"> 
                 <a href="{{ url_for('main.journal', journal_id=journal['id']) }}">
