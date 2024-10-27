@@ -3,49 +3,64 @@
 {% block title %}Add Plant{% endblock %}
 
 {% block body %}
-            {% block right %}
-            <div class="container mt-5">
-                <h2 class="title">Add to Your Garden</h2>
-                <div id="loading" class="text-center mb-4" style="display: none;">
-                    <p>Loading plants...</p>
-                    <div class="spinner-border text-primary" role="status"></div>
-                </div>
-                <div id="plant-gallery" class="row">
-                    <div class="cards-wrapper d-flex flex-wrap justify-content-start">
-                    {% for plant in default_plants %}
-                    <form method="POST" action="{{ url_for('main.add_plant') }}"  class="text-center">
-                        <input type="hidden" name="plant_id" value="{{ plant['id'] }}">
-                        
-                        <div class="card" style="width: 15rem;">
-                            <button type="submit" class="btn-fix">
-                            <img style="border-radius: 3%; height:15rem;" class="card-img-top" src="{{ plant['image'] }}" alt="Card image cap">
-                            <div class="card-body">
-                                <h5 class="card-title" style="margin-bottom: 0;">{{ plant['common_name'] }}</h5>
-                                <p class="card-text text-center" style="opacity: 70%; margin-bottom: .5rem;"><small>{{ plant['scientific_name'] }}</small></p>
-                                <!-- Add form around the button -->
-                                
-                            </div>
-                            </button>
-                               
-                        </div>
-                    </form>
-                        <!--
-                        
-                        -->
-                    {% endfor %}
+    {% block right %}
+    <div class="container mt-5">
+        <h2 class="title">Add to Your Garden</h2>
+        <div id="loading" class="text-center mb-4" style="display: none;">
+            <p>Loading plants...</p>
+            <div class="spinner-border text-primary" role="status"></div>
+        </div>
+        <div id="plant-gallery" class="row">
+            <div class="cards-wrapper d-flex flex-wrap justify-content-start">
+                {% for plant in default_plants %}
+                <div class="card" style="width: 15rem;" data-toggle="modal" data-target="#plantModal" data-id="{{ plant['id'] }}" data-name="{{ plant['common_name'] }}" data-description="{{ plant['scientific_name'] }}">
+                    <img style="border-radius: 3%; height:15rem;" class="card-img-top" src="{{ plant['image'] }}" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title" style="margin-bottom: 0;">{{ plant['common_name'] }}</h5>
+                        <p class="card-text text-center" style="opacity: 70%; margin-bottom: .5rem;"><small>{{ plant['scientific_name'] }}</small></p>
                     </div>
                 </div>
-                
-                <div class="mt-4 mb-4">
-                    <button onclick="addPlantToGarden()" id="add-plant-button" class="disabled btn btn-primary" style="background-color:var(--darkGreen);"disabled>Find A Different Plant</button>
-                </div>
-                
+                {% endfor %}
             </div>
-            
-            
-            
-            {% endblock %}
-     
+        </div>
+
+        <div class="mt-4 mb-4">
+            <button onclick="addPlantToGarden()" id="add-plant-button" class="disabled btn btn-primary" style="background-color:var(--darkGreen);" disabled>Find A Different Plant</button>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="plantModal" tabindex="-1" role="dialog" aria-labelledby="plantModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="plantModalLabel">Add Plant Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="plantForm" method="POST" action="{{ url_for('main.add_plant') }}">
+                        <input type="hidden" name="plant_id" id="modal-plant-id" value="">
+                        <div class="form-group">
+                            <label for="plant-title">Title</label>
+                            <input type="text" class="form-control" id="plant-title" name="title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="plant-description">Description</label>
+                            <textarea class="form-control" id="plant-description" name="description" rows="3" required></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Skip Making Post</button>
+                    <button type="button" class="btn btn-primary" onclick="submitPlantForm()">Add Plant</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script type="module" src="flaskr/static/components/addPlant.js"></script>
 
+{% endblock %}
 {% endblock %}
