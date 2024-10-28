@@ -55,6 +55,16 @@ footer, footer a, footer a:hover{
 .title {
     font-family: "Lato", sans-serif;
 }
+input.find-user {
+    background-color: var(--greyBackground);
+    height: 40px; 
+    padding: 10px; 
+    font-size: 16px; 
+}
+input.find-user:focus {
+    background-color: #ffffff; 
+    outline: none; 
+}
 
 footer {
     background-color: var(--darkGreen);
@@ -282,42 +292,6 @@ footer {
 
 .list-group-item-action:hover {
     background-color: var(--darkGreen);
-    color: var(--greyBackground);
-}
-
-.datepicker {
-    font-size: 1.5rem;
-    width: 350px;
-}
-
-.datepicker table {
-    width: 100%;
-    /* Ensure the calendar table takes full width */
-}
-
-.datepicker th {
-    font-size: 1.2rem;
-    /* Increase header font size */
-}
-
-.datepicker td,
-.datepicker th {
-    height: 50px;
-    /* Increase height of date cells */
-    line-height: 50px;
-    /* Center text vertically */
-}
-
-.datepicker table tr td.active,
-.datepicker table tr td.active:hover {
-    /*background-image: linear-gradient(to bottom,var(--darkGreen),#77c);*/
-    background-image: linear-gradient(to bottom, #668066, var(--darkGreen));
-    color: var(--greyBackground);
-}
-
-.datepicker table tr td.today,
-.datepicker table tr td.today:hover {
-    background-image: linear-gradient(to bottom, var(--darkBlue), var(--lightBlue));
     color: var(--greyBackground);
 }
 
