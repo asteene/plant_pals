@@ -52,12 +52,12 @@
                             {% if current_index < total_cards %}
                                 <form method="POST" action="{{ url_for('main.create_journal') }}">
                                     <input type="hidden" name="plant_id" value="{{ my_garden[current_index]['id'] }}">
-                                    <div class="card" style="width: 15rem; margin: 10px;">
+                                    <div class="card" style="width: 15rem; margin: 7px;">
                                         <button type="submit" class="btn-fix">
-                                            <img class="card-img-top" src="{{ my_garden[current_index]['image'] }}" style="border-radius: 3%; height:15rem;" alt="{{ my_garden[current_index]['common_name'] }}">
-                                            <div class="card-body">
-                                                <h5 class="card-title" style="margin-bottom: 0;">{{ my_garden[current_index]['common_name'] }}</h5>
-                                                <p class="card-text text-center" style="opacity: 70%; margin-bottom: .5rem;"><small>{{ my_garden[current_index]['scientific_name'] }}</small></p>
+                                            <img class="card-img-top" src="{{ my_garden[current_index]['image'] }}" style="border-radius: 3%; height:12rem;" alt="{{ my_garden[current_index]['common_name'] }}">
+                                            <div class="mt-2">
+                                                <h5 class="card-title" style="margin-bottom: 0; text-align: left;">{{ my_garden[current_index]['common_name'] }}</h5>
+                                                <p class="card-text " style="opacity: 70%; margin-bottom: .5rem; text-align: left;"><small>{{ my_garden[current_index]['scientific_name'] }}</small></p>
                                             </div>
                                         </button>
                                     </div>
