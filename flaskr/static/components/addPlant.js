@@ -115,3 +115,20 @@ document.getElementById('add-plant-form').addEventListener('submit', async(event
     // Call the function to add plant to Firestore and user's garden
     await addPlantToGarden(plantName);
 });
+
+$('#plantModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget); // Button that triggered the modal
+    var plantId = button.data('id'); // Extract info from data-* attributes
+    var plantName = button.data('name');
+    var plantDescription = button.data('description');
+
+    // Update the modal's content
+    var modal = $(this);
+    modal.find('#modal-plant-id').val(plantId);
+    modal.find('#plant-title').val(plantName);
+    modal.find('#plant-description').val(plantDescription);
+});
+
+function submitPlantForm() {
+    document.getElementById('plantForm').submit();
+}

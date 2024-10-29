@@ -5,7 +5,20 @@
     --lightBlue: #719294;
     --darkBlue: #52848A;
 }
+@font-face {
+    font-family: Italiana;
+    src: url(../static/gallery/fonts/Italiana-Regular.ttf);
+  }
 
+@font-face {
+    font-family: raleway;
+    src: url(../static/gallery/fonts/Raleway-VariableFont_wght.ttf);
+  }
+
+@font-face {
+    font-family: Lato;
+    src: url(../static/gallery/fonts/Poppins-Light.ttf);
+  }
 
 /*Tag mods*/
 
@@ -40,7 +53,7 @@ footer, footer a, footer a:hover{
     font-family: "raleway", sans-serif;
 }
 .title {
-    font-family: "Poppins ", sans-serif;
+    font-family: "Lato", sans-serif;
 }
 
 footer {
@@ -67,19 +80,21 @@ footer {
 }
 
 
-/* Layout_ file*/
-
 .section-left {
     background-color: var(--greyBackground);
-    /* Light background for left section */
-    height: 100vh;
-    /* Full viewport height */
+    height: 100vh; /* Full viewport height */
+    overflow-y: auto; /* Allow scrolling if content exceeds height */
 }
 
 .section-right {
     background-color: var(--greyBackground);
-    /* Slightly darker background for right section */
-    /* height: 100vh; Full viewport height */
+    padding: 10px; /* Add padding for content */
+}
+
+.section-friends {
+    background-color: var(--greyBackground);
+    height: 100vh; /* Full viewport height */
+    overflow-y: auto; /* Allow scrolling if content exceeds height */
 }
 
 .nav-color {
@@ -93,8 +108,14 @@ footer {
     background-color: var(--darkGreen);
 }
 
-.material-icons {
-    font-size: 33.6px;
+.nav-color:hover img {
+    filter: invert(95%) sepia(0%) saturate(450%) hue-rotate(204deg) brightness(93%) contrast(108%);
+}
+
+.nav-icon {
+    height: 2rem;
+    filter: invert(4%) sepia(11%) saturate(1443%) hue-rotate(42deg) brightness(96%) contrast(98%);
+    padding-right:15px;
 }
 
 .bordered-vertical {
@@ -106,6 +127,20 @@ footer {
     position: absolute;
     top: 15px;
     right: 10px;
+    bottom: 15px;
+    width: 1px;
+    opacity: 0.33;
+    background-color: var(--blackGreen);
+}
+.bordered-vertical-left {
+    position: relative;
+}
+
+.bordered-vertical-left::after {
+    content: '';
+    position: absolute;
+    top: 15px;
+    left: 10px;
     bottom: 15px;
     width: 1px;
     opacity: 0.33;
@@ -129,8 +164,10 @@ footer {
     margin-top: -1px;
 }
 
+
 .layout-friends {
     opacity: .7;
+    margin-top: 20px;
 }
 
 .custom-img {
@@ -198,16 +235,32 @@ footer {
     padding-top: 1em;
 }
 
-.carousel-control-top {
-    color: var(--blackGreen);
-    
-}
+
 
 .carousel-control-top:hover {
-    color: var(--darkBlue);
+   opacity: 50%;
    
 }
+/*Jurnals*/
+.dropdown-menu {
+    background-color: var(--greyBackground);
+   
+    border-radius: 4px; 
+    z-index: 10; 
+    padding: 5px; 
+}
 
+.dropdown-menu a {
+    display: block;
+    padding: 8px; 
+    text-decoration: none; 
+    color: var(--blackGreen); 
+}
+
+.dropdown-menu a:hover {
+    background-color: var(--darkGreen); 
+    color:var(--greyBackground)
+}
 
 /*Journal post*/
 
