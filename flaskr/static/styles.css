@@ -72,6 +72,22 @@ footer {
     color: var(--greyBackground);
 }
 
+.input-group {
+    position: relative;
+    width: 100%;
+}
+
+
+
+.nav-search {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 20px;
+}
+
+
 .btn {
     background-color: var(--darkGreen);
     color: var(--greyBackground);

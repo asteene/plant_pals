@@ -13,11 +13,11 @@
         <div id="plant-gallery" class="row">
             <div class="cards-wrapper d-flex flex-wrap justify-content-start">
                 {% for plant in default_plants %}
-                <div class="card" style="width: 15rem;" data-toggle="modal" data-target="#plantModal" data-id="{{ plant['id'] }}" data-name="{{ plant['common_name'] }}" data-description="{{ plant['scientific_name'] }}">
-                    <img style="border-radius: 3%; height:15rem;" class="card-img-top" src="{{ plant['image'] }}" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title" style="margin-bottom: 0;">{{ plant['common_name'] }}</h5>
-                        <p class="card-text text-center" style="opacity: 70%; margin-bottom: .5rem;"><small>{{ plant['scientific_name'] }}</small></p>
+                <div class="card pb-3" style="width: 15rem;" data-toggle="modal" data-target="#plantModal" data-id="{{ plant['id'] }}" data-name="{{ plant['common_name'] }}" data-description="{{ plant['scientific_name'] }}">
+                    <img style="border-radius: 3%; height:12rem;" class="card-img-top" src="{{ plant['image'] }}" alt="Card image cap">
+                    <div class="mt-2">
+                        <h5 class="card-title" style="margin-bottom: 0;  text-align: left;">{{ plant['common_name'] }}</h5>
+                        <p class="card-text" style="opacity: 70%; margin-bottom: .5rem;  text-align: left;"><small>{{ plant['scientific_name'] }}</small></p>
                     </div>
                 </div>
                 {% endfor %}

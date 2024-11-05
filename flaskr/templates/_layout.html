@@ -14,12 +14,15 @@
     
         <div class="flex-grow-1 d-flex justify-content-center">
             <form id="search-form" class="d-flex" style="width: 40%;">
-                <input class="border-secondary rounded-pill flex-grow-1 me-2 pl-2 find-user" type="search" placeholder="Enter name..." id="search-input">
-                <button class="btn-fix ml-1"type="submit">
-                    <img class="nav-search" src="../static/gallery/icons/search.png" alt="Search">
-                </button>
+                <div class="input-group">
+                    <input class="border-secondary rounded-pill flex-grow-1 me-2 pl-2 find-user" type="search" placeholder="Enter name..." id="search-input">
+                    <button class="btn-fix ml-1" type="submit">
+                        <img class="nav-search" src="../static/gallery/icons/search.png" alt="Search">
+                    </button>
+                </div>
             </form>
         </div>
+        
     </nav>
     
     <main>
@@ -83,7 +86,7 @@
                                 <img class="pr-1"style="border-radius: 50%; height: 2.5rem; filter: none;" src="../static/gallery/default.jpg">
                                 <h5 class="mb-0 px-2 friends-font">SillyGoat</h5>
                             </a>
-                        </li>
+                        </li> 
                         <li class="nav-item bordered-horizontal">
                             <a class="nav-link d-flex align-items-center nav-color mb-1 mt-1" href="/friends">
                                 <img style="border-radius: 50%; height: 2.5rem; filter: none;" src="../static/gallery/default.jpg">
