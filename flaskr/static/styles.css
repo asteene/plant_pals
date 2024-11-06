@@ -119,6 +119,7 @@ footer {
 
 .section-friends {
     background-color: #5059462c;
+    height: 100vh; 
     border-radius: 15px;
     overflow-y: auto; 
 }
