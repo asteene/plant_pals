@@ -6,10 +6,10 @@
           
 {% block right %}
 <!-- Carousel with controls -->
-    <div id="carouselExampleControls{{ x }}" class="carousel slide" data-interval="false">
+    <div id="carouselExampleControls{{ x }}" class="carousel slide mt-5" data-interval="false">
         <div class="carousel-inner">
             <div class="mx-3 mb-1"style="display: flex; align-items: center; justify-content: space-between; ">
-                <h3 class="title" style="margin: 0;">Hop into your Journals</h3>
+                <h3 class="title" style="margin: 0;">Hop back into your Garden</h3>
                 <div style="display: flex; align-items: center; margin-left: 10px;">
                     <a class="carousel-control-top" href="#carouselExampleControls{{ x }}" role="button" data-slide="prev" style="margin-right: 10px;">
                         <img style="height:30px" src="../static/gallery/icons/chevron_left.png">
@@ -30,9 +30,9 @@
                         {% for _ in range(4) %}
                             <div class="card" style="width: 15rem; margin: 10px;">
                                 <a href="/addplant">
-                                    <img class="card-img-top" src="/static/gallery/grey.png" style="border-radius: 3%; height:15rem;" alt="Add a new journal">
-                                    <div class="card-body">
-                                        <h5 class="card-title" style="margin-bottom: 0;">Add a New Journal</h5>
+                                    <img class="card-img-top" src="/static/gallery/grey.png" style="border-radius: 3%; height:12rem;" alt="Add a new journal">
+                                    <div class="mt-2">
+                                        <h5 class="card-title" style="margin-bottom: 0; text-align: left;">Add new Journal</h5>
                                     </div>
                                 </a>
                             </div>
@@ -52,12 +52,12 @@
                             {% if current_index < total_cards %}
                                 <form method="POST" action="{{ url_for('main.create_journal') }}">
                                     <input type="hidden" name="plant_id" value="{{ my_garden[current_index]['id'] }}">
-                                    <div class="card" style="width: 15rem; margin: 10px;">
+                                    <div class="card" style="width: 15rem; margin: 7px;">
                                         <button type="submit" class="btn-fix">
-                                            <img class="card-img-top" src="{{ my_garden[current_index]['image'] }}" style="border-radius: 3%; height:15rem;" alt="{{ my_garden[current_index]['common_name'] }}">
-                                            <div class="card-body">
-                                                <h5 class="card-title" style="margin-bottom: 0;">{{ my_garden[current_index]['common_name'] }}</h5>
-                                                <p class="card-text text-center" style="opacity: 70%; margin-bottom: .5rem;"><small>{{ my_garden[current_index]['scientific_name'] }}</small></p>
+                                            <img class="card-img-top" src="{{ my_garden[current_index]['image'] }}" style="border-radius: 3%; height:12rem;" alt="{{ my_garden[current_index]['common_name'] }}">
+                                            <div class="mt-2">
+                                                <h5 class="card-title" style="margin-bottom: 0; text-align: left;">{{ my_garden[current_index]['common_name'] }}</h5>
+                                                <p class="card-text " style="opacity: 70%; margin-bottom: .5rem; text-align: left;"><small>{{ my_garden[current_index]['scientific_name'] }}</small></p>
                                             </div>
                                         </button>
                                     </div>
@@ -65,9 +65,9 @@
                             {% else %}
                                 <div class="card" style="width: 15rem; margin: 10px;">
                                     <a href="/addplant">
-                                        <img class="card-img-top" src="/static/gallery/grey.png" style="border-radius: 3%; height:15rem;" alt="Add a new journal">
-                                        <div class="card-body">
-                                            <h5 class="card-title" style="margin-bottom: 0;">Add a New Journal</h5>
+                                        <img class="card-img-top" src="/static/gallery/grey.png" style="border-radius: 3%; height:12rem;" alt="Add a new journal">
+                                        <div class="mt-2">
+                                            <h5 class="card-title" style="margin-bottom: 0; text-align: left;">Add new Journal</h5>
                                         </div>
                                     </a>
                                 </div>

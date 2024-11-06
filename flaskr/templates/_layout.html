@@ -9,47 +9,59 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-    <nav class="navbar bordered-horizontal">
-        <h1>PlantPals</h1>
+    <nav class="navbar bordered-horizontal d-flex justify-content-between align-items-center mb-2">
+        <h1 class="me-auto">PlantPals</h1>
+    
+        <div class="flex-grow-1 d-flex justify-content-center">
+            <form id="search-form" class="d-flex" style="width: 40%;">
+                <div class="input-group">
+                    <input class="border-secondary rounded-pill flex-grow-1 me-2 pl-2 find-user" type="search" placeholder="Enter name..." id="search-input">
+                    <button class="btn-fix ml-1" type="submit">
+                        <img class="nav-search" src="../static/gallery/icons/search.png" alt="Search">
+                    </button>
+                </div>
+            </form>
+        </div>
+        
     </nav>
-
+    
     <main>
         <div class="container-fluid">
-            <div class="row justify-content-around">
-                <div class="col-md-2 section-left bordered-vertical pl-0 ml-0"> <!-- Adjusted for button fitting -->
+            <div class="row justify-content-between">
+                <div class=" col-md-2 bordered-vertical"> <!-- Adjusted for button fitting -->
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center nav-color" href="/">
+                            <a class="nav-link d-flex align-items-center nav-color mb-1 " href="/garden">
                                 <img class="nav-icon" src="../static/gallery/icons/home.png">
                                 <h5 class="mb-0 px-2">Home</h5>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center nav-color" href="/addplant">
+                            <a class="nav-link d-flex align-items-center nav-color mb-1" href="/addplant">
                                 <img class="nav-icon" src="../static/gallery/icons/instagram-post.png">
                                 <h5 class="mb-0 px-2">New</h5>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center nav-color" href="/journals">
+                            <a class="nav-link d-flex align-items-center nav-color mb-1" href="/journals">
                                 <img class="nav-icon" src="../static/gallery/icons/ribbon.png">
                                 <h5 class="mb-0 px-2">Journals</h5>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center nav-color" href="/profile">
-                                <img style="border-radius: 50%; height: 2rem; filter: none; " src="../static/gallery/profile.jpg">
+                            <a class="nav-link d-flex align-items-center nav-color mb-1" style=""href="/profile">
+                                <img style="border-radius: 50%; width:32px; filter: none; " src="../static/gallery/profile.jpg">
                                 <h5 style="margin-left:15px;" class="mb-0 px-2">Profile</h5>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center nav-color" href="/settings">
+                            <a class="nav-link d-flex align-items-center nav-color mb-1" href="/settings">
                                 <img class="nav-icon" src="../static/gallery/icons/edit.png">
                                 <h5 class="mb-0 px-2">Settings</h5>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center nav-color" href="/logout">
+                            <a class="nav-link d-flex align-items-center nav-color mb-1" href="/logout">
                                 <img class="nav-icon" src="../static/gallery/icons/logout.png">
                                 <h5 class="mb-0 px-2">Logout</h5>
                             </a>
@@ -59,26 +71,26 @@
                     </ul>
                 </div>
 
-                <div class="col-md-7 section-right"> <!-- Adjusted for content -->
+                <div class="col-md-7"> <!-- Adjusted for content -->
                    
                         {% block right %}
                         {% endblock %}
                     
                 </div>
 
-                <div class="col-md-2 section-friends bordered-vertical-left"> <!-- Friends section -->
-                    <h1 class="ml-4 layout-friends">Friends List</h1>
+                <div class="col-md-2 section-friends mb-2 mr-4"> <!-- Friends section -->
+                    <h1 class="text-center layout-friends">Friends List</h1>
                     <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center nav-color" href="/friends">
-                                <img style="border-radius: 50%; height: 2rem; filter: none;" src="../static/gallery/default.jpg">
-                                <h5 class="mb-0 px-2">SillyGoat</h5>
+                        <li class="nav-item bordered-horizontal">
+                            <a class="nav-link d-flex align-items-center nav-color mb-1" href="/friends">
+                                <img class="pr-1"style="border-radius: 50%; height: 2.5rem; filter: none;" src="../static/gallery/default.jpg">
+                                <h5 class="mb-0 px-2 friends-font">SillyGoat</h5>
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center nav-color" href="/friends">
-                                <img style="border-radius: 50%; height: 2rem; filter: none;" src="../static/gallery/default.jpg">
-                                <h5 class="mb-0 px-2">SillyGoat</h5>
+                        </li> 
+                        <li class="nav-item bordered-horizontal">
+                            <a class="nav-link d-flex align-items-center nav-color mb-1 mt-1" href="/friends">
+                                <img style="border-radius: 50%; height: 2.5rem; filter: none;" src="../static/gallery/default.jpg">
+                                <h5 class="mb-0 px-2 friends-font">SillyGoat</h5>
                             </a>
                         </li>
                     </ul>
@@ -106,5 +118,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="../static/bootstrap/js/bootstrap.bundle.js"></script>
     {% block scripts %}{% endblock %}
+    <script src="../static/components/layout.js"></script>
 </body>
 </html>

@@ -19,7 +19,6 @@
     font-family: Lato;
     src: url(../static/gallery/fonts/Poppins-Light.ttf);
   }
-
 /*Tag mods*/
 
 html {
@@ -35,7 +34,9 @@ h1 {
     font-family: "Italiana", sans-serif;
 }
 
-
+.layout-2{
+    font-family: "Italiana", sans-serif;
+}
 h2,
 h3,
 h4,
@@ -55,11 +56,37 @@ footer, footer a, footer a:hover{
 .title {
     font-family: "Lato", sans-serif;
 }
+input.find-user {
+    background-color: var(--greyBackground);
+    height: 40px; 
+    padding: 10px; 
+    font-size: 16px; 
+}
+input.find-user:focus {
+    background-color: #f1f1f1; 
+    outline: none; 
+}
 
 footer {
     background-color: var(--darkGreen);
     color: var(--greyBackground);
 }
+
+.input-group {
+    position: relative;
+    width: 100%;
+}
+
+
+
+.nav-search {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 20px;
+}
+
 
 .btn {
     background-color: var(--darkGreen);
@@ -79,22 +106,25 @@ footer {
     color:var(--darkBlue);
 }
 
-
 .section-left {
     background-color: var(--greyBackground);
-    height: 100vh; /* Full viewport height */
-    overflow-y: auto; /* Allow scrolling if content exceeds height */
+    height: 100vh;
+    overflow-y: auto;
 }
 
 .section-right {
     background-color: var(--greyBackground);
-    padding: 10px; /* Add padding for content */
+    padding: 10px; 
 }
 
 .section-friends {
-    background-color: var(--greyBackground);
-    height: 100vh; /* Full viewport height */
-    overflow-y: auto; /* Allow scrolling if content exceeds height */
+    background-color: #5059462c;
+    height: 100vh; 
+    border-radius: 15px;
+    overflow-y: auto; 
+}
+.friends-font{
+    opacity: 50%;
 }
 
 .nav-color {
@@ -104,16 +134,33 @@ footer {
 }
 
 .nav-color:hover {
-    color: var(--greyBackground);
+    color: var(--blackGreen);
+    background-color: #50594656;
+}
+.active-btn {
+    color: var(--blackGreen);
+    width: 90%;
+    border-radius: 15px;
     background-color: var(--darkGreen);
+    color: var(--greyBackground);
 }
-
-.nav-color:hover img {
+.active-btn:hover{
+    color: var(--greyBackground);
+}
+.active-icon{
+    filter: invert(95%) sepia(0%) saturate(450%) hue-rotate(204deg) brightness(93%) !important;
+}
+/* .nav-color:hover img {
     filter: invert(95%) sepia(0%) saturate(450%) hue-rotate(204deg) brightness(93%) contrast(108%);
-}
+} */
 
 .nav-icon {
     height: 2rem;
+    filter: invert(4%) sepia(11%) saturate(1443%) hue-rotate(42deg) brightness(96%) contrast(98%);
+    padding-right:15px;
+}
+.nav-search {
+    height: 1.5rem;
     filter: invert(4%) sepia(11%) saturate(1443%) hue-rotate(42deg) brightness(96%) contrast(98%);
     padding-right:15px;
 }
@@ -149,7 +196,6 @@ footer {
 
 .bordered-horizontal {
     position: relative;
-    margin-bottom: 10px;
 }
 
 .bordered-horizontal::after {
@@ -179,19 +225,19 @@ footer {
 
 /*Carousel*/
 .btn-fix {
-    border: none;          /* Remove border */
-    background: none;     /* Remove background */
-    padding: 0;           /* Remove padding */
-    cursor: pointer;      /* Change cursor to pointer */
-    color: inherit;       /* Inherit text color from parent */
-    text-decoration: none; /* Remove underline */
-    transition: none;     /* Disable transitions */
+    border: none;          
+    background: none;   
+    padding: 0;           
+    cursor: pointer;     
+    color: inherit;       
+    text-decoration: none; 
+    transition: none;     
 }
 
 .btn-fix:hover {
-    outline: none;        /* Remove outline on focus */
-    background-color: transparent; /* Ensure background remains transparent */
-    color: inherit;       /* Maintain text color */
+    outline: none;        
+    background-color: transparent; 
+    color: inherit;       
 }
 .card a:hover{
     text-decoration: none;
@@ -285,42 +331,6 @@ footer {
     color: var(--greyBackground);
 }
 
-.datepicker {
-    font-size: 1.5rem;
-    width: 350px;
-}
-
-.datepicker table {
-    width: 100%;
-    /* Ensure the calendar table takes full width */
-}
-
-.datepicker th {
-    font-size: 1.2rem;
-    /* Increase header font size */
-}
-
-.datepicker td,
-.datepicker th {
-    height: 50px;
-    /* Increase height of date cells */
-    line-height: 50px;
-    /* Center text vertically */
-}
-
-.datepicker table tr td.active,
-.datepicker table tr td.active:hover {
-    /*background-image: linear-gradient(to bottom,var(--darkGreen),#77c);*/
-    background-image: linear-gradient(to bottom, #668066, var(--darkGreen));
-    color: var(--greyBackground);
-}
-
-.datepicker table tr td.today,
-.datepicker table tr td.today:hover {
-    background-image: linear-gradient(to bottom, var(--darkBlue), var(--lightBlue));
-    color: var(--greyBackground);
-}
-
 .journal-select .form-control[readonly],
 .journal-select .form-control::placeholder {
     background-color: #505946;
@@ -344,9 +354,7 @@ footer {
 .btn-primary {
     border: none;
     background-color: var(--darkGreen);
-    /* Your desired hover color */
     color: var(--greyBackground);
-    /* Optional: Change text color for contrast */
     border-color: (var(--darkGreen));
 }
 .btn {
