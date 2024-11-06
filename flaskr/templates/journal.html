@@ -13,13 +13,13 @@
             <h2 style="display: inline;">{{ user.username|capitalize }}'s {{ plant['common_name'] }}</h2>
             <p>{{ journal['desc'] }}</p>
         </div>
-        
+        <div class="d-flex justify-content-center">
         {% if posts != None %}
-        <div class="card-container" style="display: flex; flex-wrap: wrap; gap: 1rem;">
+        <div class="card-container w-100" style=" gap: 1rem;">
             {% for post in posts %}
-                <div class="card" style="width: 18rem;">
+                <div class="card bordered-horizontal">
                     <div class="card-body">
-                        <h5 class="card-title truncated-title" style="margin-bottom: 0.1rem;">{{ post['title'] }}</h5>
+                        <h5 class="card-title truncated-title" style="margin-bottom: 0.1rem; text-align: left;">{{ post['title'] }}</h5>
                         <small>{{ post['time_readable'] }}</small>
                         <p class="card-text">{{ post['text'] }}</p>
                         <div class="truncated-text" style="display: none;"></div>
@@ -30,8 +30,9 @@
         {% else %}
             <h2>No Posts...</h2>
         {% endif %}
+        </div>
 
-        <form action="{{ url_for('main.create_post') }}" method="POST">
+        <form action="{{ url_for('main.create_post') }}" class="pt-4 pl-5 mb-4" style="width:95%"method="POST">
             <div class="form-group">
               <label for="title">Post Title</label>
               <input type="text" class="form-control" id="title" name="title" placeholder="Enter post title" required>
