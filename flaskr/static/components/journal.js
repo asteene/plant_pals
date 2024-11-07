@@ -27,3 +27,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+function uploadImage() {
+  const form = document.getElementById("imageUploadForm");
+  const formData = new FormData(form);
+
+  fetch('{{ url_for("main.upload_image") }}', {
+    method: "POST",
+    body: formData,
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.status === "success") {
+        document.getElementById("imageUrl").value = data.image_url;
+        alert("Image uploaded successfully!");
+      } else {
+        alert("Image upload failed: " + data.message);
+      }
+    })
+    .catch((error) => {
+      console.error("Error uploading image:", error);
+    });
+}

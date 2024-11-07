@@ -8,6 +8,7 @@ import datetime
 from datetime import datetime, timezone
 
 import flaskr.utils.api as trefle
+import uuid 
 
 
 main = Blueprint('main', __name__)
@@ -18,10 +19,26 @@ def home():
     # Check if user is authenticated
     if 'uid' in session:
         return redirect(url_for('main.garden'))
-    return redirect(url_for('main.login'))
+    return redirect(url_for('main.about'))
 
-@main.route('/login')
+@main.route('/about')
+def about():
+    if 'uid' in session:
+        # Get the current user
+        user = firebase_auth.get_user(session['uid'])
+        uid = session['uid']
+        return render_template('about.html', user=user)
+    else:
+        return redirect(url_for('main.about'))
+    
+
+@main.route('/login', methods=['GET', 'POST'])
 def login():
+    if 'uid' in session:
+        return redirect(url_for('main.garden'))
+    if request.method == 'POST':
+        # Handle user login logic here
+        return redirect(url_for('main.profile'))
     return render_template('login.html')
 
 
@@ -143,6 +160,16 @@ def create_post():
         title = request.form.get('title')
         content = request.form.get('content')
 
+        # Handle image upload if provided
+        image_url = None
+        if 'image' in request.files:
+            file = request.files['image']
+            if file:
+                filename = str(uuid.uuid4()) + '.' + file.filename.split('.')[-1]
+                blob = bucket.blob(filename)
+                blob.upload_from_file(file)
+                image_url = blob.public_url
+        
         # If plant_id is provided, create a new journal entry
         if journal_id:
             new_post_ref = db.collection('posts').document()  # Firestore will generate a new doc ID
@@ -153,6 +180,7 @@ def create_post():
                 'title': title,               # Placeholder for journal name
                 'journal_id': journal_id, # Plant ID associated with this journal
                 'text': content,
+                'image_url': image_url,
                 'time_created': datetime.now()
             })
 
@@ -345,6 +373,20 @@ def setting():
         else:
             return redirect(url_for('login'))
     return redirect(url_for('login'))
+
+@main.route('/upload_image', methods=['POST'])
+def upload_image():
+    if 'uid' in session:
+        file = request.files.get('image')
+        if file:
+            # Create a unique name for the image
+            filename = str(uuid.uuid4()) + '.' + file.filename.split('.')[-1]
+            blob = bucket.blob(filename)
+            blob.upload_from_file(file)
+            image_url = blob.public_url
+            return jsonify({'status': 'success', 'image_url': image_url})
+        return jsonify({'status': 'error', 'message': 'No image uploaded'}), 400
+    return jsonify({'status': 'error', 'message': 'User not authenticated'}), 401
 
 
 # # Update Username route

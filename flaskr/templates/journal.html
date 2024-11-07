@@ -22,7 +22,10 @@
                         <h5 class="card-title truncated-title" style="margin-bottom: 0.1rem; text-align: left;">{{ post['title'] }}</h5>
                         <small>{{ post['time_readable'] }}</small>
                         <p class="card-text">{{ post['text'] }}</p>
-                        <div class="truncated-text" style="display: none;"></div>
+                        {% if post['image_url'] %}
+                            <img src="{{ post['image_url'] }}" alt="Post Image" class="img-fluid mt-2">
+                        {% endif %}
+                        <!-- <div class="truncated-text" style="display: none;"></div> -->
                     </div>
                 </div>
             {% endfor %}
@@ -41,6 +44,12 @@
             <div class="form-group">
               <label for="content">Content</label>
               <textarea class="form-control" id="content" name="content" rows="4" placeholder="Enter post content" required></textarea>
+            </div>
+
+            <!-- New image upload input -->
+            <div class="form-group">
+                <label for="image">Upload Image</label>
+                <input type="file" class="form-control-file" id="image" name="image" accept="image/*">
             </div>
 
             <input type="hidden" name="journal_id" value="{{ journal_id }}">

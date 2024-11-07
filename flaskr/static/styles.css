@@ -157,6 +157,10 @@ footer {
     filter: invert(95%) sepia(0%) saturate(450%) hue-rotate(204deg) brightness(93%) contrast(108%);
 } */
 
+a, a:hover{
+    text-decoration: none;
+    color: inherit;
+}
 .nav-icon {
     height: 2rem;
     filter: invert(4%) sepia(11%) saturate(1443%) hue-rotate(42deg) brightness(96%) contrast(98%);
