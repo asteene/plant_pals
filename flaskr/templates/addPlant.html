@@ -3,33 +3,88 @@
 {% block title %}Add Plant{% endblock %}
 
 {% block body %}
-<body>
-    <header>
-        <h1>Add a Plant to Your Garden</h1>
-    </header>
-    <main>
-        <section>
-           
-        </section>
-        <section>
-            {% block right %}
-            <div class="container mt-5">
-                <h2>Select a Plant to Add to Your Garden</h2>
-                <div id="loading" class="text-center mb-4" style="display: none;">
-                    <p>Loading plants...</p>
-                    <div class="spinner-border text-primary" role="status"></div>
+    {% block right %}
+    <div class="container mt-5">
+        <h3 class="ml-0 pl-0 title">Add to Your Garden</h3>
+        <div id="loading" class="text-center mb-4" style="display: none;">
+            <p>Loading plants...</p>
+            <div class="spinner-border text-primary" role="status"></div>
+        </div>
+        <div id="plant-gallery" class="row">
+            <div class="cards-wrapper d-flex flex-wrap justify-content-start">
+                {% for plant in default_plants %}
+                <div class="card pb-3" style="width: 15rem;" data-toggle="modal" data-target="#plantModal" data-id="{{ plant['id'] }}" data-name="{{ plant['common_name'] }}" data-description="{{ plant['scientific_name'] }}">
+                    <img style="border-radius: 3%; height:12rem;" class="card-img-top" src="{{ plant['image'] }}" alt="Card image cap">
+                    <div class="mt-2">
+                        <h5 class="card-title" style="margin-bottom: 0;  text-align: left;">{{ plant['common_name'] }}</h5>
+                        <p class="card-text" style="opacity: 70%; margin-bottom: .5rem;  text-align: left;"><small>{{ plant['scientific_name'] }}</small></p>
+                    </div>
                 </div>
-                <div id="plant-gallery" class="row">
-                    <!-- Plant images will be populated here -->
-                </div>
-                <button id="add-plant-button" class="btn btn-primary mt-4" disabled>Add Plant to Garden</button>
+                {% endfor %}
             </div>
-            
-            
-            
-            {% endblock %}
-        </section>
-    </main>
-    <script type="module" src="../static/components/addPlant.js"></script>
-</body>
+        </div>
+
+        <div class="mt-4 mb-4">
+            <button onclick="addPlantToGarden()" id="add-plant-button" class="disabled btn btn-primary" style="background-color:var(--darkGreen);" disabled>Find A Different Plant</button>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="plantModal" tabindex="-1" role="dialog" aria-labelledby="plantModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="plantModalLabel">Create Journal</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="plantForm" method="POST" action="{{ url_for('main.add_plant') }}">
+                        <input type="hidden" name="plant_id" id="modal-plant-id" value="">
+                        <div class="form-group">
+                            <label for="plant-title">Journal Title</label>
+                            <input type="text" class="form-control" id="plant-title" name="title" required>
+                        </div>
+                        
+                   
+
+                        <div class="form-group">
+                            <label for="plant-description">Journal Description</label>
+                            <textarea class="form-control" id="plant-description" name="description" rows="3" required></textarea>
+                        </div>
+
+                         <!-- Collapsible Content -->
+                         <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="addPlantCheckbox" data-toggle="collapse" data-target="#collapsibleContent">
+                            <label class="form-check-label" for="addPlantCheckbox">
+                              Create first post
+                            </label>
+                          </div>
+                         <div id="collapsibleContent" class="collapse">
+                            <div class="form-group">
+                                <label for="post-title">Post Title</label>
+                                <input type="text" class="form-control" id="post-title" name="post-title" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="post-description">Description</label>
+                                <textarea class="form-control" id="post-description" name="post-description" rows="3" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <input class="form-control" type="file" id="formFile">
+                              </div>
+                        </div>
+                       
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="submitPlantForm()">Create Journal</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="flaskr/static/components/addPlant.js"></script>
+
+{% endblock %}
 {% endblock %}

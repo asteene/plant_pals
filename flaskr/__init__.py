@@ -10,9 +10,9 @@ from firebase_admin import credentials, auth as firebase_auth
 # import json
 from firebase_admin import firestore, storage
 
-cred = credentials.Certificate("secrets/secrets.json")  
+cred = credentials.Certificate("flaskr/secrets/secrets.json")  
 firebase_admin.initialize_app(cred, {
-    'storageBucket': ''  # Replace with your actual bucket name
+    'storageBucket': 'gs://plantpals-dab2c.appspot.com'  # Replace with your actual bucket name
 })
 db = firestore.client()
 bucket = storage.bucket()
@@ -24,10 +24,13 @@ def createApp(config_class=Config):
 
     app = Flask(__name__)
     app.config.from_object(Config)
+    
+    # from flaskr.main.routes import main
+    from flaskr.main.routes import main, get_friends
 
-    from flaskr.main.routes import main
+    app.jinja_env.globals['get_friends'] = get_friends
+
 
     app.register_blueprint(main)
 
     return app
-

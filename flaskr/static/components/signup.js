@@ -3,10 +3,12 @@ import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com
 import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
 import { firebaseConfig } from "./firebaseConfig.js";
 
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+
 
 document.getElementById('signup-form').addEventListener('submit', async function(e) {
     e.preventDefault();
@@ -25,8 +27,10 @@ document.getElementById('signup-form').addEventListener('submit', async function
             email: email,
             dateJoined: serverTimestamp(),
             UID: user.uid,  // Store UID as a field
-            plants: [],  // Initialize an empty array for plants
-            photoURL: "../static/components/signup.js" // add link to random default photo from the cloud
+            plants: [],
+            friends: [],
+            friend_requests: [],  // Initialize an empty array for plants
+            photoURL: "../static/gallery/profile.jpg" // add link to random default photo from the cloud
 
             // add photoURL and password
         });

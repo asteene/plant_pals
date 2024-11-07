@@ -14,15 +14,13 @@
             {% block right %}
 
             <div class="container mt-5">
-                <div class="row justify-content-center">
-                    <div class="col-md-8">
-                        
-                        <h1 class="text-center">Settings</h1>
-                        
+                <div class="">
                         <!-- Profile Information Section -->
-                        <div class="card mb-4">
+                         <div>
+                        <div class="row justify-content-center">
+                        <div class="card mb-3 col-sm">
                             <div class="card-header">
-                                <h3>Profile Information</h3>
+                                <h3 class="title">Profile Information</h3>
                             </div>
                             <div class="card-body">
                                 <form id="profile-form">
@@ -38,8 +36,8 @@
                                     <div class="form-group mb-3">
                                         <label for="photo">Profile Photo</label>
                                         <div class="d-flex align-items-center">
-                                            <img id="photo-preview" src="/static/gallery/default.jpg" alt="Profile Photo" class="rounded-circle me-3" width="50">
-                                            <input type="file" id="photo" class="form-control-file">
+                                            <img id="photo-preview" src="{{ user.photoURL }}" alt="Profile Photo" class="rounded-circle me-3" width="50">
+                                            <input type="file" id="photo" class="form-control-file ml-2">
                                         </div>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Update Profile</button>
@@ -48,9 +46,9 @@
                         </div>
             
                         <!-- Password Section -->
-                        <div class="card mb-4">
+                        <div class="card mb-4 col-sm">
                             <div class="card-header">
-                                <h3>Change Password</h3>
+                                <h3 class="title">Change Password</h3>
                             </div>
                             <div class="card-body">
                                 <form id="password-form">
@@ -66,54 +64,83 @@
                                 </form>
                             </div>
                         </div>
+                    </div>
+
+                        
             
-                        <!-- Blocked Users Section -->
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <h3>Blocked Users</h3>
-                            </div>
-                            <div class="card-body">
-                                {% if blocked_users %}
-                                <ul class="list-group">
-                                    {% for user in blocked_users %}
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        {{ user.username }}
-                                        <button class="btn btn-warning btn-sm">Unblock</button>
-                                    </li>
-                                    {% endfor %}
-                                </ul>
+                    </div>
+                    <!-- Friend Requests Section -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h3 class="title">Friend Requests</h3>
+                        </div>
+                        <div class="card-body">
+                            {% if friend_reqs %}
+                            <ul class="list-group">
+                                {% for requester in friend_reqs %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    {{ requester['username'] }}
+                                    <form method="POST" action="{{ url_for('main.accept_friend', requester_id=requester.id) }}">
+                                        <button type="submit" class="btn btn-primary">Accept</button>
+                                    </form>
+                                </li>
+                                {% endfor %}
+                            </ul>
                                 {% else %}
-                                <p class="text-muted">No blocked users.</p>
+                                <p class="text-muted">No friend requests.</p>
                                 {% endif %}
-                            </div>
                         </div>
-            
-                        <!-- Search Users Section -->
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <h3>Search Users</h3>
-                            </div>
-                            <div class="card-body">
-                                <form id="search-form" class="d-flex mb-3">
-                                    <input type="text" id="search-query" class="form-control me-2" placeholder="Search for a user...">
-                                    <button type="submit" class="btn btn-success">Search</button>
-                                </form>
-                                <div id="search-results">
-                                    <!-- User search results will be displayed here -->
-                                </div>
-                            </div>
+                    </div>
+                    <!-- Add Friends Section -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h3 class="title">Blocked Users</h3>
                         </div>
-            
+                        <div class="card-body">
+                            {% if all_users %}
+                            <ul class="list-group">
+                                {% for user in all_users %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    {{ user.username }}
+                                    <form method="POST" action="{{ url_for('main.add_friend', friend_id=user.id) }}">
+                                        <button type="submit" class="btn btn-primary">Add as Friend</button>
+                                    </form>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <!-- Blocked Users Section -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h3 class="title">Blocked Users</h3>
+                        </div>
+                        <div class="card-body">
+                            {% if blocked_users %}
+                            <ul class="list-group">
+                                {% for user in blocked_users %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    {{ user.username }}
+                                    <button class="btn btn-warning btn-sm">Unblock</button>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            {% else %}
+                            <p class="text-muted">No blocked users.</p>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
+            <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js"></script>
+            <script type="module" src="../static/components/settings.js"></script>
             {% endblock %}
         </section>
     </main>
     
-    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js"></script>
-    <script type="module" src="../static/components/settings.js"></script>
+    
     
 </body>
 {% endblock %}

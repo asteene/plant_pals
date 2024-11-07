@@ -1,0 +1,17 @@
+{'id': 269338, 'common_name': 'Tomato', 'image': 'https://bs.plantnet.org/image/o/400851a79391dbe6f667c66e4bf70299e9921853', 'scientific_name': 'Solanum lycopersicum'}
+{'id': 64847, 'common_name': 'Basil', 'image': 'https://bs.plantnet.org/image/o/eaf722de31333a8724b4bb72c8d51959530fae56', 'scientific_name': 'Ocimum basilicum'}
+{'id': 204043, 'common_name': 'Chives', 'image': 'https://bs.plantnet.org/image/o/5e033417dbfff7e86535bd7f431bb4162804a0c9', 'scientific_name': 'Allium schoenoprasum'}
+{'id': 87441, 'common_name': 'Garden thyme', 'image': 'https://bs.plantnet.org/image/o/8709185087a881e96ffc55ce766b53f7e861cb3b', 'scientific_name': 'Thymus vulgaris'}
+{'id': 200080, 'common_name': 'Garden parsley', 'image': 'https://bs.plantnet.org/image/o/5624f3f0f3899e6597279aacadfb411d6d6e35dc', 'scientific_name': 'Petroselinum crispum'}
+{'id': 61646, 'common_name': 'Spearmint', 'image': 'https://bs.plantnet.org/image/o/d2fbfed914d6e385ee73fa27a5408227e287a13c', 'scientific_name': 'Mentha spicata'}
+{'id': 78383, 'common_name': 'Rosemary', 'image': 'https://bs.plantnet.org/image/o/45c47e31c6a0c5378581f0bc89c0b44405868dd1', 'scientific_name': 'Rosmarinus officinalis'}
+{'id': 66568, 'common_name': 'Wild marjoram', 'image': 'https://bs.plantnet.org/image/o/856c07cfa49f4665dbcc7434542d0f1e27cb17eb', 'scientific_name': 'Origanum vulgare'}
+{'id': 165723, 'common_name': 'Chinese-parsley', 'image': 'https://bs.plantnet.org/image/o/fffc094e64e175593ed4c1e8c1ac4bde8ccaffa9', 'scientific_name': 'Coriandrum sativum'}
+{'id': 143463, 'common_name': 'Garden dill', 'image': 'https://bs.plantnet.org/image/o/1800a36029c92aecb07f881f27b6d953846d7e6d', 'scientific_name': 'Anethum graveolens'}
+{'id': 115385, 'common_name': 'Spinach', 'image': 'https://bs.plantnet.org/image/o/9a94b709c585490a302c614ee638c45f81c35aa2', 'scientific_name': 'Spinacia oleracea'}
+{'id': 28023, 'common_name': 'Garden lettuce', 'image': 'https://bs.plantnet.org/image/o/f341ecda99b08989111b43876fd6e81bdf5a783f', 'scientific_name': 'Lactuca sativa'}
+{'id': 267588, 'common_name': 'Red capsicum', 'image': 'https://bs.plantnet.org/image/o/5fd5b1c84d4751583ce12cea7cd24d2d1da4fce6', 'scientific_name': 'Capsicum annuum'}
+{'id': 167936, 'common_name': 'Cucumber', 'image': 'https://bs.plantnet.org/image/o/6d90d18a0ca76aa1ff0653e5b29b7b0381006e58', 'scientific_name': 'Cucumis sativus'}
+{'id': 171170, 'common_name': 'Carrot', 'image': 'https://bs.plantnet.org/image/o/051631f859a3a433e2954747fa1bdb6bc09a0e66', 'scientific_name': 'Daucus carota'}
+{'id': 167957, 'common_name': 'Bitter bottle gourd', 'image': 'https://bs.plantnet.org/image/o/0e3e8cb8780e032c69047fca5d3287b7443afbb2', 'scientific_name': 'Cucurbita pepo'}
+{'id': 264892, 'common_name': 'Garden strawberry', 'image': 'https://bs.plantnet.org/image/o/6d61250dd16e0ee4d5ebe59fc283440f8376e3f5', 'scientific_name': 'Fragaria × ananassa'}

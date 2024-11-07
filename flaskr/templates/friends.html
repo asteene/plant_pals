@@ -5,21 +5,23 @@
 
 {% block right %}
 <!--Re uses the profile code.-->
-<div class="d-flex justify-content-between bordered-horizontal">
+<div class="d-flex justify-content-between bordered-horizontal mb-4 mt-5">
 <div class="d-flex flex-column">
-    <div class="d-flex align-items-center mb-3">
-        <img id="photo-preview" src="/static/gallery/profile.jpg" alt="Profile Photo" class="rounded-circle me-3" width="50">
+    <div class="d-flex flex-column">
+        <div class="d-flex align-items-center mb-2">
+            <img id="photo-preview" src="/static/gallery/profile.jpg" alt="Profile Photo" class="rounded-circle mt-2" width="50">
+            <div class="ml-2">
+                <h1 class="mb-0">Sillygoat</h1>
+                <h6 class="mb-0">July 7th, 2003</h6>
+            </div>
+        </div>
         <div>
-            <h1 class="mb-0">jeromeKnecht</h1>
-            <h6 class="mb-0">July 4, 2024</h6>
+            <p>Blah blah blah. This is my profile description.</p>
+            <p>Followed by <strong>RoseGirl</strong>, <strong>plant_wrld</strong>, <strong>Timmy</strong>, and 5 others</p>
         </div>
     </div>
-    <div>
-        <p>Blah blah blah. This is my profile description.</p>
-        <p>Followed by RoseGirl, plant_wrld, Timmy, and 5 others</p>
-    </div>
-</div>
-<div class="d-flex justify-content-end align-items-center">
+</div>      
+<div class="d-flex justify-content-end align-items-center pr-5">
     <div class="text-center">
         <p class="mb-0">13444</p>
         <p class="mb-0">Posts</p>
@@ -28,18 +30,18 @@
         <p class="mb-0">13444</p>
         <p class="mb-0">Followers</p>
     </div>
-    <div class="text-center">
+    <div class="text-center ">
         <p class="mb-0">13444</p>
         <p class="mb-0">Following</p>
     </div>
 </div>
 </div>
-{% for x in range(4) %}
-<div class="d-flex justify-content-center">
+{% for x in range(3) %}
+<div class="d-flex justify-content-center mb-3 ">
     {% for y in range(4) %}
     <div class="card" style="width: 15rem;">
-        <a href="/journal">
-            <img src="/static/gallery/testing1.png" style="border-radius: 3%;" class="card-img-top" alt="...">
+        <a href="/journals">
+            <img src="/static/gallery/testing1.png" style="border-radius: 3%; height:15rem;" class="card-img-top" alt="...">
             
         </a>
     </div>
