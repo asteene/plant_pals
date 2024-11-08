@@ -4,5 +4,9 @@ venv/
 __pycache__/
 
 flaskr/secrets/secrets.json
-
+secrets.json
+flaskr/secrets/*
+flaskr/secrets
 flaskr/config.py
+flaskr/static/components/firebaseConfig.js
+firebaseConfig.js
