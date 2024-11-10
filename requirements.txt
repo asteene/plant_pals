@@ -12,6 +12,7 @@ Flask==3.0.3
 Flask-Bcrypt==1.0.1
 Flask-Login==0.6.3
 Flask-SQLAlchemy==3.1.1
+git-filter-repo==2.45.0
 google-api-core==2.20.0
 google-api-python-client==2.147.0
 google-auth==2.35.0
@@ -38,6 +39,7 @@ pyasn1_modules==0.4.1
 pycparser==2.22
 PyJWT==2.9.0
 pyparsing==3.1.4
+python-dotenv==1.0.1
 requests==2.32.3
 rsa==4.9
 SQLAlchemy==2.0.35
@@ -45,4 +47,3 @@ typing_extensions==4.12.2
 uritemplate==4.1.1
 urllib3==2.2.3
 Werkzeug==3.0.4
-firebase-admin

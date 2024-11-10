@@ -10,3 +10,4 @@ flaskr/secrets
 flaskr/config.py
 flaskr/static/components/firebaseConfig.js
 firebaseConfig.js
+.env
