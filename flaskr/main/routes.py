@@ -394,7 +394,7 @@ def add_plant():
 
     if 'uid' in session:
         user = firebase_auth.get_user(session['uid'])
-        default_plants = trefle.get_default_species()
+        default_plants = trefle.get_default_plants()
 
         # Get user's uid from session
         uid = session['uid']
