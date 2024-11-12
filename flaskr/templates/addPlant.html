@@ -93,15 +93,63 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <input type="text" id="search-bar" class="form-control" placeholder="Search for plants...">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Add Plant</button>
-                </div>
+                <form id="search-form" onsubmit="searchPlants(event)">
+                    <div class="modal-body">
+                        <input type="text" id="search-bar" class="form-control" placeholder="Search for plants...">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary">Add Plant</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+    <div id="plant-gallery-search-results" class="row">
+        
+    </div>
+
+<script>
+
+async function searchPlants() {
+    
+    const query = document.getElementById('search-bar').value;
+    const search_results = document.getElementById('plant-gallery-search-results');
+
+    
+    search_results.innerHTML = '';
+
+    try {
+        const res = await fetch(`https://openfarm.cc/api/v1/crops/${query}`);
+        console.log(`https://openfarm.cc/api/v1/crops/${query}`);
+        const data = await response.json();
+
+        let cleanedData = {};
+
+        if (data) {
+            cleanedData.id = plantData.data.id;
+            cleanedData.common_name = plantData.data.attributes.name;
+            cleanedData.description = plantData.data.attributes.description;
+            cleanedData.maintenance = {
+                sun_requirements: plantData.data.attributes.sun_requirements,
+                sowing_method: plantData.data.attributes.sowing_method
+            };
+            cleanedData.image = plantData.data.attributes.main_image_path;
+        }
+
+        search_results.innerHTML = `<div class="card pb-3" style="width: 15rem;" data-toggle="modal" data-target="#plantModal" data-id="${ cleanedData['id'] }" data-name="${cleanedData['common_name'] }" data-description="${cleanedData['scientific_name']}">
+                    <img style="border-radius: 3%; height:12rem;" class="card-img-top" src="${cleanedData['image'] }" alt="Card image cap">
+                    <div class="mt-2">
+                        <h5 class="card-title" style="margin-bottom: 0;  text-align: left;">${ cleanedData['common_name'] }</h5>
+                        <p class="card-text" style="opacity: 70%; margin-bottom: .5rem;  text-align: left;"><small>${ cleanedData['description'] }</small></p>
+                    </div>
+                </div>`
+    } catch (error) {
+            console.error('Error fetching plant data:', error);
+            searchResultsDiv.innerHTML = `<p>${query} not found...</p>`;
+    }
+}
+
+</script>
 
    
     
