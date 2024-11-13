@@ -102,7 +102,7 @@ footer {
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url('/static/gallery/test.jpg');
+  background-image: url('/static/gallery/bg.jpg');
   background-size: auto;
   background-position: center;
   filter: blur(5px);
