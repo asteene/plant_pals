@@ -399,11 +399,11 @@ def add_plant():
         # Get user's uid from session
         uid = session['uid']
 
+        #uid = session['uid']
         user_ref = db.collection('users').document(session['uid'])
-        user_data = user_ref.get()
-        user_data = user_data.to_dict()
+        user_doc = user_ref.get()
+        user_doc = user_doc.to_dict()
 
-        print(user_data)
 
         # Check if the garden document exists for the user
         garden_ref = db.collection('garden').document(uid)
@@ -433,9 +433,7 @@ def add_plant():
 
             return redirect(url_for('main.garden'))
 
-        
-
-        return render_template('addPlant.html', user=user_data, default_plants=default_plants)
+        return render_template('addPlant.html', user=user_doc, default_plants=default_plants)
     else:
         return redirect(url_for('main.login'))
 
