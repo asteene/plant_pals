@@ -17,9 +17,70 @@
             </div>
             
                 
-            
-        </div>
+           </div>
     {% endfor %}
+    <button  data-toggle="modal" data-target="#plantModal" class="btn btn-primary" style="background-color:var(--darkGreen);">Add a new Journal</button>
+        
+</div>
+
+
+
+<div class="modal fade" id="plantModal" tabindex="-1" role="dialog" aria-labelledby="plantModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="plantModalLabel">Create Journal</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="plantForm" method="POST" action="{{ url_for('main.add_plant') }}">
+                    <input type="hidden" name="plant_id" id="modal-plant-id" value="">
+                    <div class="form-group">
+                        <input type="text" placeholder="Insert title" class="form-control" id="plant-title" name="title" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="plant-title">Select Plant</label>
+                        <select class="form-control">
+                            <option>Plant 1</option>
+                            <option>Plant 2</option>
+                            <option>You get the point Alec</option>
+                          </select>
+                    </div>
+               
+                    <div class="form-group">
+                        
+                        <textarea class="form-control" placeholder="Insert description..." id="plant-description" name="description" rows="3" required></textarea>
+                    </div>
+
+                     <!-- Collapsible Content -->
+                     <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="addPlantCheckbox" data-toggle="collapse" data-target="#collapsibleContent">
+                        <label class="form-check-label" for="addPlantCheckbox">
+                          Create first post
+                        </label>
+                      </div>
+                     <div id="collapsibleContent" class="collapse">
+                        <div class="form-group">
+                            <input  placeholder="Post title" type="text" class="form-control" id="post-title" name="post-title" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea  placeholder="Insert description..." class="form-control" id="post-description" name="post-description" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <input class="form-control" type="file" id="formFile">
+                          </div>
+                    </div>
+                   
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="submitPlantForm()">Create Journal</button>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
 {% block scripts %}

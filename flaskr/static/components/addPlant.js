@@ -132,3 +132,4 @@ $('#plantModal').on('show.bs.modal', function (event) {
 function submitPlantForm() {
     document.getElementById('plantForm').submit();
 }
+
