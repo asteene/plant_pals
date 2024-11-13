@@ -13,11 +13,19 @@
         <div id="plant-gallery" class="row">
             <div class="cards-wrapper d-flex flex-wrap justify-content-start">
                 {% for plant in default_plants %}
-                <div class="card pb-3" style="width: 15rem;" data-toggle="modal" data-target="#plantModal" data-id="{{ plant['id'] }}" data-name="{{ plant['common_name'] }}" data-description="{{ plant['scientific_name'] }}">
-                    <img style="border-radius: 3%; height:12rem;" class="card-img-top" src="{{ plant['image'] }}" alt="Card image cap">
+                <div class="card pb-3" style="width: 15rem;" data-id="{{ plant['id'] }}" data-name="{{ plant['common_name'] }}" data-description="{{ plant['scientific_name'] }}">
+                    <img style="border-radius: 3%; height: 12rem;" class="card-img-top" 
+                    src="{{ plant['image'] }}" 
+                    alt="Card image cap" 
+                    onerror="this.onerror=null; this.src='../static/gallery/test2.jpg';">
+               
                     <div class="mt-2">
-                        <h5 class="card-title" style="margin-bottom: 0;  text-align: left;">{{ plant['common_name'] }}</h5>
-                        <p class="card-text" style="opacity: 70%; margin-bottom: .5rem;  text-align: left;"><small>{{ plant['description'] }}</small></p>
+                        <h5 class="card-title" style="margin-bottom: 0; text-align: left;">{{ plant['common_name'] }}</h5>
+                        <p class="card-text" style="opacity: 70%; margin-bottom: .5rem; text-align: left;">
+                            <small class="description" id="desc-{{ plant['id'] }}">
+                                {{ plant['description'] | string | truncate(75) }}
+                            </small>
+                        </p>
                     </div>
                 </div>
                 {% endfor %}
@@ -30,59 +38,7 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="plantModal" tabindex="-1" role="dialog" aria-labelledby="plantModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="plantModalLabel">Create Journal</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="plantForm" method="POST" action="{{ url_for('main.add_plant') }}">
-                        <input type="hidden" name="plant_id" id="modal-plant-id" value="">
-                        <div class="form-group">
-                            <label for="plant-title">Journal Title</label>
-                            <input type="text" class="form-control" id="plant-title" name="title" required>
-                        </div>
-                        
-                   
-
-                        <div class="form-group">
-                            <label for="plant-description">Journal Description</label>
-                            <textarea class="form-control" id="plant-description" name="description" rows="3" required></textarea>
-                        </div>
-
-                         <!-- Collapsible Content -->
-                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="addPlantCheckbox" data-toggle="collapse" data-target="#collapsibleContent">
-                            <label class="form-check-label" for="addPlantCheckbox">
-                              Create first post
-                            </label>
-                          </div>
-                         <div id="collapsibleContent" class="collapse">
-                            <div class="form-group">
-                                <label for="post-title">Post Title</label>
-                                <input type="text" class="form-control" id="post-title" name="post-title" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="post-description">Description</label>
-                                <textarea class="form-control" id="post-description" name="post-description" rows="3" required></textarea>
-                            </div>
-                            <div class="mb-3">
-                                <input class="form-control" type="file" id="formFile">
-                              </div>
-                        </div>
-                       
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="submitPlantForm()">Create Journal</button>
-                </div>
-            </div>
-        </div>
-    </div>
+   
     <div id="searchModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
