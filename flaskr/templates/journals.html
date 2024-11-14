@@ -9,7 +9,7 @@
             <a href="{{ url_for('main.journal', journal_id=journal['id']) }}">
             <img class="card-img-top" src="{{ journal['image'] }}" style="border-radius: 3%; height:12rem;" alt="Add a new journal">
             <div class="card-body d-flex justify-content-between pr-0 pl-0">
-                <h5 class="card-title" style="margin-bottom: 0;">{{ user.username|capitalize }}'s {{ journal['plant_name'] }}</h5>
+                <h5 class="card-title" style="margin-bottom: 0;"> {{ journal['name'] }}</h5>
             </a>
             <form action="{{ url_for('main.delete_journal', journal_id=journal.id) }}" method="POST">
                 <button class="btn-fix pr-1"type="submit"> <img style="height:.9rem; opacity:50%; box-shadow:none;" src="../static/gallery/icons/X.png"></button>
