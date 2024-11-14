@@ -74,7 +74,7 @@
 
 async function searchPlants(event) {
     event.preventDefault();
-    const query = document.getElementById('search-bar').value;
+    const query = document.getElementById('search-bar').value.toLowerCase();
     const search_results = document.getElementById('plant-gallery-search-results');
 
     console.log(search_results);
