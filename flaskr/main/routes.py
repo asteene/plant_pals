@@ -149,16 +149,6 @@ def friend(friend_id):
         # return render_template('profile.html', user=user)
     else:
         return redirect(url_for('main.login'))
-    
-''' 
-@main.route('/new')
-def create_post(): # TODO change to add_plant?
-    if 'uid' in session:
-        user = firebase_auth.get_user(session['uid'])
-        return render_template('new.html', user=user) # change to addPlant.html if needed
-    else:
-        return redirect(url_for('main.login'))
-'''
 
 @main.route('/create_post', methods=['POST','GET'])
 def create_post():

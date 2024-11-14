@@ -28,6 +28,11 @@
                         </p>
                     </div>
                 </div>
+                <form action="{{ url_for('main.add_plant') }}" method="post">
+                    <input type="hidden" name="plant_id" value="{{ plant['id'] }}">
+                    <button class="btn btn-primary" style="background-color:var(--darkGreen);" type="submit">Add to Garden</button>
+                </form>
+                
                 {% endfor %}
             </div>
         </div>
@@ -103,7 +108,12 @@ async function searchPlants(event) {
                         <h5 class="card-title" style="margin-bottom: 0;  text-align: left;">${ cleanedData['common_name'] }</h5>
                         <p class="card-text" style="opacity: 70%; margin-bottom: .5rem;  text-align: left;"><small>${ cleanedData['description'] }</small></p>
                     </div>
-                </div>`
+                </div>
+                <form action="{{ url_for('main.add_plant') }}" method="post">
+                    <input type="hidden" name="plant_id" value="${ cleanedData['id'] }">
+                    <button type="submit" class="btn btn-primary" style="background-color:var(--darkGreen);">Add to Garden</button>
+                </form>
+                `
         } else {
             search_results.innerHTML = `<p>${query} not found...</p>`;
         }
