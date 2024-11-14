@@ -30,38 +30,39 @@
             <div class="row justify-content-between">
                 <div class=" col-md-2 bordered-vertical"> <!-- Adjusted for button fitting -->
                     <ul class="nav flex-column">
+                        <!--https://www.geeksforgeeks.org/flask-url-helper-function-flask-url_for/-->
                         <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center nav-color mb-1 " href="/garden">
+                            <a class="nav-link d-flex align-items-center nav-color mb-1 " href="{{ url_for('main.garden') }}">
                                 <img class="nav-icon" src="../static/gallery/icons/home.png">
                                 <h5 class="mb-0 px-2">Home</h5>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center nav-color mb-1" href="/addplant">
+                            <a class="nav-link d-flex align-items-center nav-color mb-1" href="{{ url_for('main.add_plant') }}">
                                 <img class="nav-icon" src="../static/gallery/icons/instagram-post.png">
-                                <h5 class="mb-0 px-2">New</h5>
+                                <h5 class="mb-0 px-2">Garden</h5>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center nav-color mb-1" href="/journals">
+                            <a class="nav-link d-flex align-items-center nav-color mb-1" href="{{ url_for('main.journals') }}">
                                 <img class="nav-icon" src="../static/gallery/icons/ribbon.png">
                                 <h5 class="mb-0 px-2">Journals</h5>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center nav-color mb-1" style=""href="/profile">
+                            <a class="nav-link d-flex align-items-center nav-color mb-1" style=""href="{{ url_for('main.profile') }}">
                                 <img style="border-radius: 50%; width:32px; filter: none; " src="{{ user.photoURL }}">
                                 <h5 style="margin-left:15px;" class="mb-0 px-2">Profile</h5>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center nav-color mb-1" href="/settings">
+                            <a class="nav-link d-flex align-items-center nav-color mb-1" href="{{ url_for('main.setting') }}">
                                 <img class="nav-icon" src="../static/gallery/icons/edit.png">
                                 <h5 class="mb-0 px-2">Settings</h5>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center nav-color mb-1" href="/logout">
+                            <a class="nav-link d-flex align-items-center nav-color mb-1" href="{{ url_for('main.logout') }}">
                                 <img class="nav-icon" src="../static/gallery/icons/logout.png">
                                 <h5 class="mb-0 px-2">Logout</h5>
                             </a>
