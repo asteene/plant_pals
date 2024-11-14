@@ -199,12 +199,14 @@ def create_journal():
         uid = session['uid']
 
         # Get plant_id from the form data
-        plant_id = request.form.get('plant_id')
+        plant_id = request.form.get('journal-plant-id')
+        journal_title = request.form.get('journal-title')
+        journal_desc = request.form.get('journal-description')
 
         # If plant_id is provided, create a new journal entry
         if plant_id:
             journals_ref = db.collection('journals')
-            query = journals_ref.where('uid', '==', uid).where('plant_id', '==', int(plant_id)).limit(1)
+            query = journals_ref.where('uid', '==', uid).where('plant_id', '==', plant_id).limit(1)
             existing_journal = query.stream()
 
             # Check if a journal with this plant_id already exists
@@ -217,14 +219,14 @@ def create_journal():
             # Create a new journal document with the plant_id
             new_journal_ref.set({
                 'uid': uid,               # User's UID
-                'name': '',               # Placeholder for journal name
-                'plant_id': int(plant_id), # Plant ID associated with this journal
+                'name': journal_title,               # Placeholder for journal name
+                'plant_id': plant_id, # Plant ID associated with this journal
                 'post_ids': [],            # Empty list for posts
-                'desc': 'Test Description until the form is implemented'
+                'desc': journal_desc
             })
 
         # Redirect back to the garden page after creating the journal
-        return redirect(url_for('main.garden'))
+        return redirect(url_for('main.journals'))
     else:
         return redirect(url_for('main.login'))
 
@@ -248,14 +250,28 @@ def journals():
             journal_data = journal.to_dict()  # Convert to a dictionary
             journal_data['id'] = journal.id    # Add the document ID to the journal data
             print(journal_data)
-            plant = trefle.get_species_by_id(int(journal_data['plant_id']))
+            plant = trefle.get_species_by_id(journal_data['plant_id'])
             print(plant)
             journal_data['image'] = plant['image']
             journal_data['plant_name'] = plant['common_name']
             journals_list.append(journal_data)  # Append to the list
 
+        garden_ref = db.collection('garden').document(uid)
+        garden_doc = garden_ref.get()
+
+        # Initialize plant_ids as empty if no garden exists
+        plant_ids = []
+        my_garden = []
+
+        if garden_doc.exists:
+            garden_data = garden_doc.to_dict()
+            plant_ids = garden_data.get('plant_ids', [])
+
+            for id in plant_ids:
+                my_garden.append(trefle.get_species_by_id(id))
+
         # Pass the journals list to the template
-        return render_template('journals.html', user=user_doc, journals=journals_list)
+        return render_template('journals.html', user=user_doc, journals=journals_list, my_garden=my_garden)
     else:
         return redirect(url_for('main.login'))
 
