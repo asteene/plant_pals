@@ -131,12 +131,28 @@ def profile():
     if 'uid' in session:
         user_ref = db.collection('users').document(session['uid'])
         user_doc = user_ref.get()
+
         if user_doc.exists:
             user_data = user_doc.to_dict()
             if 'dateJoined' in user_data:
                 user_data['dateJoined'] = user_data['dateJoined'].strftime('%B %d, %Y')
             #user_data['friends_list'] = get_friends(user_data)
-            return render_template('profile.html', user=user_data)
+            all_posts = []
+
+            if user_data['friends']: # fix
+                # Reference the posts collection
+                posts_ref = db.collection('posts')
+                print(f'FRIENDS: {user_data['friends']}')
+
+                for friend_id in user_data['friends']:
+                    query = posts_ref.where('uid', '==', friend_id)
+                    for doc in query.stream():
+                        post = doc.to_dict()
+                        post['id'] = doc.id  # Add the document ID to the dictionary
+                        all_posts.append(post)
+                
+            print(all_posts)
+            return render_template('profile.html', user=user_data, all_posts=all_posts)
         else:
             return redirect(url_for('main.login'))
     return redirect(url_for('main.login'))

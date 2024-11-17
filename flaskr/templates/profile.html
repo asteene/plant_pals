@@ -33,16 +33,18 @@
     </div>
 </div>
 <!--Fill in for now. Will Have more robust way of showing posts once Backend is done-->
-{% for x in range(3) %}
+{% if all_posts %}
+{% for post in all_posts %}
 <div class="d-flex justify-content-center mb-3 ">
-    {% for y in range(4) %}
     <div class="card mx-2" style="width: 15rem;">
         <a href="/journals">
             <img src="/static/gallery/testing1.png" style="border-radius: 3%; height:15rem;" class="card-img-top" alt="...">
         </a>
     </div>
-    {% endfor %}
 </div>
 {% endfor %}
+{% else %}
+<p>no posts to show.</p>
+{% endif %}
 
 {% endblock %}
