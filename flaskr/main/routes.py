@@ -142,7 +142,7 @@ def profile():
             if user_data['friends']: # fix
                 # Reference the posts collection
                 posts_ref = db.collection('posts')
-                print(f'FRIENDS: {user_data['friends']}')
+                print(f"FRIENDS: {user_data['friends']}")
 
                 for friend_id in user_data['friends']:
                     query = posts_ref.where('uid', '==', friend_id)
@@ -152,6 +152,7 @@ def profile():
                         all_posts.append(post)
                 
             print(all_posts)
+            print(user_data)
             return render_template('profile.html', user=user_data, all_posts=all_posts)
         else:
             return redirect(url_for('main.login'))
