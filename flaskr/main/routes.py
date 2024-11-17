@@ -205,16 +205,6 @@ def create_journal():
 
         # If plant_id is provided, create a new journal entry
         if plant_id:
-            journals_ref = db.collection('journals')
-            query = journals_ref.where('uid', '==', uid).where('plant_id', '==', plant_id).limit(1)
-            existing_journal = query.stream()
-
-            # Check if a journal with this plant_id already exists
-            journal_list = list(existing_journal)
-            if journal_list:  # If a journal already exists
-                existing_journal_id = journal_list[0].id  # Get the document ID of the existing journal
-                return redirect(url_for('main.journal', journal_id=existing_journal_id))
-
             new_journal_ref = db.collection('journals').document()  # Firestore will generate a new doc ID
             # Create a new journal document with the plant_id
             new_journal_ref.set({
