@@ -393,7 +393,15 @@ def delete_journal(journal_id):
         # Check if the journal document exists
         journal_doc = journal_ref.get()
         if journal_doc.exists:
-            # Delete the journal document
+            # Delete all associated posts
+            posts_ref = db.collection('posts')
+            posts_query = posts_ref.where('journal_id', '==', journal_id)
+
+            # Fetch and delete each associated post
+            posts = posts_query.stream()
+            for post in posts:
+                post.reference.delete()
+            
             journal_ref.delete()
             return redirect(url_for('main.journals'))
         else:
