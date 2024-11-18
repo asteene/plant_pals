@@ -3,46 +3,23 @@
 {% block title %}Profile - PlantPals{% endblock %}
 
 {% block right %}
-<div class="d-flex justify-content-between bordered-horizontal mb-4 mt-5">
-    <div class="d-flex flex-column">
-        <div class="d-flex align-items-center mb-2">
-            <img id="photo-preview" src="{{ user.photoURL }}" alt="Profile Photo" class="rounded-circle mt-2" width="50">
-            <div class="ml-2">
-                <h1 class="mb-0">{{ user.username }}</h1>
-                <h6 class="mb-0">{{ user.dateJoined }}</h6>
-            </div>
-        </div>
-        <div>
-            <p>Blah blah blah. This is my profile description.</p>
-            <p>Followed by <strong>RoseGirl</strong>, <strong>plant_wrld</strong>, <strong>Timmy</strong>, and 5 others</p>
-        </div>
-    </div>
-    <div class="d-flex justify-content-end align-items-center pr-5">
-        <div class="text-center">
-            <p class="mb-0">13444</p>
-            <p class="mb-0">Posts</p>
-        </div>
-        <div class="text-center mx-3">
-            <p class="mb-0">13444</p>
-            <p class="mb-0">Followers</p>
-        </div>
-        <div class="text-center ">
-            <p class="mb-0">13444</p>
-            <p class="mb-0">Following</p>
-        </div>
-    </div>
-</div>
+
 <!--Fill in for now. Will Have more robust way of showing posts once Backend is done-->
 {% if all_posts %}
+<div class="cards-wrapper" style="display: flex; flex-wrap: wrap; justify-content: center;">
 {% for post in all_posts %}
-<div class="d-flex justify-content-center mb-3 ">
-    <div class="card mx-2" style="width: 15rem;">
-        <a href="/journals">
-            <img src="/static/gallery/testing1.png" style="border-radius: 3%; height:15rem;" class="card-img-top" alt="...">
+<div class="d-flex flex-row  mb-3 ">
+    <div class="mx-2 card" style="width: 15rem; margin: 7px;">
+    
+        <a href="{{ url_for('main.journal', journal_id =post.journal_id)}}">
+            <img src="/static/gallery/testing1.png" style="border-radius: 3%; height:12rem;" class="card-img-top" alt="...">
+            <p>{{post.title }}</p>
+            <p>{{post.time_created}}</p>
         </a>
     </div>
 </div>
 {% endfor %}
+</div>
 {% else %}
 <p>no posts to show.</p>
 {% endif %}
