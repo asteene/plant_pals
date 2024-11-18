@@ -126,7 +126,7 @@ def logout():
     return redirect(url_for('main.login'))  # Fallback for GET requests
 
 
-@main.route('/profile')
+@main.route('/explore')
 def profile():
     if 'uid' in session:
         user_ref = db.collection('users').document(session['uid'])
@@ -149,6 +149,9 @@ def profile():
                     for doc in query.stream():
                         post = doc.to_dict()
                         post['id'] = doc.id  # Add the document ID to the dictionary
+                        author_ref = db.collection('users').document(post['uid'])
+                        author_doc = author_ref.get()
+                        post['author'] = author_doc.to_dict()
                         all_posts.append(post)
                 
             print(all_posts)
