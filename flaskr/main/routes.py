@@ -143,14 +143,16 @@ def profile():
                 # Reference the posts collection
                 posts_ref = db.collection('posts')
                 print(f"FRIENDS: {user_data['friends']}")
-
                 for friend_id in user_data['friends']:
                     query = posts_ref.where('uid', '==', friend_id)
                     for doc in query.stream():
+
                         post = doc.to_dict()
                         post['id'] = doc.id  # Add the document ID to the dictionary
                         author_ref = db.collection('users').document(post['uid'])
                         author_doc = author_ref.get()
+                        post['time_created'] = post['time_created'].strftime('%b %Y')
+                        print(post['time_created'])
                         post['author'] = author_doc.to_dict()
                         all_posts.append(post)
                 
