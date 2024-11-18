@@ -22,6 +22,16 @@
                 </div>
             </form>
         </div>
+        <div class="dropleft">
+            <a href="#" class="dropdown-toggle d-flex" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="border-right:none;">
+              <img style="border-radius: 50%; width:3rem; filter: none;" src="{{ user.photoURL }}" alt="{{ user.username }}">
+            </a>
+            <ul class="dropdown-menu" >
+              <li><a class="nav-color" href="{{ url_for('main.journals') }}">{{ user.username }}</a></li>
+              <li><a class="nav-color" href="{{ url_for('main.setting') }}">Settings</a></li>
+              <li><a class="nav-color" href="{{ url_for('main.logout') }}">Logout</a></li>
+            </ul>
+          </div>
         
     </nav>
     
@@ -50,9 +60,9 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center nav-color mb-1" style=""href="{{ url_for('main.profile') }}">
-                                <img style="border-radius: 50%; width:32px; filter: none; " src="{{ user.photoURL }}">
-                                <h5 style="margin-left:15px;" class="mb-0 px-2">Profile</h5>
+                            <a class="nav-link d-flex align-items-center nav-color mb-1" href="{{ url_for('main.profile') }}">
+                                <img class="nav-icon" src="../static/gallery/icons/explore.png">
+                                <h5 class="mb-0 px-2">Explore</h5>
                             </a>
                         </li>
                         <li class="nav-item">
