@@ -41,7 +41,7 @@
                 <h5 class="card-title" style="margin-bottom: 0;"> {{ journal['name'] }}</h5>
             </a>
             <form action="{{ url_for('main.delete_journal', journal_id=journal.id) }}" method="POST">
-                <button class="btn-fix pr-1"type="submit"> <img style="height:.9rem; opacity:50%; box-shadow:none;" src="../static/gallery/icons/X.png"></button>
+                <button class="btn-fix pr-1"type="submit">  <span aria-hidden="true">&times;</span></button>
             </form>
             </div>
             
