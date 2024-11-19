@@ -21,12 +21,14 @@
                     <div class="card-body section-profile mt-2 mb-3">
                         <div class="d-flex justify-content-between">
                             <h5 class="card-title truncated-title" style="margin-bottom: 0.1rem; text-align: left;">{{ post['title'] }}</h5>
-                        
+                            
+                            {% if user.UID == post.uid %}
                             <form action="{{ url_for('main.delete_post', post_id=post['id']) }}" method="post" style="display: inline;">
                                 <button type="submit" class="btn-fix" onclick="return confirm('Are you sure you want to delete this post?');">
                                     <img style="height:1.5rem; opacity:50%; box-shadow:none;" src="../static/gallery/icons/X.png">
                                 </button>
                             </form>
+                            {% endif %}
                         </div>
                        <small>{{ post['time_readable'] }}</small>
                         <p class="card-text">{{ post['text'] }}</p>
