@@ -81,7 +81,7 @@ def garden():
         uid = session['uid']
         user_ref = db.collection('users').document(session['uid'])
         user_doc = user_ref.get()
-        user_doc = user_doc.to_dict()
+        user_data = user_doc.to_dict()
 
         # Get the user's garden document from the Firestore database
         garden_ref = db.collection('garden').document(uid)
@@ -98,8 +98,45 @@ def garden():
             for id in plant_ids:
                 my_garden.append(trefle.get_species_by_id(id))
 
+        # Get the current user's friends list
+            friends_list = user_data.get('friends', [])
+
+            # Get all users, excluding the current user and already friends
+            users_ref = db.collection('users')
+            users_query = users_ref.stream()
+
+            # Build a list of users who are not the current user or already friends
+            potential_friends = []
+            for doc in users_query:
+                user = doc.to_dict()
+                user_id = doc.id
+
+                # Retrieve the friend requests if they exist
+                friend_reqs = user.get('friend_requests', [])
+
+                friend_request_details = []
+
+                 # Fetch profile details for each friend request
+                for requester_id in friend_reqs:
+                    requester_ref = db.collection('users').document(requester_id)
+                    requester_doc = requester_ref.get()
+                    if requester_doc.exists:
+                        requester_data = requester_doc.to_dict()
+                        friend_request_details.append({
+                            'id': requester_id,
+                            'profile_image': requester_data.get('profile_image', ''),  # Default to empty if no image
+                            'username': requester_data.get('username', 'Unknown')      # Default if username missing
+                        })
+
+                print(friend_request_details)
+                
+                # Skip if the user is the current user or already a friend
+                if user_id != uid and user_id not in friends_list:
+                    user['id'] = user_id  # Store the document ID as 'id'
+                    potential_friends.append(user)
+
         # Pass the plant_ids to the template for rendering
-        return render_template('index.html', user=user_doc, my_garden=my_garden)
+        return render_template('index.html', user=user_data, my_garden=my_garden, all_users=potential_friends, friend_reqs=friend_request_details)
     else:
         return redirect(url_for('main.login'))
 

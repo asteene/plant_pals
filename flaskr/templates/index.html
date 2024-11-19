@@ -174,18 +174,15 @@
         </div>
         
 
-        {% for x in range(4) %}
+        {% for user in all_users %}
             <div class="carousel-item {% if loop.index == 1 %}active{% endif %}">
                 <div class="cards-wrapper" style="display: flex; flex-wrap: wrap; justify-content: center;">
-                    {% for j in range(5) %}
                     <div class="card d-flex justify-content-center align-items-center" style="width: 12rem; margin: 7px;">
-                        <img class="card-img-top" src="../static/gallery/profile.jpg" style="border-radius: 50%; height: 10rem; width: 10rem;" alt="">
+                        <img class="card-img-top" src="{{ user.photoURL }}" style="border-radius: 50%; height: 10rem; width: 10rem;" alt="">
                         <div class="mt-2 text-center">
-                            <h5 class="card-title" style="margin-bottom: 0;">Username</h5>
-                            <p class="card-text" style="opacity: 70%; margin-bottom: .5rem;"><small>Profile desc?</small></p>
+                            <h5 class="card-title" style="margin-bottom: 0;">{{ user.username }}</h5>
                         </div>
-                    </div>                    
-                    {% endfor %}
+                    </div>        
                 </div>
             </div>
         {% endfor %}
