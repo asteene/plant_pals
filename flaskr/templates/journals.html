@@ -41,11 +41,12 @@
                 <h5 class="card-title" style="margin-bottom: 0; text-align: start;"> {{ journal['name'] }}</h5>
                 <small>#{{ journal['sun'] }} • #{{ journal['sow'] | truncate(23)}} </small>
             </a>
+            {% if user.UID == journal.uid %}
             <form action="{{ url_for('main.delete_journal', journal_id=journal.id) }}" method="POST">
                 <button class="btn-fix pr-1"type="submit">  <span aria-hidden="true">&times;</span></button>
-            </form>
+            </form> 
             </div>
-            
+            {% endif %}
                 
            </div>
     {% endfor %}
