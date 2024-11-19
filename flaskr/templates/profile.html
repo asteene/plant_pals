@@ -23,7 +23,7 @@
                     </div>
                   
                    
-                    <p class="card-text">{{ post['text'] }}</p>
+                    <p class="card-text">{{ post['text']  | truncate(400) }}</p>
                     
                     {% if post['image_url'] %}
                         <img src="{{ post['image_url'] }}" alt="Post Image" style="filter: none; box-shadow: none;" class="img-fluid mt-2">

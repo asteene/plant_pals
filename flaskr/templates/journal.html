@@ -9,8 +9,51 @@
 <div class="container">
     <div class="gallery">
 
-        <div class="text-center">
-            <h2 style="display: inline;">{{ user.username|capitalize }}'s {{ plant['common_name'] }}</h2>
+        <div>
+            <div class="d-flex justify-content-between">
+                <h2 style="display: inline;">{{ user.username|capitalize }}'s {{ plant['common_name'] }}</h2>
+                {% if user.UID == journal.uid %}
+                    <button data-toggle="modal" data-target="#new-post" class="btn">New Post</button>
+                    <div id="new-post" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel">
+                        <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            
+                            <!-- Modal Body with Image -->
+                            <div class="modal-body">
+                                <form  id="create-post-form" class="pt-4 mb-4 ml-3" style="width:95%">
+                                    <div class="form-group">
+                                    <label for="title">Post Title</label>
+                                    <input type="text" class="form-control" id="title" name="title" placeholder="Enter post title" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                    <label for="content">Content</label>
+                                    <textarea class="form-control" id="content" name="content" rows="4" placeholder="Enter post content" required></textarea>
+                                    </div>
+                        
+                                    <!-- New image upload input -->
+                                    <div class="form-group">
+                                        <label for="image">Upload Image</label>
+                                        <!-- <input type="file" class="form-control-file" id="image" name="image" accept="image/*"> -->
+                                        <input type="file" id="photo" class="form-control-file">
+                                    </div>
+                        
+                                    <input type="hidden" id="journal_id" name="journal_id" value="{{ journal_id }}">
+                                    
+                                    <button type="submit" class="btn btn-primary justify-content-end">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                        </div>
+                    </div>   
+                {% endif %}
+            </div>
+           
             <p>{{ journal['desc'] }}</p>
         </div>
         <div class="d-flex justify-content-center">
@@ -33,7 +76,25 @@
                        <small>{{ post['time_readable'] }}</small>
                         <p class="card-text">{{ post['text'] }}</p>
                         {% if post['image_url'] %}
-                            <img src="{{ post['image_url'] }}" alt="Post Image" class="img-fluid mt-2">
+                            <img data-toggle="modal" data-target="#image" src="{{ post['image_url'] }}" alt="Post Image" style="box-shadow:none;" class="img-fluid mt-2">
+
+                            <div id="image" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel">
+                                <div class="modal-dialog modal-lg" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    
+                                    <!-- Modal Body with Image -->
+                                    <div class="modal-body">
+                                      <img style="height:auto; box-shadow:none;"src="{{ post['image_url'] }}" alt="Post Image">
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                             
                         {% endif %}
                         <!-- <div class="truncated-text" style="display: none;"></div> -->
                     </div>
@@ -46,35 +107,23 @@
         {% endif %}
         </div>
 <!-- action="{{ url_for('main.create_post') }}" -->
-        <form  id="create-post-form" class="pt-4 pl-5 mb-4" style="width:95%">
-            <div class="form-group">
-              <label for="title">Post Title</label>
-              <input type="text" class="form-control" id="title" name="title" placeholder="Enter post title" required>
-            </div>
-            
-            <div class="form-group">
-              <label for="content">Content</label>
-              <textarea class="form-control" id="content" name="content" rows="4" placeholder="Enter post content" required></textarea>
-            </div>
 
-            <!-- New image upload input -->
-            <div class="form-group">
-                <label for="image">Upload Image</label>
-                <!-- <input type="file" class="form-control-file" id="image" name="image" accept="image/*"> -->
-                <input type="file" id="photo" class="form-control-file">
-            </div>
-
-            <input type="hidden" id="journal_id" name="journal_id" value="{{ journal_id }}">
-            
-            <button type="submit" class="btn btn-primary justify-content-end">Submit</button>
-        </form>
           
     </div>
 </div>
 
+
 <script type="module" src="../static/components/journal.js"></script>
 
+
 {% endblock %}
+<script>
+    // jQuery code to trigger the modal when the button is clicked
+    $('#add-plant-button').on('click', function() {
+        $('#searchModal').modal('show');
+    });
+</script>
+
 {% endblock %}
 
 
