@@ -21,7 +21,7 @@ def home():
     #     return redirect(url_for('main.garden'))
     # return redirect(url_for('main.about'))
     if 'uid' in session:
-        return redirect(url_for('main.garden'))
+        return redirect(url_for('main.garden')) 
     return redirect(url_for('main.login'))
 
 # @main.route('/about')
