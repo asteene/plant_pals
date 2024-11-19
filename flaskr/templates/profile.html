@@ -13,15 +13,14 @@
                 <br>
                 <div class="card-body section-profile  ">
 
-                    <div class="d-flex mt-2">
-                        <img  style="border-radius: 50%; height: 4rem; width:4rem; filter: none; box-shadow: none;" src="{{post.author.photoURL}}">
-        
+                    <div class="d-flex mt-2 align-items-center">
+                        <img style="border-radius: 50%; height: 4rem; width: 4rem; filter: none; box-shadow: none;" src="{{post.author.photoURL}}">
+                      
                         <div class="ml-2">
                             <h5 class="card-title truncated-title" style="margin-bottom: 0.1rem; text-align: left;">{{ post['title'] }}</h5>
-                            <p><small>{{post.time_created}} • {{post.author.username}}</small></p>
+                            <p style="margin-bottom: 0;"><small>{{post.time_created}} • {{post.author.username}}</small></p>
                         </div>
                     </div>
-                  
                    
                     <p class="card-text">{{ post['text']  | truncate(400) }}</p>
                     
