@@ -698,7 +698,7 @@ def get_friends(user_data):
             friend_info = {
                 "id": friend_doc.id,
                 "username": friend_data.get("username"),
-                "profile_image": friend_data.get("profile_image")
+                "photoURL": friend_data.get("photoURL")
             }
             friends_info.append(friend_info)
 
