@@ -266,6 +266,8 @@ def journals():
             print(plant)
             journal_data['image'] = plant['image']
             journal_data['plant_name'] = plant['common_name']
+            journal_data['sun'] = plant['maintenence']['sun_requirements']
+            journal_data['sow'] = plant['maintenence']['sowing_method']
             journals_list.append(journal_data)  # Append to the list
 
         garden_ref = db.collection('garden').document(uid)
@@ -308,7 +310,6 @@ def journal(journal_id): # beware that when you create route to journal, that th
             plant_id = journal_data.get('plant_id', -1)  # Assuming -1 means no plant associated
 
             plant = trefle.get_species_by_id(plant_id)
-
             # Fetch the posts from the journal, assuming they are stored in an array under 'post_ids'
             post_ids = journal_data.get('post_ids', [])
             print(post_ids)
