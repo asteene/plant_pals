@@ -3,46 +3,42 @@
 {% block title %}Profile - PlantPals{% endblock %}
 
 {% block right %}
-<div class="d-flex justify-content-between bordered-horizontal mb-4 mt-5">
-    <div class="d-flex flex-column">
-        <div class="d-flex align-items-center mb-2">
-            <img id="photo-preview" src="{{ user.photoURL }}" alt="Profile Photo" class="rounded-circle mt-2" width="50">
-            <div class="ml-2">
-                <h1 class="mb-0">{{ user.username }}</h1>
-                <h6 class="mb-0">{{ user.dateJoined }}</h6>
+
+<div class="gallery mt-5">
+    {% if all_posts  != None %}
+    <div class="card-container w-100" style=" gap: 1rem;">
+        {% for post in all_posts %}
+        <a href="{{ url_for('main.journal', journal_id =post.journal_id)}}">
+            <div class=" bordered-horizontal">
+                <br>
+                <div class="card-body section-profile  ">
+
+                    <div class="d-flex mt-2 align-items-center">
+                        <img style="border-radius: 50%; height: 4rem; width: 4rem; filter: none; box-shadow: none;" src="{{post.author.photoURL}}">
+                      
+                        <div class="ml-2">
+                            <h5 class="card-title truncated-title" style="margin-bottom: 0.1rem; text-align: left;">{{ post['title'] }}</h5>
+                            <p style="margin-bottom: 0;"><small>{{post.time_created}} • {{post.author.username}}</small></p>
+                        </div>
+                    </div>
+                   
+                    <p class="card-text">{{ post['text']  | truncate(400) }}</p>
+                    
+                    {% if post['image_url'] %}
+                        <img src="{{ post['image_url'] }}" alt="Post Image" style="filter: none; box-shadow: none;" class="img-fluid mt-2">
+                    {% endif %}
+                    <!-- <div class="truncated-text" style="display: none;"></div> -->
+                </div>
+                <br>
             </div>
-        </div>
-        <div>
-            <p>Blah blah blah. This is my profile description.</p>
-            <p>Followed by <strong>RoseGirl</strong>, <strong>plant_wrld</strong>, <strong>Timmy</strong>, and 5 others</p>
-        </div>
-    </div>
-    <div class="d-flex justify-content-end align-items-center pr-5">
-        <div class="text-center">
-            <p class="mb-0">13444</p>
-            <p class="mb-0">Posts</p>
-        </div>
-        <div class="text-center mx-3">
-            <p class="mb-0">13444</p>
-            <p class="mb-0">Followers</p>
-        </div>
-        <div class="text-center ">
-            <p class="mb-0">13444</p>
-            <p class="mb-0">Following</p>
-        </div>
-    </div>
-</div>
-<!--Fill in for now. Will Have more robust way of showing posts once Backend is done-->
-{% for x in range(3) %}
-<div class="d-flex justify-content-center mb-3 ">
-    {% for y in range(4) %}
-    <div class="card mx-2" style="width: 15rem;">
-        <a href="/journals">
-            <img src="/static/gallery/testing1.png" style="border-radius: 3%; height:15rem;" class="card-img-top" alt="...">
         </a>
+        {% endfor %}
     </div>
-    {% endfor %}
-</div>
-{% endfor %}
+    {% else %}
+        <h2<a href="{{ url_for('main.garden') }}">Your friends haven't posted... Make new ones?</a>></h2>
+    {% endif %}
+    </div>
+
+
 
 {% endblock %}

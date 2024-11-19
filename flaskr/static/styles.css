@@ -434,3 +434,6 @@ a:hover {
 
 /*Plant stuff*/
 
+.dropleft .dropdown-toggle::before {
+  border-right: none;
+}

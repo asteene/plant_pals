@@ -21,7 +21,7 @@ def home():
     #     return redirect(url_for('main.garden'))
     # return redirect(url_for('main.about'))
     if 'uid' in session:
-        return redirect(url_for('main.garden'))
+        return redirect(url_for('main.garden')) 
     return redirect(url_for('main.login'))
 
 # @main.route('/about')
@@ -81,7 +81,7 @@ def garden():
         uid = session['uid']
         user_ref = db.collection('users').document(session['uid'])
         user_doc = user_ref.get()
-        user_doc = user_doc.to_dict()
+        user_data = user_doc.to_dict()
 
         # Get the user's garden document from the Firestore database
         garden_ref = db.collection('garden').document(uid)
@@ -98,8 +98,45 @@ def garden():
             for id in plant_ids:
                 my_garden.append(trefle.get_species_by_id(id))
 
+        # Get the current user's friends list
+            friends_list = user_data.get('friends', [])
+
+            # Get all users, excluding the current user and already friends
+            users_ref = db.collection('users')
+            users_query = users_ref.stream()
+
+            # Build a list of users who are not the current user or already friends
+            potential_friends = []
+            for doc in users_query:
+                user = doc.to_dict()
+                user_id = doc.id
+
+                # Retrieve the friend requests if they exist
+                friend_reqs = user.get('friend_requests', [])
+
+                friend_request_details = []
+
+                 # Fetch profile details for each friend request
+                for requester_id in friend_reqs:
+                    requester_ref = db.collection('users').document(requester_id)
+                    requester_doc = requester_ref.get()
+                    if requester_doc.exists:
+                        requester_data = requester_doc.to_dict()
+                        friend_request_details.append({
+                            'id': requester_id,
+                            'profile_image': requester_data.get('profile_image', ''),  # Default to empty if no image
+                            'username': requester_data.get('username', 'Unknown')      # Default if username missing
+                        })
+
+                print(friend_request_details)
+                
+                # Skip if the user is the current user or already a friend
+                if user_id != uid and user_id not in friends_list:
+                    user['id'] = user_id  # Store the document ID as 'id'
+                    potential_friends.append(user)
+
         # Pass the plant_ids to the template for rendering
-        return render_template('index.html', user=user_doc, my_garden=my_garden)
+        return render_template('index.html', user=user_data, my_garden=my_garden, all_users=potential_friends, friend_reqs=friend_request_details)
     else:
         return redirect(url_for('main.login'))
 
@@ -126,17 +163,39 @@ def logout():
     return redirect(url_for('main.login'))  # Fallback for GET requests
 
 
-@main.route('/profile')
+@main.route('/explore')
 def profile():
     if 'uid' in session:
         user_ref = db.collection('users').document(session['uid'])
         user_doc = user_ref.get()
+
         if user_doc.exists:
             user_data = user_doc.to_dict()
             if 'dateJoined' in user_data:
                 user_data['dateJoined'] = user_data['dateJoined'].strftime('%B %d, %Y')
             #user_data['friends_list'] = get_friends(user_data)
-            return render_template('profile.html', user=user_data)
+            all_posts = []
+
+            if user_data['friends']: # fix
+                # Reference the posts collection
+                posts_ref = db.collection('posts')
+                print(f"FRIENDS: {user_data['friends']}")
+                for friend_id in user_data['friends']:
+                    query = posts_ref.where('uid', '==', friend_id)
+                    for doc in query.stream():
+
+                        post = doc.to_dict()
+                        post['id'] = doc.id  # Add the document ID to the dictionary
+                        author_ref = db.collection('users').document(post['uid'])
+                        author_doc = author_ref.get()
+                        post['time_created'] = post['time_created'].strftime('%b %Y')
+                        print(post['time_created'])
+                        post['author'] = author_doc.to_dict()
+                        all_posts.append(post)
+                
+            print(all_posts)
+            print(user_data)
+            return render_template('profile.html', user=user_data, all_posts=all_posts)
         else:
             return redirect(url_for('main.login'))
     return redirect(url_for('main.login'))
@@ -149,16 +208,6 @@ def friend(friend_id):
         # return render_template('profile.html', user=user)
     else:
         return redirect(url_for('main.login'))
-    
-''' 
-@main.route('/new')
-def create_post(): # TODO change to add_plant?
-    if 'uid' in session:
-        user = firebase_auth.get_user(session['uid'])
-        return render_template('new.html', user=user) # change to addPlant.html if needed
-    else:
-        return redirect(url_for('main.login'))
-'''
 
 @main.route('/create_post', methods=['POST','GET'])
 def create_post():
@@ -209,32 +258,24 @@ def create_journal():
         uid = session['uid']
 
         # Get plant_id from the form data
-        plant_id = request.form.get('plant_id')
+        plant_id = request.form.get('journal-plant-id')
+        journal_title = request.form.get('journal-title')
+        journal_desc = request.form.get('journal-description')
 
         # If plant_id is provided, create a new journal entry
         if plant_id:
-            journals_ref = db.collection('journals')
-            query = journals_ref.where('uid', '==', uid).where('plant_id', '==', int(plant_id)).limit(1)
-            existing_journal = query.stream()
-
-            # Check if a journal with this plant_id already exists
-            journal_list = list(existing_journal)
-            if journal_list:  # If a journal already exists
-                existing_journal_id = journal_list[0].id  # Get the document ID of the existing journal
-                return redirect(url_for('main.journal', journal_id=existing_journal_id))
-
             new_journal_ref = db.collection('journals').document()  # Firestore will generate a new doc ID
             # Create a new journal document with the plant_id
             new_journal_ref.set({
                 'uid': uid,               # User's UID
-                'name': '',               # Placeholder for journal name
-                'plant_id': int(plant_id), # Plant ID associated with this journal
+                'name': journal_title,               # Placeholder for journal name
+                'plant_id': plant_id, # Plant ID associated with this journal
                 'post_ids': [],            # Empty list for posts
-                'desc': 'Test Description until the form is implemented'
+                'desc': journal_desc
             })
 
         # Redirect back to the garden page after creating the journal
-        return redirect(url_for('main.garden'))
+        return redirect(url_for('main.journals'))
     else:
         return redirect(url_for('main.login'))
 
@@ -258,14 +299,30 @@ def journals():
             journal_data = journal.to_dict()  # Convert to a dictionary
             journal_data['id'] = journal.id    # Add the document ID to the journal data
             print(journal_data)
-            plant = trefle.get_species_by_id(int(journal_data['plant_id']))
+            plant = trefle.get_species_by_id(journal_data['plant_id'])
             print(plant)
             journal_data['image'] = plant['image']
             journal_data['plant_name'] = plant['common_name']
+            journal_data['sun'] = plant['maintenence']['sun_requirements']
+            journal_data['sow'] = plant['maintenence']['sowing_method']
             journals_list.append(journal_data)  # Append to the list
 
+        garden_ref = db.collection('garden').document(uid)
+        garden_doc = garden_ref.get()
+
+        # Initialize plant_ids as empty if no garden exists
+        plant_ids = []
+        my_garden = []
+
+        if garden_doc.exists:
+            garden_data = garden_doc.to_dict()
+            plant_ids = garden_data.get('plant_ids', [])
+
+            for id in plant_ids:
+                my_garden.append(trefle.get_species_by_id(id))
+
         # Pass the journals list to the template
-        return render_template('journals.html', user=user_doc, journals=journals_list)
+        return render_template('journals.html', user=user_doc, journals=journals_list, my_garden=my_garden)
     else:
         return redirect(url_for('main.login'))
 
@@ -290,7 +347,6 @@ def journal(journal_id): # beware that when you create route to journal, that th
             plant_id = journal_data.get('plant_id', -1)  # Assuming -1 means no plant associated
 
             plant = trefle.get_species_by_id(plant_id)
-
             # Fetch the posts from the journal, assuming they are stored in an array under 'post_ids'
             post_ids = journal_data.get('post_ids', [])
             print(post_ids)
@@ -377,7 +433,15 @@ def delete_journal(journal_id):
         # Check if the journal document exists
         journal_doc = journal_ref.get()
         if journal_doc.exists:
-            # Delete the journal document
+            # Delete all associated posts
+            posts_ref = db.collection('posts')
+            posts_query = posts_ref.where('journal_id', '==', journal_id)
+
+            # Fetch and delete each associated post
+            posts = posts_query.stream()
+            for post in posts:
+                post.reference.delete()
+            
             journal_ref.delete()
             return redirect(url_for('main.journals'))
         else:
@@ -399,11 +463,11 @@ def add_plant():
         # Get user's uid from session
         uid = session['uid']
 
+        #uid = session['uid']
         user_ref = db.collection('users').document(session['uid'])
-        user_data = user_ref.get()
-        user_data = user_data.to_dict()
+        user_doc = user_ref.get()
+        user_doc = user_doc.to_dict()
 
-        print(user_data)
 
         # Check if the garden document exists for the user
         garden_ref = db.collection('garden').document(uid)
@@ -433,9 +497,7 @@ def add_plant():
 
             return redirect(url_for('main.garden'))
 
-        
-
-        return render_template('addPlant.html', user=user_data, default_plants=default_plants)
+        return render_template('addPlant.html', user=user_doc, default_plants=default_plants)
     else:
         return redirect(url_for('main.login'))
 
@@ -676,7 +738,7 @@ def get_friends(user_data):
             friend_info = {
                 "id": friend_doc.id,
                 "username": friend_data.get("username"),
-                "profile_image": friend_data.get("profile_image")
+                "photoURL": friend_data.get("photoURL")
             }
             friends_info.append(friend_info)
 

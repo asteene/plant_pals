@@ -13,6 +13,9 @@
         <div id="plant-gallery" class="row">
             <div class="cards-wrapper d-flex flex-wrap justify-content-start">
                 {% for plant in default_plants %}
+                <form action="{{ url_for('main.add_plant') }}" method="post">
+                    <input type="hidden" name="plant_id" value="{{ plant['id'] }}">
+                    <button class="btn-fix" type="submit">
                 <div class="card pb-3" style="width: 15rem;" data-id="{{ plant['id'] }}" data-name="{{ plant['common_name'] }}" data-description="{{ plant['scientific_name'] }}">
                     <img style="border-radius: 3%; height: 12rem;" class="card-img-top" 
                     src="{{ plant['image'] }}" 
@@ -28,6 +31,9 @@
                         </p>
                     </div>
                 </div>
+                </button>
+                </form>
+                
                 {% endfor %}
             </div>
         </div>
@@ -49,15 +55,78 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <input type="text" id="search-bar" class="form-control" placeholder="Search for plants...">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Add Plant</button>
-                </div>
+                <form id="search-form" onsubmit="searchPlants(event)">
+                    <div class="modal-body">
+                        <input type="text" id="search-bar" class="form-control" placeholder="Search for plants...">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary">Add Plant</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+    <div id="plant-gallery-search-results" class="row">
+        
+    </div>
+
+<script>
+
+async function searchPlants(event) {
+    event.preventDefault();
+    const query = document.getElementById('search-bar').value.toLowerCase();
+    const search_results = document.getElementById('plant-gallery-search-results');
+
+    console.log(search_results);
+
+    
+    search_results.innerHTML = '';
+
+    try {
+        const res = await fetch(`https://openfarm.cc/api/v1/crops/${query}`);
+        console.log(`https://openfarm.cc/api/v1/crops/${query}`);
+        const data = await res.json();
+
+        let cleanedData = {};
+
+        console.log(cleanedData);
+
+        if (data) {
+            cleanedData.id = data.data.id;
+            cleanedData.common_name = data.data.attributes.name;
+            cleanedData.description = data.data.attributes.description;
+            cleanedData.maintenance = {
+                sun_requirements: data.data.attributes.sun_requirements,
+                sowing_method: data.data.attributes.sowing_method
+            };
+            cleanedData.image = data.data.attributes.main_image_path;
+
+            console.log(cleanedData)
+
+            search_results.innerHTML = `<div class="card pb-3" style="width: 15rem;" data-toggle="modal" data-target="#plantModal" data-id="${ cleanedData['id'] }" data-name="${cleanedData['common_name'] }" data-description="${cleanedData['scientific_name']}">
+                    <img style="border-radius: 3%; height:12rem;" class="card-img-top" src="${cleanedData['image'] }" alt="Card image cap">
+                    <div class="mt-2">
+                        <h5 class="card-title" style="margin-bottom: 0;  text-align: left;">${ cleanedData['common_name'] }</h5>
+                        <p class="card-text" style="opacity: 70%; margin-bottom: .5rem;  text-align: left;"><small>${ cleanedData['description'] }</small></p>
+                    </div>
+                </div>
+                <form action="{{ url_for('main.add_plant') }}" method="post">
+                    <input type="hidden" name="plant_id" value="${ cleanedData['id'] }">
+                    <button type="submit" class="btn btn-primary" style="background-color:var(--darkGreen);">Add to Garden</button>
+                </form>
+                `
+        } else {
+            search_results.innerHTML = `<p>${query} not found...</p>`;
+        }
+
+        
+    } catch (error) {
+            console.error('Error fetching plant data:', error);
+            search_results.innerHTML = `<p>${query} not found...</p>`;
+    }
+}
+
+</script>
 
    
     

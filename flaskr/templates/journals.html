@@ -2,26 +2,58 @@
 {% block title %}Journals{% endblock %}
 {% block body %}  
 {% block right %}
-<h3 class="title mx-1 mb-3 mt-5">Spring back into your Journals</h3>
+<div class="d-flex justify-content-between bordered-horizontal mb-4 mt-5">
+    <div class="d-flex flex-column">
+        <div class="d-flex align-items-center mb-2">
+            <img id="photo-preview" src="{{ user.photoURL }}" alt="Profile Photo" class="rounded-circle mt-2" width="50">
+            <div class="ml-2">
+                <h1 class="mb-0">{{ user.username }}</h1>
+                <h6 class="mb-0">{{ user.dateJoined }}</h6>
+            </div>
+        </div>
+        <div>
+            <p>Blah blah blah. This is my profile description.</p>
+            <p>Followed by <strong>RoseGirl</strong>, <strong>plant_wrld</strong>, <strong>Timmy</strong>, and 5 others</p>
+        </div>
+    </div>
+    <div class="d-flex justify-content-end align-items-center pr-5">
+        <div class="text-center">
+            <p class="mb-0">{{ all_posts|length }}</p>
+            <p class="mb-0">Posts</p>
+        </div>
+        <div class="text-center mx-3">
+            <p class="mb-0">13444</p>
+            <p class="mb-0">Followers</p>
+        </div>
+        <div class="text-center ">
+            <p class="mb-0">13444</p>
+            <p class="mb-0">Following</p>
+        </div>
+    </div>
+</div>
+
 <div class="card-container d-flex flex-wrap">
     {% for journal in journals %}
         <div class="card" style="width: 15rem;"> 
             <a href="{{ url_for('main.journal', journal_id=journal['id']) }}">
             <img class="card-img-top" src="{{ journal['image'] }}" style="border-radius: 3%; height:12rem;" alt="Add a new journal">
             <div class="card-body d-flex justify-content-between pr-0 pl-0">
-                <h5 class="card-title" style="margin-bottom: 0;">{{ user.username|capitalize }}'s {{ journal['plant_name'] }}</h5>
+                <h5 class="card-title" style="margin-bottom: 0; text-align: start;"> {{ journal['name'] }}</h5>
+                <small>#{{ journal['sun'] }} • #{{ journal['sow'] | truncate(23)}} </small>
             </a>
+            {% if user.UID == journal.uid %}
             <form action="{{ url_for('main.delete_journal', journal_id=journal.id) }}" method="POST">
-                <button class="btn-fix pr-1"type="submit"> <img style="height:.9rem; opacity:50%; box-shadow:none;" src="../static/gallery/icons/X.png"></button>
-            </form>
+                <button class="btn-fix pr-1"type="submit">  <span aria-hidden="true">&times;</span></button>
+            </form> 
             </div>
-            
+            {% endif %}
                 
            </div>
     {% endfor %}
-    <button  data-toggle="modal" data-target="#plantModal" class="btn btn-primary" style="background-color:var(--darkGreen);">Add a new Journal</button>
-        
+  
 </div>
+<button  data-toggle="modal" data-target="#plantModal" class="btn btn-primary" style="background-color:var(--darkGreen);">Add a new Journal</button>
+        
 
 
 
@@ -35,27 +67,27 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="plantForm" method="POST" action="{{ url_for('main.add_plant') }}">
-                    <input type="hidden" name="plant_id" id="modal-plant-id" value="">
+                <form id="plantForm" method="POST" action="{{ url_for('main.create_journal') }}">
+                    
                     <div class="form-group">
-                        <input type="text" placeholder="Insert title" class="form-control" id="plant-title" name="title" required>
+                        <input type="text" placeholder="Insert title" class="form-control" name="journal-title" name="title" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="plant-title">Select Plant</label>
-                        <select class="form-control">
-                            <option>Plant 1</option>
-                            <option>Plant 2</option>
-                            <option>You get the point Alec</option>
+                        <label for="journal-plant-id">Select Plant</label>
+                        <select name='journal-plant-id' class="form-control">
+                            {% for plant in my_garden %}
+                                <option value="{{ plant['id'] }}">{{ plant['common_name'] }}</option>
+                            {% endfor %}
                           </select>
                     </div>
                
                     <div class="form-group">
                         
-                        <textarea class="form-control" placeholder="Insert description..." id="plant-description" name="description" rows="3" required></textarea>
+                        <textarea class="form-control" placeholder="Insert description..." name="journal-description" name="description" rows="3" required></textarea>
                     </div>
 
-                     <!-- Collapsible Content -->
+                     <!-- Collapsible Content --> <!--
                      <div class="form-check mb-3">
                         <input class="form-check-input" type="checkbox" id="addPlantCheckbox" data-toggle="collapse" data-target="#collapsibleContent">
                         <label class="form-check-label" for="addPlantCheckbox">
@@ -73,12 +105,13 @@
                             <input class="form-control" type="file" id="formFile">
                           </div>
                     </div>
-                   
+                -->
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" >Create Journal</button>
+                    </div>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="submitPlantForm()">Create Journal</button>
-            </div>
+           
         </div>
     </div>
 </div>

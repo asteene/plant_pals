@@ -12,16 +12,26 @@
     <nav class="navbar bordered-horizontal d-flex justify-content-between align-items-center mb-2">
         <a href="/about"><h1 class="me-auto">PlantPals</h1></a>
     
-        <div class="flex-grow-1 d-flex justify-content-center">
+        <!-- <div class="flex-grow-1 d-flex justify-content-center">
             <form id="search-form" class="d-flex" style="width: 40%;">
                 <div class="input-group">
-                    <input class="border-secondary rounded-pill flex-grow-1 me-2 pl-2 find-user" type="search" placeholder="Search users..." id="search-input">
+                    <input class="border-secondary rounded-pill flex-grow-1 me-2 pl-3 find-user" type="search" placeholder="Search users..." id="search-input">
                     <button class="btn-fix ml-1" type="submit">
                         <img class="nav-search" src="../static/gallery/icons/search.png" alt="Search">
                     </button>
                 </div>
             </form>
-        </div>
+        </div> -->
+        <div class="dropleft">
+            <a href="#" class="dropdown-toggle d-flex" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="border-right:none;">
+              <img style="border-radius: 50%; width:3rem; filter: none;" src="{{ user.photoURL }}" alt="{{ user.username }}">
+            </a>
+            <ul class="dropdown-menu" >
+              <li><a class="nav-color" href="{{ url_for('main.journals') }}">{{ user.username }}</a></li>
+              <li><a class="nav-color" href="{{ url_for('main.setting') }}">Settings</a></li>
+              <li><a class="nav-color" href="{{ url_for('main.logout') }}">Logout</a></li>
+            </ul>
+          </div>
         
     </nav>
     
@@ -30,38 +40,39 @@
             <div class="row justify-content-between">
                 <div class=" col-md-2 bordered-vertical"> <!-- Adjusted for button fitting -->
                     <ul class="nav flex-column">
+                        <!--https://www.geeksforgeeks.org/flask-url-helper-function-flask-url_for/-->
                         <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center nav-color mb-1 " href="/garden">
+                            <a class="nav-link d-flex align-items-center nav-color mb-1 " href="{{ url_for('main.garden') }}">
                                 <img class="nav-icon" src="../static/gallery/icons/home.png">
                                 <h5 class="mb-0 px-2">Home</h5>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center nav-color mb-1" href="/addplant">
+                            <a class="nav-link d-flex align-items-center nav-color mb-1" href="{{ url_for('main.add_plant') }}">
                                 <img class="nav-icon" src="../static/gallery/icons/instagram-post.png">
-                                <h5 class="mb-0 px-2">New</h5>
+                                <h5 class="mb-0 px-2">Garden</h5>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center nav-color mb-1" href="/journals">
+                            <a class="nav-link d-flex align-items-center nav-color mb-1" href="{{ url_for('main.journals') }}">
                                 <img class="nav-icon" src="../static/gallery/icons/ribbon.png">
-                                <h5 class="mb-0 px-2">Journals</h5>
+                                <h5 class="mb-0 px-2">Profile</h5>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center nav-color mb-1" style=""href="/profile">
-                                <img style="border-radius: 50%; width:32px; filter: none; " src="{{ user.photoURL }}">
-                                <h5 style="margin-left:15px;" class="mb-0 px-2">Profile</h5>
+                            <a class="nav-link d-flex align-items-center nav-color mb-1" href="{{ url_for('main.profile') }}">
+                                <img class="nav-icon" src="../static/gallery/icons/explore.png">
+                                <h5 class="mb-0 px-2">Explore</h5>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center nav-color mb-1" href="/settings">
+                            <a class="nav-link d-flex align-items-center nav-color mb-1" href="{{ url_for('main.setting') }}">
                                 <img class="nav-icon" src="../static/gallery/icons/edit.png">
                                 <h5 class="mb-0 px-2">Settings</h5>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center nav-color mb-1" href="/logout">
+                            <a class="nav-link d-flex align-items-center nav-color mb-1" href="{{ url_for('main.logout') }}">
                                 <img class="nav-icon" src="../static/gallery/icons/logout.png">
                                 <h5 class="mb-0 px-2">Logout</h5>
                             </a>
@@ -80,24 +91,31 @@
 
                 <div class="col-md-2 section-friends mb-2 mr-4"> <!-- Friends section -->
                     <div class="section-profile pt-2 pb-5">
-                    <h1 class="text-center layout-friends">Friends List</h1>
+                    <h1 class="text-center layout-friends mt-1">Friends List</h1>
                     <ul class="nav flex-column">
                     {% set friends_list = get_friends(user) %}
-                    {% for friend in friends_list %}    
-                    <li class="nav-item bordered-horizontal pl-3 pr-3 mt-1">
-                        <a class="nav-link d-flex justify-content-between align-items-center nav-color mb-1" style="width:100%;"href="{{ url_for('main.friend', friend_id=friend['id']) }}">
-                            <div class="d-flex align-items-center">
-                                <img class="" style="border-radius: 50%; height: 2.5rem; filter: none;" src="{{ friend['profile_image'] }}">
-                                <h5 class="mb-0 px-2 friends-font">{{ friend['username'] }}</h5>
-                            </div>
-                            <form action="{{ url_for('main.remove_friend', friend_id=friend['id']) }}" method="POST">
-                                <button type="submit" class="btn-fix"> 
-                                    <img style="height:1rem; opacity:50%;" src="../static/gallery/icons/X.png">
-                                </button>
-                            </form>
-                        </a>
-                    </li>                    
-                    {% endfor %} 
+                    {% if friends_list | length == 0 %}
+                        <li class="nav-item">
+                            <h5 style="opacity: 50%;" class="text-center"><a  href="{{ url_for('main.garden') }}">Lonely much?</a></h5>
+                            <h5 style="opacity: 50%;" class="text-center"><a  href="{{ url_for('main.garden') }}">Add some friends</a></h5>
+                        </li>
+                    {% else %}
+                        {% for friend in friends_list %}    
+                        <li class="nav-item bordered-horizontal pl-3 pr-3 mt-1">
+                            <a class="nav-link d-flex justify-content-between align-items-center nav-color mb-1" style="width:100%;"href="{{ url_for('main.friend', friend_id=friend['id']) }}">
+                                <div class="d-flex align-items-center">
+                                    <img class="" style="border-radius: 50%; height: 2.5rem; filter: none;" src="{{ friend['photoURL'] }}">
+                                    <h5 class="mb-0 px-2 friends-font">{{ friend['username'] }}</h5>
+                                </div>
+                                <form action="{{ url_for('main.remove_friend', friend_id=friend['id']) }}" method="POST">
+                                    <button type="submit" class="btn-fix"> 
+                                        <span style="opacity: 50%;" aria-hidden="true">&times;</span>
+                                    </button>
+                                </form>
+                            </a>
+                        </li>                    
+                        {% endfor %}
+                    {% endif %} 
                     </ul>
                 </div>
                 </div>
