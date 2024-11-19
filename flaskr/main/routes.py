@@ -9,6 +9,7 @@ from datetime import datetime, timezone
 
 import flaskr.utils.api as trefle
 import uuid 
+import json
 
 
 main = Blueprint('main', __name__)
@@ -90,6 +91,8 @@ def garden():
         # Initialize plant_ids as empty if no garden exists
         plant_ids = []
         my_garden = []
+        potential_friends = []
+        friend_request_details = []
 
         if garden_doc.exists:
             garden_data = garden_doc.to_dict()
@@ -99,41 +102,40 @@ def garden():
                 my_garden.append(trefle.get_species_by_id(id))
 
         # Get the current user's friends list
-            friends_list = user_data.get('friends', [])
+        friends_list = user_data['friends']
+
+        # Retrieve the friend requests if they exist
+        friend_reqs = user_data['friend_requests']
+
+                
+        if friend_reqs:
+            # Fetch profile details for each friend request
+            for requester_id in friend_reqs:
+                requester_ref = db.collection('users').document(requester_id)
+                requester_doc = requester_ref.get()
+                if requester_doc.exists:
+                    requester_data = requester_doc.to_dict()
+                    friend_request_details.append({
+                        'id': requester_id,
+                        'profile_image': requester_data.get('profile_image', ''),  # Default to empty if no image
+                        'username': requester_data.get('username', 'Unknown')      # Default if username missing
+                    })
 
             # Get all users, excluding the current user and already friends
-            users_ref = db.collection('users')
-            users_query = users_ref.stream()
+        users_ref = db.collection('users')
+        users_query = users_ref.stream()
 
-            # Build a list of users who are not the current user or already friends
-            potential_friends = []
-            for doc in users_query:
-                user = doc.to_dict()
-                user_id = doc.id
-
-                # Retrieve the friend requests if they exist
-                friend_reqs = user.get('friend_requests', [])
-
-                friend_request_details = []
-
-                 # Fetch profile details for each friend request
-                for requester_id in friend_reqs:
-                    requester_ref = db.collection('users').document(requester_id)
-                    requester_doc = requester_ref.get()
-                    if requester_doc.exists:
-                        requester_data = requester_doc.to_dict()
-                        friend_request_details.append({
-                            'id': requester_id,
-                            'profile_image': requester_data.get('profile_image', ''),  # Default to empty if no image
-                            'username': requester_data.get('username', 'Unknown')      # Default if username missing
-                        })
-
-                print(friend_request_details)
+        # Build a list of users who are not the current user or already friends
+            
+        for doc in users_query:
+            other_user = doc.to_dict()
+            other_user_id = doc.id
                 
-                # Skip if the user is the current user or already a friend
-                if user_id != uid and user_id not in friends_list:
-                    user['id'] = user_id  # Store the document ID as 'id'
-                    potential_friends.append(user)
+            # Skip if the user is the current user or already a friend
+            if other_user_id != uid and other_user_id not in friends_list:
+                other_user['id'] = other_user_id  # Store the document ID as 'id'
+                potential_friends.append(other_user)
+        print(potential_friends)
 
         # Pass the plant_ids to the template for rendering
         return render_template('index.html', user=user_data, my_garden=my_garden, all_users=potential_friends, friend_reqs=friend_request_details)
@@ -200,12 +202,89 @@ def profile():
             return redirect(url_for('main.login'))
     return redirect(url_for('main.login'))
 
+@main.route('/friends/<friend_id>/<journal_id>')
+def friend_journal(friend_id, journal_id):
+    if 'uid' in session:
+        user_ref = db.collection('users').document(session['uid'])
+        user_doc = user_ref.get()
+        user_data = user_doc.to_dict()
+        friend_ref = db.collection('users').document(friend_id)
+        friend_doc = friend_ref.get()
+        friend_data = friend_doc.to_dict()
+
+        journal_ref = db.collection('journals').document(journal_id)
+        journal_doc = journal_ref.get()
+
+        if journal_doc.exists:
+            # Convert the document to a dictionary
+            journal_data = journal_doc.to_dict()
+
+            # Get other relevant journal information (like name, plant_id, etc.)
+            journal_name = journal_data.get('name', 'Untitled Journal')
+            plant_id = journal_data.get('plant_id', -1)  # Assuming -1 means no plant associated
+
+            plant = trefle.get_species_by_id(plant_id)
+            # Fetch the posts from the journal, assuming they are stored in an array under 'post_ids'
+            post_ids = journal_data.get('post_ids', [])
+            print(post_ids)
+            posts = []
+
+            # Loop through post_ids and fetch each post from the posts collection
+            for post_id in post_ids:
+                post_ref = db.collection('posts').document(post_id)
+                post_doc = post_ref.get()
+                if post_doc.exists:
+                    post_data = post_doc.to_dict()
+                    timestamp = post_data['time_created'].timestamp() 
+                    post_data['time_readable'] = datetime.fromtimestamp(timestamp, tz=timezone.utc).strftime('%B %d, %Y')  # Format the date
+                    post_data['id'] = post_id
+                    posts.append(post_data)
+
+            print(posts)
+
+            if len(posts) == 0:
+                posts = None
+            # Pass the journal data and posts to the template
+            return render_template('journal.html', journal_id=journal_id, user=user_doc, journal=journal_data, posts=posts, journal_name=journal_name, plant=plant, friend=friend_data)
+       
+    else:
+        return redirect(url_for('main.login'))
+
 @main.route('/friends/<friend_id>')
 def friend(friend_id):
     if 'uid' in session:
-        user = firebase_auth.get_user(friend_id)
-        return 'This is the friend page'
-        # return render_template('profile.html', user=user)
+        user_ref = db.collection('users').document(session['uid'])
+        user_doc = user_ref.get()
+        user_data = user_doc.to_dict()
+        friend_ref = db.collection('users').document(friend_id)
+        friend_doc = friend_ref.get()
+             
+        if friend_doc.exists:
+            friend_data = friend_doc.to_dict()
+            # Extract username and profile image
+            friend_info = {
+                "id": friend_doc.id,
+                "username": friend_data.get("username"),
+                "photoURL": friend_data.get("photoURL")
+            }
+            # Query to get all journals associated with the user's UID
+            friend_journals_ref = db.collection('journals').where('uid', '==', friend_id).get()
+
+            # Create a list to hold the journal documents
+            friend_journals_list = []
+
+            for journal in friend_journals_ref:
+                journal_data = journal.to_dict()  # Convert to a dictionary
+                journal_data['id'] = journal.id    # Add the document ID to the journal data
+                print(journal_data)
+                plant = trefle.get_species_by_id(journal_data['plant_id'])
+                print(plant)
+                journal_data['image'] = plant['image']
+                journal_data['plant_name'] = plant['common_name']
+                journal_data['sun'] = plant['maintenence']['sun_requirements']
+                journal_data['sow'] = plant['maintenence']['sowing_method']
+                friend_journals_list.append(journal_data)  # Append to the list
+        return render_template('journals.html', user=user_data, friend=friend_info, friend_journals=friend_journals_list)
     else:
         return redirect(url_for('main.login'))
 
@@ -290,12 +369,12 @@ def journals():
         uid = session['uid']
 
         # Query to get all journals associated with the user's UID
-        journals_ref = db.collection('journals').where('uid', '==', uid).get()
+        friend_journals_ref = db.collection('journals').where('uid', '==', uid).get()
 
         # Create a list to hold the journal documents
         journals_list = []
 
-        for journal in journals_ref:
+        for journal in friend_journals_ref:
             journal_data = journal.to_dict()  # Convert to a dictionary
             journal_data['id'] = journal.id    # Add the document ID to the journal data
             print(journal_data)
