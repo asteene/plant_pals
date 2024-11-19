@@ -202,6 +202,54 @@ def profile():
             return redirect(url_for('main.login'))
     return redirect(url_for('main.login'))
 
+@main.route('/friends/<friend_id>/<journal_id>')
+def friend_journal(friend_id, journal_id):
+    if 'uid' in session:
+        user_ref = db.collection('users').document(session['uid'])
+        user_doc = user_ref.get()
+        user_data = user_doc.to_dict()
+        friend_ref = db.collection('users').document(friend_id)
+        friend_doc = friend_ref.get()
+        friend_data = friend_doc.to_dict()
+
+        journal_ref = db.collection('journals').document(journal_id)
+        journal_doc = journal_ref.get()
+
+        if journal_doc.exists:
+            # Convert the document to a dictionary
+            journal_data = journal_doc.to_dict()
+
+            # Get other relevant journal information (like name, plant_id, etc.)
+            journal_name = journal_data.get('name', 'Untitled Journal')
+            plant_id = journal_data.get('plant_id', -1)  # Assuming -1 means no plant associated
+
+            plant = trefle.get_species_by_id(plant_id)
+            # Fetch the posts from the journal, assuming they are stored in an array under 'post_ids'
+            post_ids = journal_data.get('post_ids', [])
+            print(post_ids)
+            posts = []
+
+            # Loop through post_ids and fetch each post from the posts collection
+            for post_id in post_ids:
+                post_ref = db.collection('posts').document(post_id)
+                post_doc = post_ref.get()
+                if post_doc.exists:
+                    post_data = post_doc.to_dict()
+                    timestamp = post_data['time_created'].timestamp() 
+                    post_data['time_readable'] = datetime.fromtimestamp(timestamp, tz=timezone.utc).strftime('%B %d, %Y')  # Format the date
+                    post_data['id'] = post_id
+                    posts.append(post_data)
+
+            print(posts)
+
+            if len(posts) == 0:
+                posts = None
+            # Pass the journal data and posts to the template
+            return render_template('journal.html', journal_id=journal_id, user=user_doc, journal=journal_data, posts=posts, journal_name=journal_name, plant=plant, friend=friend_data)
+       
+    else:
+        return redirect(url_for('main.login'))
+
 @main.route('/friends/<friend_id>')
 def friend(friend_id):
     if 'uid' in session:
