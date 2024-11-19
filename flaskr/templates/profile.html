@@ -4,38 +4,41 @@
 
 {% block right %}
 
-<!--Fill in for now. Will Have more robust way of showing posts once Backend is done-->
-{% if all_posts %}
-<div class="cards-wrapper mt-5" style="display: flex; flex-wrap: wrap; justify-content: start;">
-{% for post in all_posts %}
-<div class="d-flex flex-row justify-content-start  mb-3 ">
-    <div class="mx-2 card" style="width: 15rem; margin: 7px;">
-    
+<div class="gallery mt-5">
+    {% if all_posts  != None %}
+    <div class="card-container w-100" style=" gap: 1rem;">
+        {% for post in all_posts %}
         <a href="{{ url_for('main.journal', journal_id =post.journal_id)}}">
-            {% if post.image_url %}
-            <img src="{{ post.image_url }}" style="border-radius: 3%; height:12rem;" class="card-img-top" alt="...">
-        {% else %}
-            <img src="../static/gallery/test2.jpg" style="border-radius: 3%; height:12rem;" class="card-img-top" alt="...">
-        {% endif %}
-            <div class="d-flex mt-2">
-                <img  style="border-radius: 50%; height: 3rem; filter: none;" src="{{post.author.photoURL}}">
+            <div class=" bordered-horizontal">
+                <br>
+                <div class="card-body section-profile  ">
 
-                <div class="ml-2">
-                    <h5 style="text-align: left;">{{ post.title | truncate(17) }}</h5>
-                    <p><small>{{post.time_created}} • {{post.author.username}}</small></p>
+                    <div class="d-flex mt-2 align-items-center">
+                        <img style="border-radius: 50%; height: 4rem; width: 4rem; filter: none; box-shadow: none;" src="{{post.author.photoURL}}">
+                      
+                        <div class="ml-2">
+                            <h5 class="card-title truncated-title" style="margin-bottom: 0.1rem; text-align: left;">{{ post['title'] }}</h5>
+                            <p style="margin-bottom: 0;"><small>{{post.time_created}} • {{post.author.username}}</small></p>
+                        </div>
+                    </div>
                    
+                    <p class="card-text">{{ post['text']  | truncate(400) }}</p>
+                    
+                    {% if post['image_url'] %}
+                        <img src="{{ post['image_url'] }}" alt="Post Image" style="filter: none; box-shadow: none;" class="img-fluid mt-2">
+                    {% endif %}
+                    <!-- <div class="truncated-text" style="display: none;"></div> -->
                 </div>
+                <br>
             </div>
-           
-           
-            
         </a>
+        {% endfor %}
     </div>
-</div>
-{% endfor %}
-</div>
-{% else %}
-<p>no posts to show.</p>
-{% endif %}
+    {% else %}
+        <h2<a href="{{ url_for('main.garden') }}">Your friends haven't posted... Make new ones?</a>></h2>
+    {% endif %}
+    </div>
+
+
 
 {% endblock %}
