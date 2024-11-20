@@ -81,7 +81,7 @@
                             </form>
                             {% endif %}
                         </div>
-                       <small>{{ post['time_readable'] }}</small>
+                   
                        {% if post['image_url'] %}
                             <img data-toggle="modal" data-target="#image" src="{{ post['image_url'] }}" alt="Post Image" style="box-shadow:none;" class="img-fluid mt-2">
 
@@ -119,12 +119,17 @@
 
                                 <!-- Modal Body with Image -->
                                 <div class="modal-body">
-                                    <div class="d-flex align-items-center">
+                                    <div class="d-flex align-items-center" >
                                         <img style="border-radius: 50%; height: 4rem; width: 4rem; filter: none; box-shadow: none;" src="{{ user['photoURL'] }}" alt="Profile Picture">
-                                        <div class="form-group flex-grow-1 ml-3">
-                                            <input type="text" class="form-control" id="comment" placeholder="Share your thoughts" style="border-radius: 30px;" maxlength="280">
-                                        </div>
+                                            <div class="form-group flex-grow-1 ml-3 mb-0">
+                                                <input type="text" class="form-control" id="comment" placeholder="Share your thoughts" style="border-radius: 30px;">
+                                                <div class="d-flex justify-content-end mt-2">
+                                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                                </div>
+                                            </div>
+                                       
                                     </div>
+                                    <br>
                                     <!-- Make this loop through all the comments -->
                                     <div class="d-flex align-items-center">
                                         <img style="border-radius: 50%; height: 4rem; width: 4rem; filter: none; box-shadow: none;" src="{{ user['photoURL'] }}" alt="Profile Picture">
@@ -138,7 +143,27 @@
                                 
                               </div>
                             </div>
-                          </div>
+                        </div>
+
+                        <div id="likes" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel">
+                            <div class="modal-dialog modal-lg" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+
+                                <!-- Modal Body with Image -->
+                                <div class="modal-body">
+                                    <div class="d-flex align-items-center">
+                                        <img style="border-radius: 50%; height: 4rem; width: 4rem; filter: none; box-shadow: none;" src="{{ user['photoURL'] }}" alt="Profile Picture">
+                                        <h5 style="margin-bottom: 0;">Username</h5>
+                                    </div>
+                                </div>
+                              </div>
+                            </div>
+                         </div>
 
                     </div>
                     
