@@ -265,8 +265,11 @@ def friend(friend_id):
             friend_info = {
                 "id": friend_doc.id,
                 "username": friend_data.get("username"),
-                "photoURL": friend_data.get("photoURL")
+                "photoURL": friend_data.get("photoURL"),
+                "friends": friend_data.get("friends")
             }
+
+            print( friend_data.get("friends"))
             # Query to get all journals associated with the user's UID
             friend_journals_ref = db.collection('journals').where('uid', '==', friend_id).get()
 
