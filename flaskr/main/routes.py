@@ -748,6 +748,37 @@ def setting():
     
     return redirect(url_for('login'))
 
+
+@main.route('/search_users', methods=['GET']) # only issue is that it returns both for capital and lowercase. only way to fix it directly changing the firestore db structure
+def search_users():
+    if 'uid' in session:
+        query = request.args.get('query', '').lower()  # Convert search term to lowercase
+        current_user_id = session['uid']
+
+        if len(query) != 1 or not query.isalpha():
+            return jsonify([]), 400  # Bad Request
+
+        users_ref = db.collection('users')
+        users_query = users_ref.stream()
+
+        matching_users = []
+        for doc in users_query:
+            user = doc.to_dict()
+            user_id = doc.id
+            username = user.get('username', '')
+
+            # Perform a case-insensitive check
+            if user_id != current_user_id and username.lower().startswith(query):
+                matching_users.append({
+                    'id': user_id,
+                    'username': username,
+                })
+
+        return jsonify(matching_users)
+    
+    return jsonify([]), 403
+
+
 @main.route('/upload_image', methods=['POST'])
 def upload_image():
     if 'uid' in session:
