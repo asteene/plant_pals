@@ -7,7 +7,10 @@ default_plants = [
     'rosemary',
     'sunflower',
     'basil',
-    'thyme'
+    'thyme',
+    'rose',
+    'mint',
+    'hydrangea'
 ]
 
 def get_default_plants():
