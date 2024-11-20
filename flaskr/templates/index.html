@@ -18,10 +18,13 @@
                         <img class="card-img-top" src="{{ plant['image'] }}" style="border-radius: 3%; height:12rem;" alt="{{ plant['common_name'] }}" 
                         onerror="this.onerror=null; this.src='../static/gallery/test2.jpg';">
                         <div class="mt-2">
-                            <h5 class="card-title" style="margin-bottom: 0; text-align: left;">{{ plant['common_name']  }}</h5>
+                            <div class="model" style="display: inline;">
+                                <a href="#" data-toggle="tooltip" data-placement="top" title=" {{ plant['description'] }} "> <h5 class="card-title" style="margin-bottom: 0; text-align: left;">{{ plant['common_name']  }} </h5></a>
+                            </div>
+                            <!-- <h5 class="card-title" style="margin-bottom: 0; text-align: left;">{{ plant['common_name']  }}</h5>
                             <p class="card-text truncated-text" style="opacity: 70%; margin-bottom: .5rem; text-align: left;">
                                 <small>{{ plant['description'] }}</small>
-                              </p>
+                              </p> -->
                         </div>
                     </button>
                 </div>
