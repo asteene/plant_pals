@@ -5,7 +5,13 @@
 {% block body %}
     {% block right %}
     <div class="container mt-5">
-        <h3 class="ml-0 pl-0 title">Add to Your Garden</h3>
+        <div class="d-flex justify-content-between">
+            <h3 class="ml-0 pl-0 title">Add to Your Garden</h3>
+            <div class="mr-4">
+                <button  data-toggle="modal" data-target="#searchModal" class="btn btn-primary" style="background-color:var(--darkGreen);">Find A Different Plant</button>
+            </div>
+        </div>
+      
         <div id="loading" class="text-center mb-4" style="display: none;">
             <p>Loading plants...</p>
             <div class="spinner-border text-primary" role="status"></div>
@@ -38,9 +44,7 @@
             </div>
         </div>
         <!--Updated-->
-        <div class="mt-4 mb-4">
-            <button  data-toggle="modal" data-target="#searchModal" class="btn btn-primary" style="background-color:var(--darkGreen);">Find A Different Plant</button>
-        </div>
+        
     </div>
 
     <!-- Modal -->
@@ -59,16 +63,17 @@
                     <div class="modal-body">
                         <input type="text" id="search-bar" class="form-control" placeholder="Search for plants...">
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary">Add Plant</button>
-                    </div>
+                    
                 </form>
+                <div class="modal-body">
+                    <div id="plant-gallery-search-results" class="d-flex flex-column">
+        
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div id="plant-gallery-search-results" class="row">
-        
-    </div>
+   
 
 <script>
 
@@ -103,17 +108,21 @@ async function searchPlants(event) {
 
             console.log(cleanedData)
 
-            search_results.innerHTML = `<div class="card pb-3" style="width: 15rem;" data-toggle="modal" data-target="#plantModal" data-id="${ cleanedData['id'] }" data-name="${cleanedData['common_name'] }" data-description="${cleanedData['scientific_name']}">
-                    <img style="border-radius: 3%; height:12rem;" class="card-img-top" src="${cleanedData['image'] }" alt="Card image cap">
+            search_results.innerHTML = `
+                <div class="pb-3" style=" " data-toggle="modal" data-target="#plantModal" data-id="${ cleanedData['id'] }" data-name="${cleanedData['common_name'] }" data-description="${cleanedData['scientific_name']}">
+                    <img style="border-radius: 3%; height:12rem; object-fit: cover;" class="card-img-top" src="${cleanedData['image'] }"  onerror="this.onerror=null; this.src='../static/gallery/test2.jpg';">
                     <div class="mt-2">
                         <h5 class="card-title" style="margin-bottom: 0;  text-align: left;">${ cleanedData['common_name'] }</h5>
                         <p class="card-text" style="opacity: 70%; margin-bottom: .5rem;  text-align: left;"><small>${ cleanedData['description'] }</small></p>
                     </div>
                 </div>
-                <form action="{{ url_for('main.add_plant') }}" method="post">
-                    <input type="hidden" name="plant_id" value="${ cleanedData['id'] }">
-                    <button type="submit" class="btn btn-primary" style="background-color:var(--darkGreen);">Add to Garden</button>
-                </form>
+                <div class="modal-footer">
+                    <form action="{{ url_for('main.add_plant') }}" method="post">
+                        <input type="hidden" name="plant_id" value="${ cleanedData['id'] }">
+                        <button type="submit" class="btn btn-primary" style="background-color:var(--darkGreen);">Add to Garden</button>
+                    </form> 
+                </div>
+                
                 `
         } else {
             search_results.innerHTML = `<p>${query} not found...</p>`;
