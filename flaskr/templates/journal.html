@@ -10,7 +10,7 @@
     <div class="">
         <div>
             <div class="d-flex justify-content-between">
-                <h2 style="display: inline;">{{ user.username|capitalize }}'s {{ plant['common_name'] }}</h2>
+                <h2 style="display: inline;">{{ journal['name'] }}</h2>
                 {% if user.UID == journal.uid %}
                     <button data-toggle="modal" data-target="#new-post" class="btn">New Post</button>
                     <div id="new-post" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel">
@@ -54,6 +54,9 @@
             </div>
            
             <p>{{ journal['desc'] }}</p>
+            <span><small>{{plant['common_name']}} • </small></span>
+            <span><small>{{plant['maintenence']['sun_requirements']}} • </small></span>
+            <span><small>{{plant['maintenence']['sowing_method']}}  </small></span>
         </div>
         <div class="d-flex justify-content-center">
         {% if posts != None %}
