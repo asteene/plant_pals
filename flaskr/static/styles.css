@@ -444,3 +444,20 @@ a:hover {
   height: 300px;       
   border-radius: 12px;  
 }
+
+.truncated-text {
+  display: block;
+  max-width: 100%;            
+  overflow: hidden;              
+  white-space: nowrap;           
+  text-overflow: ellipsis;       
+  cursor: pointer;
+}
+
+.truncated-text:hover {
+  white-space: normal;         
+  text-overflow: unset;          
+  opacity: 100%;                
+  max-height: none;         
+}
+

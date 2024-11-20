@@ -15,15 +15,28 @@
                 <input type="hidden" name="plant_id" value="{{ plant['id'] }}">
                 <div class="card" style="width: 15rem; margin: 7px;">
                     <button type="submit" class="btn-fix">
-                        <img class="card-img-top" src="{{ plant['image'] }}" style="border-radius: 3%; height:12rem;" alt="{{ plant['common_name'] }}">
+                        <img class="card-img-top" src="{{ plant['image'] }}" style="border-radius: 3%; height:12rem;" alt="{{ plant['common_name'] }}" 
+                        onerror="this.onerror=null; this.src='../static/gallery/test2.jpg';">
                         <div class="mt-2">
-                            <h5 class="card-title" style="margin-bottom: 0; text-align: left;">{{ plant['common_name'] }}</h5>
-                            <p class="card-text " style="opacity: 70%; margin-bottom: .5rem; text-align: left;"><small>{{ plant['scientific_name'] }}</small></p>
+                            <h5 class="card-title" style="margin-bottom: 0; text-align: left;">{{ plant['common_name']  }}</h5>
+                            <p class="card-text truncated-text" style="opacity: 70%; margin-bottom: .5rem; text-align: left;">
+                                <small>{{ plant['description'] }}</small>
+                              </p>
                         </div>
                     </button>
                 </div>
             </form>
                 {% endfor %}
+                <a  href="{{ url_for('main.add_plant') }}"> 
+                    <div class="card" style="width: 15rem; margin: 7px;">
+                        <button type="submit" class="btn-fix">
+                            <img class="card-img-top" src="../static/gallery/grey.png" style="border-radius: 3%; height:12rem;" alt="Add Journal">
+                            <div class="mt-2">
+                                <h5 class="card-title" style="margin-bottom: 0; text-align: left;">Add to garden</h5>
+                            </div>
+                        </button>
+                    </div>
+                </a>
         </div>
 {% else %}
 {% endif %}
@@ -32,36 +45,7 @@
 
 
 <!-- Carousel for friends -->
-<div id="carouselExampleControls{{ x }}" class="carousel slide mt-5 mb-5" data-interval="false">
-    <div class="carousel-inner">
-        <div class="mx-3 mb-1"style="display: flex; align-items: center; justify-content: space-between; ">
-            <h3 class="title" style="margin: 0;">Discover New Friends</h3>
-            <div style="display: flex; align-items: center; margin-left: 10px;">
-                <a class="carousel-control-top" href="#carouselExampleControls{{ x }}" role="button" data-slide="prev" style="margin-right: 10px;">
-                    <img style="height:30px" src="../static/gallery/icons/chevron_left.png">
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-top" href="#carouselExampleControls{{ x }}" role="button" data-slide="next" style="margin-left: 10px;">
-                    <img style="height:30px" src="../static/gallery/icons/chevron_right.png">
-                    <span class="sr-only">Next</span>
-                </a>
-            </div>
-        </div>
-        
-        {% for other_user in all_users %}
-            <div class="carousel-item {% if loop.index == 1 %}active{% endif %}">
-                <div class="cards-wrapper" style="display: flex; flex-wrap: wrap; justify-content: center;">
-                    <div class="card d-flex justify-content-center align-items-center" style="width: 12rem; margin: 7px;">
-                        <img class="card-img-top" src="{{ other_user.photoURL }}" style="border-radius: 50%; height: 10rem; width: 10rem;" alt="">
-                        <div class="mt-2 text-center">
-                            <h5 class="card-title" style="margin-bottom: 0;">{{ other_user.username }}</h5>
-                        </div>
-                    </div>        
-                </div>
-            </div>
-        {% endfor %}
-    </div>
-</div>
+
 
 
 {% endblock %}
