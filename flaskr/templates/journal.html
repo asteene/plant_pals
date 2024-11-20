@@ -56,11 +56,14 @@
             <p>{{ journal['desc'] }}</p>
             
             <!-- Model 1 -->
-<div class="model" style="display: inline;">
-    <a href="#" data-toggle="tooltip" data-placement="top" title="{{plant['description']}}"> <span><small>{{plant['common_name']}} • </small></span></a>
-     </div>
-            <span><small>{{plant['maintenence']['sun_requirements']}} • </small></span>
-            <span><small>{{plant['maintenence']['sowing_method']}}  </small></span>
+            <div class="model" style="display: inline;">
+                <a href="#" data-toggle="tooltip" data-placement="top" title="{{plant['description']}}"> <span><small>{{plant['common_name']}} • </small></span></a>
+            </div>
+            <div class="model" style="display: inline;">
+                <a href="#" data-toggle="tooltip" data-placement="top" title="{{plant['maintenence']['sowing_method']}} "> <span><small>Sowing method • </small></span></a>
+            </div>
+            <span><small>{{plant['maintenence']['sun_requirements']}} </small></span>
+     
         </div>
         <div class="d-flex justify-content-center">
         {% if posts != None %}
