@@ -131,16 +131,25 @@
                                     </div>
                                     <br>
                                     <!-- Make this loop through all the comments -->
-                                    {% for comment in post['comments'] %}
-                                        <div class="d-flex align-items-center">
-                                            <img style="border-radius: 50%; height: 4rem; width: 4rem; filter: none; box-shadow: none;" src="{{ comment['author']['photoURL'] }}" alt="Profile Picture">
-                                            <div class="flex-grow-1 ml-3">
-                                            <p>{{ comment['comment'] }}</p>
-                                            <small>{{ comment['author']['username'] }}</small>
+                                    {% if post.comments != [] %}
+                                        {% for comment in post.comments %}
+                                            <div class="d-flex align-items-center">
+                                                <img style="border-radius: 50%; height: 4rem; width: 4rem; filter: none; box-shadow: none;" src="{{ comment['author']['photoURL'] }}" alt="Profile Picture">
+                                                <div class="flex-grow-1 ml-3">
+                                                <p>{{ comment['comment'] }}</p>
+                                                <small>{{ comment['author']['username'] }}</small>
+                                                </div>
                                             </div>
-                                        </div>
 
-                                    {% endfor %}
+                                        {% endfor %}
+                                    {% else %}
+                                        <div class="d-flex align-items-center">
+                                            
+                                            <div class="flex-grow-1 ml-3">
+                                            <p>Be the first to comment...</p>
+                                            </div>
+                                        </div>   
+                                    {% endif %}
                                 </div>
                                 
                               </div>

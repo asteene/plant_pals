@@ -445,19 +445,22 @@ def journal(journal_id): # beware that when you create route to journal, that th
                     post_data['time_readable'] = datetime.fromtimestamp(timestamp, tz=timezone.utc).strftime('%B %d, %Y')  # Format the date
                     post_data['id'] = post_id
                     
-                    comments_ref = db.collection('posts').document(post_id).collection('comments')
-                    comments_query = comments_ref.stream()  # Fetch all documents in the comments collection
+                    comment_ids = post_data.get('comments', [])
                     comments = []
-                    for comment in comments_query:
-                        comment_data = comment.to_dict()
-                        comment_data['id'] = comment.id  # Include the comment document ID
+                        
+                    for comment_id in comment_ids:
+                        comment_ref = db.collection('comments').document(comment_id)
+                        comment_data = comment_ref.get().to_dict()
+                        comment_data['id'] = comment_id  # Include the comment document ID
                         comment_author = db.collection('users').document(comment_data['uid']).get().to_dict()
                         comment_data['author'] = comment_author
                         comments.append(comment_data)
-                    
+                        
                     post_data['comments'] = comments
-                    print(post_data['comments'])
+                    
                     posts.append(post_data)
+            for p in posts:
+                print(f"{p['title']}: {p['comments']}")
 
             if len(posts) == 0:
                 posts = None
