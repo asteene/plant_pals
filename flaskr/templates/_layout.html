@@ -104,8 +104,8 @@
                     {% set friends_list = get_friends(user) %}
                     {% if friends_list | length == 0 %}
                         <li class="nav-item">
-                            <h5 style="opacity: 50%;" class="text-center"><a  href="{{ url_for('main.garden') }}">Lonely much?</a></h5>
-                            <h5 style="opacity: 50%;" class="text-center"><a  href="{{ url_for('main.garden') }}">Add some friends</a></h5>
+                            <h5 style="opacity: 50%;" class="text-center"><a  href="{{ url_for('main.new_friends') }}">Lonely much?</a></h5>
+                            <h5 style="opacity: 50%;" class="text-center"><a  href="{{ url_for('main.new_friends') }}">Add some friends</a></h5>
                         </li>
                     {% else %}
                         {% for friend in friends_list %}    
