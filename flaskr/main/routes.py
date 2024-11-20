@@ -432,7 +432,7 @@ def journal(journal_id): # beware that when you create route to journal, that th
             plant = trefle.get_species_by_id(plant_id)
             # Fetch the posts from the journal, assuming they are stored in an array under 'post_ids'
             post_ids = journal_data.get('post_ids', [])
-            print(post_ids)
+            #print(post_ids)
             posts = []
 
             # Loop through post_ids and fetch each post from the posts collection
@@ -444,9 +444,20 @@ def journal(journal_id): # beware that when you create route to journal, that th
                     timestamp = post_data['time_created'].timestamp() 
                     post_data['time_readable'] = datetime.fromtimestamp(timestamp, tz=timezone.utc).strftime('%B %d, %Y')  # Format the date
                     post_data['id'] = post_id
+                    
+                    comments_ref = db.collection('posts').document(post_id).collection('comments')
+                    comments_query = comments_ref.stream()  # Fetch all documents in the comments collection
+                    comments = []
+                    for comment in comments_query:
+                        comment_data = comment.to_dict()
+                        comment_data['id'] = comment.id  # Include the comment document ID
+                        comment_author = db.collection('users').document(comment_data['uid']).get().to_dict()
+                        comment_data['author'] = comment_author
+                        comments.append(comment_data)
+                    
+                    post_data['comments'] = comments
+                    print(post_data['comments'])
                     posts.append(post_data)
-
-            print(posts)
 
             if len(posts) == 0:
                 posts = None
