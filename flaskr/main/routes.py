@@ -365,7 +365,11 @@ def journals():
         user = firebase_auth.get_user(session['uid'])
         user_ref = db.collection('users').document(session['uid'])
         user_doc = user_ref.get()
-        user_doc = user_doc.to_dict()
+        # user_doc = user_doc.to_dict()
+        if user_doc.exists:
+            user_data = user_doc.to_dict()
+            if 'dateJoined' in user_data:
+                user_data['dateJoined'] = user_data['dateJoined'].strftime('%B %d, %Y')
         uid = session['uid']
 
         # Query to get all journals associated with the user's UID
@@ -401,7 +405,7 @@ def journals():
                 my_garden.append(trefle.get_species_by_id(id))
 
         # Pass the journals list to the template
-        return render_template('journals.html', user=user_doc, journals=journals_list, my_garden=my_garden)
+        return render_template('journals.html', user=user_data, journals=journals_list, my_garden=my_garden)
     else:
         return redirect(url_for('main.login'))
 
