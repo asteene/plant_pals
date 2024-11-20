@@ -826,3 +826,13 @@ def get_friends(user_data):
             friends_info.append(friend_info)
 
     return friends_info
+
+@main.route('/test')
+def new_friends():
+    if 'uid' in session:
+        user = firebase_auth.get_user(session['uid'])
+        uid = session['uid']
+        user_ref = db.collection('users').document(session['uid'])
+        user_doc = user_ref.get()
+        user_data = user_doc.to_dict()
+        return render_template('new_friends.html', user=user_data)
