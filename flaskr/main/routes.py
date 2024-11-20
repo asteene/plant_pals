@@ -763,7 +763,6 @@ def setting():
     
     return redirect(url_for('login'))
 
-
 @main.route('/search_users')
 def search_users():
     query = request.args.get('query', '').lower()
@@ -773,6 +772,7 @@ def search_users():
     users_ref = db.collection('users')
     results = []
 
+    # Firestore doesn't support "startsWith" directly, so we manually filter results
     docs = users_ref.stream()
     for doc in docs:
         user_data = doc.to_dict()
@@ -784,6 +784,7 @@ def search_users():
             })
 
     return jsonify(results)
+
 
 
 @main.route('/upload_image', methods=['POST'])
@@ -837,7 +838,9 @@ def add_friend(friend_id):
             if current_user_id not in friend_data['friend_requests']:
                 friend_data['friend_requests'].append(current_user_id)
                 friend_ref.update({'friend_requests': friend_data['friend_requests']})
-            # update so it does it for new friend page but if removed from settings aswell  remove the code from settings page
+
+
+            # update so it does it for new friend page but if so remove the code from settings page
             return redirect(url_for('main.new_friends'))
             #return redirect(url_for('main.setting'))  # Or wherever you want to redirect after adding a friend
         else:
@@ -973,22 +976,43 @@ def get_friends(user_data):
 
     return friends_info
 
-@main.route('/test')
+@main.route('/friends') 
 def new_friends():
     if 'uid' in session:
         user_ref = db.collection('users').document(session['uid'])
         user_doc = user_ref.get()
-        user_data = user_doc.to_dict()
 
-        # Assuming 'friends' is a list of user IDs for their friends
-        friends = user_data.get('friends', [])  
+        if user_doc.exists:
+            user_data = user_doc.to_dict()
 
-        # Fetch details of all friends
-        friends_data = []
-        for friend_id in friends:
-            friend_doc = db.collection('users').document(friend_id).get()
-            if friend_doc.exists:
-                friends_data.append(friend_doc.to_dict())
+            # Fetch the user's friends
+            friends_ids = user_data.get('friends', [])
+            friends_data = []
+            for friend_id in friends_ids:
+                friend_doc = db.collection('users').document(friend_id).get()
+                if friend_doc.exists:
+                    friend_info = friend_doc.to_dict()
+                    friend_info['UID'] = friend_id  # Include UID for linking profiles
+                    friends_data.append(friend_info)
 
-        return render_template('new_friends.html', user=user_data, friends=friends_data)
+            # Fetch friend requests
+            friend_reqs_ids = user_data.get('friend_requests', [])
+            friend_reqs = []
+            for requester_id in friend_reqs_ids:
+                requester_doc = db.collection('users').document(requester_id).get()
+                if requester_doc.exists:
+                    requester_data = requester_doc.to_dict()
+                    friend_reqs.append({
+                        'id': requester_id,
+                        'username': requester_data.get('username', 'Unknown'),
+                        'photoURL': requester_data.get('photoURL', '')  # Default to empty if missing
+                    })
+
+            return render_template(
+                'new_friends.html',
+                user=user_data,
+                friends=friends_data,
+                friend_reqs=friend_reqs
+            )
+
     return redirect('/login')

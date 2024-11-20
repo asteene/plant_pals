@@ -30,11 +30,21 @@
                
                     <div class="mt-2">
                         <h5 class="card-title" style="margin-bottom: 0; text-align: left;">{{ plant['common_name'] }}</h5>
-                        <p class="card-text" style="opacity: 70%; margin-bottom: .5rem; text-align: left;">
+                        <!-- <p class="card-text" style="opacity: 70%; margin-bottom: .5rem; text-align: left;">
                             <small class="description" id="desc-{{ plant['id'] }}">
                                 {{ plant['description'] | string | truncate(75) }}
                             </small>
-                        </p>
+                        </p> -->
+                        <a href="#" data-toggle="tooltip" data-placement="top" title=" {{ plant['description'] }} "> 
+                            <p class="card-text" style="opacity: 70%; margin-bottom: .5rem; text-align: left;">
+                                <small class="description" id="desc-{{ plant['id'] }}">
+                                    {{ plant['description'] | string | truncate(75) }}
+                                </small>
+                            </p>
+                        </a>
+                        <div class="model" style="display: inline;">
+                            
+                        </div>
                     </div>
                 </div>
                 </button>
