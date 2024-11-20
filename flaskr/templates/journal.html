@@ -54,7 +54,11 @@
             </div>
            
             <p>{{ journal['desc'] }}</p>
-            <span><small>{{plant['common_name']}} • </small></span>
+            
+            <!-- Model 1 -->
+<div class="model" style="display: inline;">
+    <a href="#" data-toggle="tooltip" data-placement="top" title="{{plant['description']}}"> <span><small>{{plant['common_name']}} • </small></span></a>
+     </div>
             <span><small>{{plant['maintenence']['sun_requirements']}} • </small></span>
             <span><small>{{plant['maintenence']['sowing_method']}}  </small></span>
         </div>
@@ -206,6 +210,9 @@
 {% endblock %}
 <script>
     // jQuery code to trigger the modal when the button is clicked
+    $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
     $('#add-plant-button').on('click', function() {
         $('#searchModal').modal('show');
     });
