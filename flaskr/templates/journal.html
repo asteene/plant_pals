@@ -105,7 +105,12 @@
                         {% endif %}
                         <p class="card-text">{{ post['text'] }}</p>
                         <img data-toggle="modal" data-target="#comments-{{ post['id'] }}" src="../static/gallery/icons/chat(1).png" alt="Post Image" style="box-shadow:none;" class="nav-icon">
-                        <img data-toggle="modal" data-target="#likes-{{ post['id'] }}" src="../static/gallery/icons/heart.png" alt="Post Image" style="box-shadow:none;" class="nav-icon">
+                        <p>{{ post.comments|length }}</p>
+                        <form action="{{ url_for('main.like_post', post_id=post['id']) }}" method="POST">
+                            <input type="hidden" name="journal_id" value="{{ journal_id }}">
+                            <button type="submit"><img src="../static/gallery/icons/heart.png" alt="Post Image" style="box-shadow:none;" class="nav-icon"></button> <!-- <img data-toggle="modal" data-target="#likes-{{ post['id'] }}" src="../static/gallery/icons/heart.png" alt="Post Image" style="box-shadow:none;" class="nav-icon"> -->
+                        </form>
+                        <p>{{ post.likes|length }}</p>
                         
                         <div id="likes-{{ post['id'] }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="commentsModalLabel-{{ post['id'] }}">
                             <div class="modal-dialog modal-lg" role="document">
