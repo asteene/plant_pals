@@ -238,14 +238,29 @@ def friend_journal(friend_id, journal_id):
                     timestamp = post_data['time_created'].timestamp() 
                     post_data['time_readable'] = datetime.fromtimestamp(timestamp, tz=timezone.utc).strftime('%B %d, %Y')  # Format the date
                     post_data['id'] = post_id
+                    comments = []
+                    try:    
+                        for comment_id in post_data['comments']:
+                            comment_ref = db.collection('comments').document(comment_id)
+                            comment_data = comment_ref.get().to_dict()
+                            comment_data['id'] = comment_id  # Include the comment document ID
+                            comment_author = db.collection('users').document(comment_data['uid']).get().to_dict()
+                            comment_data['author'] = comment_author
+                            comments.append(comment_data)
+                    except: 
+                        comments = []
+                        
+                    post_data['comments'] = comments
+                    
                     posts.append(post_data)
+
 
             print(posts)
 
             if len(posts) == 0:
                 posts = None
             # Pass the journal data and posts to the template
-            return render_template('journal.html', journal_id=journal_id, user=user_doc, journal=journal_data, posts=posts, journal_name=journal_name, plant=plant, friend=friend_data)
+            return render_template('journal.html', journal_id=journal_id, user=user_data, journal=journal_data, posts=posts, journal_name=journal_name, plant=plant, friend=friend_data)
        
     else:
         return redirect(url_for('main.login'))
