@@ -554,6 +554,13 @@ def delete_post(post_id):
                     journal_ref.update({
                         'post_ids': firestore.ArrayRemove([post_id])
                     })
+
+                # Remove all comments related to the post
+                if 'comments' in post_data:
+                    comment_ids = post_data['comments']
+                    for comment_id in comment_ids:
+                        comment_ref = db.collection('comments').document(comment_id)
+                        comment_ref.delete()
                 
                 # Delete the post document from Firestore
                 post_ref.delete()
