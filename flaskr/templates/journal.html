@@ -131,14 +131,16 @@
                                     </div>
                                     <br>
                                     <!-- Make this loop through all the comments -->
-                                    <div class="d-flex align-items-center">
-                                        <img style="border-radius: 50%; height: 4rem; width: 4rem; filter: none; box-shadow: none;" src="{{ user['photoURL'] }}" alt="Profile Picture">
-                                        <div class="flex-grow-1 ml-3">
-                                           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                        </p>
+                                    {% for comment in post['comments'] %}
+                                        <div class="d-flex align-items-center">
+                                            <img style="border-radius: 50%; height: 4rem; width: 4rem; filter: none; box-shadow: none;" src="{{ comment['author']['photoURL'] }}" alt="Profile Picture">
+                                            <div class="flex-grow-1 ml-3">
+                                            <p>{{ comment['comment'] }}</p>
+                                            <small>{{ comment['author']['username'] }}</small>
+                                            </div>
                                         </div>
-                                    </div>
 
+                                    {% endfor %}
                                 </div>
                                 
                               </div>
