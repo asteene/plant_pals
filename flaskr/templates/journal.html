@@ -59,7 +59,7 @@
         {% if posts != None %}
         <div class="card-container w-100" style=" gap: 1rem;">
             {% for post in posts %}
-                <div class="card bordered-horizontal">
+                <div class="card">
                     <div class="card-body section-profile mt-2 mb-3">
                         <div class="d-flex justify-content-between">
                             <div class="d-flex mt-2 align-items-center">
@@ -83,8 +83,8 @@
                         </div>
                    
                        {% if post['image_url'] %}
-                            <img data-toggle="modal" data-target="#image" src="{{ post['image_url'] }}" alt="Post Image" style="box-shadow:none;" class="img-fluid mt-2">
-
+                            <img data-toggle="modal" data-target="#image" src="{{ post['image_url'] }}" alt="Post Image" style="box-shadow:none;" class="img-fluid mt-2 rounded mt-2 crop-image">
+                            <!-- <img src="{{ post['image_url'] }}" alt="Post Image" class="img-fluid rounded mt-2 crop-image"> -->
                             <div id="image" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel">
                                 <div class="modal-dialog modal-lg" role="document">
                                   <div class="modal-content">

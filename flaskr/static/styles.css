@@ -437,3 +437,10 @@ a:hover {
 .dropleft .dropdown-toggle::before {
   border-right: none;
 }
+
+.crop-image {
+  object-fit: cover; 
+  width: 100%;        
+  height: 300px;       
+  border-radius: 12px;  
+}
