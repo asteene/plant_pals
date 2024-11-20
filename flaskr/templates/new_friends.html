@@ -1,0 +1,31 @@
+{% extends '_layout.html' %}
+
+{% block title %}Entry Name{% endblock %}
+
+{% block body %}
+{% block right %}
+<!--So like I assume searching it filters it down. And it just dispalys all users by defult? Not sure where to go with this-->
+<div class="flex-grow-1 d-flex justify-content-center mt-5">
+    <form id="search-form" class="d-flex" style="width: 40%;">
+        <div class="input-group">
+            <input class="border-secondary rounded-pill flex-grow-1 me-2 pl-3 find-user" type="search" placeholder="Search users..." id="search-input">
+            <button class="btn-fix ml-1" type="submit">
+                <img class="nav-search" src="../static/gallery/icons/search.png" alt="Search">
+            </button>
+        </div>
+    </form>
+</div>
+
+<!--Just call every user and insert them here I assume? Just add a btn when you click em it makes them your friend-->
+<div class="d-flex flex-wrap align-items-start mt-2">
+    {% for x in range(20) %}
+    <div class="d-flex align-items-center flex-column m-2">
+        <img style="border-radius: 50%; width:7rem; filter: none;" src="{{ user.photoURL }}" alt="{{ user.username }}">
+        <h4 class="mt-2">{{ user.username }}</h4>
+    </div>
+    {% endfor %}
+    
+</div>
+            
+{% endblock %}
+{% endblock %}

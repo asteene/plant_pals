@@ -4,13 +4,13 @@
 
 {% block right %}
 
-<div class="gallery mt-5">
+<div class=" mt-5">
     {% if all_posts  != None %}
     <div class="card-container w-100" style=" gap: 1rem;">
         {% for post in all_posts %}
         <a href="{{ url_for('main.journal', journal_id =post.journal_id)}}">
-            <div class=" bordered-horizontal">
-                <br>
+            <div class="">
+                
                 <div class="card-body section-profile  ">
 
                     <div class="d-flex mt-2 align-items-center">
@@ -25,7 +25,7 @@
                     <p class="card-text">{{ post['text']  | truncate(400) }}</p>
                     
                     {% if post['image_url'] %}
-                        <img src="{{ post['image_url'] }}" alt="Post Image" style="filter: none; box-shadow: none;" class="img-fluid mt-2">
+                        <img src="{{ post['image_url'] }}" alt="Post Image" class="img-fluid rounded mt-2 crop-image">
                     {% endif %}
                     <!-- <div class="truncated-text" style="display: none;"></div> -->
                 </div>

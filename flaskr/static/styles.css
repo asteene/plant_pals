@@ -437,3 +437,27 @@ a:hover {
 .dropleft .dropdown-toggle::before {
   border-right: none;
 }
+
+.crop-image {
+  object-fit: cover; 
+  width: 100%;        
+  height: 300px;       
+  border-radius: 12px;  
+}
+
+.truncated-text {
+  display: block;
+  max-width: 100%;            
+  overflow: hidden;              
+  white-space: nowrap;           
+  text-overflow: ellipsis;       
+  cursor: pointer;
+}
+
+.truncated-text:hover {
+  white-space: normal;         
+  text-overflow: unset;          
+  opacity: 100%;                
+  max-height: none;         
+}
+

@@ -66,6 +66,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center nav-color mb-1" href="{{ url_for('main.new_friends') }}">
+                                <img class="nav-icon" src="../static/gallery/icons/add.png">
+                                <h5 class="mb-0 px-2">Friends</h5>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link d-flex align-items-center nav-color mb-1" href="{{ url_for('main.setting') }}">
                                 <img class="nav-icon" src="../static/gallery/icons/edit.png">
                                 <h5 class="mb-0 px-2">Settings</h5>
@@ -89,7 +95,9 @@
                     
                 </div>
 
-                <div class="col-md-2 section-friends mb-2 mr-4"> <!-- Friends section -->
+                <!-- Friends section -->
+
+                <div class="col-md-2 section-friends mb-2 mr-4"> 
                     <div class="section-profile pt-2 pb-5">
                     <h1 class="text-center layout-friends mt-1">Friends List</h1>
                     <ul class="nav flex-column">

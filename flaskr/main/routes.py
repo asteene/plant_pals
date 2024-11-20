@@ -365,7 +365,11 @@ def journals():
         user = firebase_auth.get_user(session['uid'])
         user_ref = db.collection('users').document(session['uid'])
         user_doc = user_ref.get()
-        user_doc = user_doc.to_dict()
+        # user_doc = user_doc.to_dict()
+        if user_doc.exists:
+            user_data = user_doc.to_dict()
+            if 'dateJoined' in user_data:
+                user_data['dateJoined'] = user_data['dateJoined'].strftime('%B %d, %Y')
         uid = session['uid']
 
         # Query to get all journals associated with the user's UID
@@ -401,7 +405,7 @@ def journals():
                 my_garden.append(trefle.get_species_by_id(id))
 
         # Pass the journals list to the template
-        return render_template('journals.html', user=user_doc, journals=journals_list, my_garden=my_garden)
+        return render_template('journals.html', user=user_data, journals=journals_list, my_garden=my_garden)
     else:
         return redirect(url_for('main.login'))
 
@@ -428,7 +432,7 @@ def journal(journal_id): # beware that when you create route to journal, that th
             plant = trefle.get_species_by_id(plant_id)
             # Fetch the posts from the journal, assuming they are stored in an array under 'post_ids'
             post_ids = journal_data.get('post_ids', [])
-            print(post_ids)
+            #print(post_ids)
             posts = []
 
             # Loop through post_ids and fetch each post from the posts collection
@@ -440,9 +444,23 @@ def journal(journal_id): # beware that when you create route to journal, that th
                     timestamp = post_data['time_created'].timestamp() 
                     post_data['time_readable'] = datetime.fromtimestamp(timestamp, tz=timezone.utc).strftime('%B %d, %Y')  # Format the date
                     post_data['id'] = post_id
+                    
+                    comment_ids = post_data.get('comments', [])
+                    comments = []
+                    if comment_ids:    
+                        for comment_id in comment_ids:
+                            comment_ref = db.collection('comments').document(comment_id)
+                            comment_data = comment_ref.get().to_dict()
+                            comment_data['id'] = comment_id  # Include the comment document ID
+                            comment_author = db.collection('users').document(comment_data['uid']).get().to_dict()
+                            comment_data['author'] = comment_author
+                            comments.append(comment_data)
+                        
+                    post_data['comments'] = comments
+                    
                     posts.append(post_data)
-
-            print(posts)
+            for p in posts:
+                print(f"{p['title']}: {p['comments']}")
 
             if len(posts) == 0:
                 posts = None
@@ -450,6 +468,51 @@ def journal(journal_id): # beware that when you create route to journal, that th
             return render_template('journal.html', journal_id=journal_id, user=user_doc, journal=journal_data, posts=posts, journal_name=journal_name, plant=plant)
     else:
         return redirect(url_for('main.login'))
+    
+@main.route('/add_comment', methods=['POST'])
+def add_comment():
+    # Get data from the request
+    comment_text = request.form.get('comment')
+    post_id = request.form.get('post_id')
+    user_id = session.get('uid')
+    journal_id = request.form.get('journal_id')
+
+    if not comment_text or not post_id or not user_id:
+        return jsonify({'error': 'Missing required fields'}), 400
+
+    # Reference to the post and comments collection
+    post_ref = db.collection('posts').document(post_id)
+    comments_ref = db.collection('comments')
+
+    # Create a new comment document
+    comment_data = {
+        'comment': comment_text,
+        'uid': user_id
+    }
+    new_comment_ref = comments_ref.add(comment_data)  # Add the comment to the Firestore
+
+    # Get the comment ID
+    new_comment_id = new_comment_ref[1].id
+
+    # Update the post document's comments[] field
+    try:
+        post_doc = post_ref.get()
+        if post_doc.exists:
+            post_data = post_doc.to_dict()
+            if 'comments' in post_data:
+                # Append the comment ID to the existing comments[] field
+                post_ref.update({'comments': firestore.ArrayUnion([new_comment_id])})
+            else:
+                # Create the comments[] field and add the comment ID
+                post_ref.update({'comments': [new_comment_id]})
+        else:
+            return jsonify({'error': 'Post not found'}), 404
+
+        #return jsonify({'success': True, 'comment_id': new_comment_id}), 200
+        return redirect(url_for('main.journal', journal_id=journal_id))
+
+    except Exception as e:
+        return jsonify({'error': f'An error occurred: {str(e)}'}), 500
 
 @main.route('/posts/update/<post_id>', methods=['PUT'])
 def update_post(post_id):
@@ -491,6 +554,13 @@ def delete_post(post_id):
                     journal_ref.update({
                         'post_ids': firestore.ArrayRemove([post_id])
                     })
+
+                # Remove all comments related to the post
+                if 'comments' in post_data:
+                    comment_ids = post_data['comments']
+                    for comment_id in comment_ids:
+                        comment_ref = db.collection('comments').document(comment_id)
+                        comment_ref.delete()
                 
                 # Delete the post document from Firestore
                 post_ref.delete()
@@ -822,3 +892,13 @@ def get_friends(user_data):
             friends_info.append(friend_info)
 
     return friends_info
+
+@main.route('/test')
+def new_friends():
+    if 'uid' in session:
+        user = firebase_auth.get_user(session['uid'])
+        uid = session['uid']
+        user_ref = db.collection('users').document(session['uid'])
+        user_doc = user_ref.get()
+        user_data = user_doc.to_dict()
+        return render_template('new_friends.html', user=user_data)
