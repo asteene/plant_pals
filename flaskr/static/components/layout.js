@@ -10,9 +10,9 @@ document.addEventListener("DOMContentLoaded", function() {
             link.classList.remove('nav-color'); 
 
            
-            if (currentPath === '/friends' ) {
+            if (currentPath.startsWith('/friends') ) {
                 img.classList.remove('active-icon');
-                link.classList.remove('active-btn');
+                h5.classList.remove('friends-font');
             }
         }
     });
