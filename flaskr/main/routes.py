@@ -830,8 +830,9 @@ def add_friend(friend_id):
             if current_user_id not in friend_data['friend_requests']:
                 friend_data['friend_requests'].append(current_user_id)
                 friend_ref.update({'friend_requests': friend_data['friend_requests']})
-
-            return redirect(url_for('main.setting'))  # Or wherever you want to redirect after adding a friend
+            # update so it does it for new friend page but if removed from settings aswell  remove the code from settings page
+            return redirect(url_for('main.new_friends'))
+            #return redirect(url_for('main.setting'))  # Or wherever you want to redirect after adding a friend
         else:
             return "User not found", 404
     else:
@@ -968,9 +969,19 @@ def get_friends(user_data):
 @main.route('/test')
 def new_friends():
     if 'uid' in session:
-        user = firebase_auth.get_user(session['uid'])
-        uid = session['uid']
         user_ref = db.collection('users').document(session['uid'])
         user_doc = user_ref.get()
         user_data = user_doc.to_dict()
-        return render_template('new_friends.html', user=user_data)
+
+        # Assuming 'friends' is a list of user IDs for their friends
+        friends = user_data.get('friends', [])  
+
+        # Fetch details of all friends
+        friends_data = []
+        for friend_id in friends:
+            friend_doc = db.collection('users').document(friend_id).get()
+            if friend_doc.exists:
+                friends_data.append(friend_doc.to_dict())
+
+        return render_template('new_friends.html', user=user_data, friends=friends_data)
+    return redirect('/login')
