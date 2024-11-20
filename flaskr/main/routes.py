@@ -238,14 +238,29 @@ def friend_journal(friend_id, journal_id):
                     timestamp = post_data['time_created'].timestamp() 
                     post_data['time_readable'] = datetime.fromtimestamp(timestamp, tz=timezone.utc).strftime('%B %d, %Y')  # Format the date
                     post_data['id'] = post_id
+                    comments = []
+                    try:    
+                        for comment_id in post_data['comments']:
+                            comment_ref = db.collection('comments').document(comment_id)
+                            comment_data = comment_ref.get().to_dict()
+                            comment_data['id'] = comment_id  # Include the comment document ID
+                            comment_author = db.collection('users').document(comment_data['uid']).get().to_dict()
+                            comment_data['author'] = comment_author
+                            comments.append(comment_data)
+                    except: 
+                        comments = []
+                        
+                    post_data['comments'] = comments
+                    
                     posts.append(post_data)
+
 
             print(posts)
 
             if len(posts) == 0:
                 posts = None
             # Pass the journal data and posts to the template
-            return render_template('journal.html', journal_id=journal_id, user=user_doc, journal=journal_data, posts=posts, journal_name=journal_name, plant=plant, friend=friend_data)
+            return render_template('journal.html', journal_id=journal_id, user=user_data, journal=journal_data, posts=posts, journal_name=journal_name, plant=plant, friend=friend_data)
        
     else:
         return redirect(url_for('main.login'))
@@ -825,7 +840,6 @@ def add_friend(friend_id):
                 friend_ref.update({'friend_requests': friend_data['friend_requests']})
 
 
-            # update so it does it for new friend page but if so remove the code from settings page
             return redirect(url_for('main.new_friends'))
             #return redirect(url_for('main.setting'))  # Or wherever you want to redirect after adding a friend
         else:
@@ -920,7 +934,8 @@ def remove_friend(friend_id):
                             'friends': friend_friends_list
                         })
 
-                return redirect(url_for('main.garden'))  # Redirect back to the settings page or wherever needed
+                return redirect(url_for('main.new_friends'))
+                #return redirect(url_for('main.setting'))  # Or wherever you want to redirect after adding a friend
             else:
                 # If the user is not in the friends list
                 return "User is not in your friends list.", 400
