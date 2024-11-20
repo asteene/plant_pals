@@ -447,14 +447,14 @@ def journal(journal_id): # beware that when you create route to journal, that th
                     
                     comment_ids = post_data.get('comments', [])
                     comments = []
-                        
-                    for comment_id in comment_ids:
-                        comment_ref = db.collection('comments').document(comment_id)
-                        comment_data = comment_ref.get().to_dict()
-                        comment_data['id'] = comment_id  # Include the comment document ID
-                        comment_author = db.collection('users').document(comment_data['uid']).get().to_dict()
-                        comment_data['author'] = comment_author
-                        comments.append(comment_data)
+                    if comment_ids:    
+                        for comment_id in comment_ids:
+                            comment_ref = db.collection('comments').document(comment_id)
+                            comment_data = comment_ref.get().to_dict()
+                            comment_data['id'] = comment_id  # Include the comment document ID
+                            comment_author = db.collection('users').document(comment_data['uid']).get().to_dict()
+                            comment_data['author'] = comment_author
+                            comments.append(comment_data)
                         
                     post_data['comments'] = comments
                     
@@ -468,6 +468,51 @@ def journal(journal_id): # beware that when you create route to journal, that th
             return render_template('journal.html', journal_id=journal_id, user=user_doc, journal=journal_data, posts=posts, journal_name=journal_name, plant=plant)
     else:
         return redirect(url_for('main.login'))
+    
+@main.route('/add_comment', methods=['POST'])
+def add_comment():
+    # Get data from the request
+    comment_text = request.form.get('comment')
+    post_id = request.form.get('post_id')
+    user_id = session.get('uid')
+    journal_id = request.form.get('journal_id')
+
+    if not comment_text or not post_id or not user_id:
+        return jsonify({'error': 'Missing required fields'}), 400
+
+    # Reference to the post and comments collection
+    post_ref = db.collection('posts').document(post_id)
+    comments_ref = db.collection('comments')
+
+    # Create a new comment document
+    comment_data = {
+        'comment': comment_text,
+        'uid': user_id
+    }
+    new_comment_ref = comments_ref.add(comment_data)  # Add the comment to the Firestore
+
+    # Get the comment ID
+    new_comment_id = new_comment_ref[1].id
+
+    # Update the post document's comments[] field
+    try:
+        post_doc = post_ref.get()
+        if post_doc.exists:
+            post_data = post_doc.to_dict()
+            if 'comments' in post_data:
+                # Append the comment ID to the existing comments[] field
+                post_ref.update({'comments': firestore.ArrayUnion([new_comment_id])})
+            else:
+                # Create the comments[] field and add the comment ID
+                post_ref.update({'comments': [new_comment_id]})
+        else:
+            return jsonify({'error': 'Post not found'}), 404
+
+        #return jsonify({'success': True, 'comment_id': new_comment_id}), 200
+        return redirect(url_for('main.journal', journal_id=journal_id))
+
+    except Exception as e:
+        return jsonify({'error': f'An error occurred: {str(e)}'}), 500
 
 @main.route('/posts/update/<post_id>', methods=['PUT'])
 def update_post(post_id):

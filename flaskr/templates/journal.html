@@ -119,16 +119,19 @@
 
                                 <!-- Modal Body with Image -->
                                 <div class="modal-body">
-                                    <div class="d-flex align-items-center" >
-                                        <img style="border-radius: 50%; height: 4rem; width: 4rem; filter: none; box-shadow: none;" src="{{ user['photoURL'] }}" alt="Profile Picture">
+                                    <form action="{{ url_for('main.add_comment') }}" method="post">
+                                        <div class="d-flex align-items-center">
+                                            <img style="border-radius: 50%; height: 4rem; width: 4rem; filter: none; box-shadow: none;" src="{{ user['photoURL'] }}" alt="Profile Picture">
                                             <div class="form-group flex-grow-1 ml-3 mb-0">
-                                                <input type="text" class="form-control" id="comment" placeholder="Share your thoughts" style="border-radius: 30px;">
+                                                <input type="text" class="form-control" name="comment" placeholder="Share your thoughts" style="border-radius: 30px;" required>
+                                                <input type="hidden" name="post_id" value="{{ post['id'] }}"> <!-- Hidden field for post ID -->
+                                                <input type="hidden" name="journal_id" value="{{ journal_id }}">
                                                 <div class="d-flex justify-content-end mt-2">
                                                     <button type="submit" class="btn btn-primary">Submit</button>
                                                 </div>
                                             </div>
-                                       
-                                    </div>
+                                        </div>
+                                    </form>
                                     <br>
                                     <!-- Make this loop through all the comments -->
                                     {% if post.comments != [] %}
