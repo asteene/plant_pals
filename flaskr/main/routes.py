@@ -265,8 +265,12 @@ def friend(friend_id):
             friend_info = {
                 "id": friend_doc.id,
                 "username": friend_data.get("username"),
-                "photoURL": friend_data.get("photoURL")
+                "photoURL": friend_data.get("photoURL"),
+                "friends": friend_data.get("friends"),
+                'dateJoined' : friend_data['dateJoined'].strftime('%B %d, %Y')
             }
+
+            print( friend_data.get("friends"))
             # Query to get all journals associated with the user's UID
             friend_journals_ref = db.collection('journals').where('uid', '==', friend_id).get()
 
@@ -408,6 +412,43 @@ def journals():
         return render_template('journals.html', user=user_data, journals=journals_list, my_garden=my_garden)
     else:
         return redirect(url_for('main.login'))
+
+@main.route('/like/<post_id>', methods=['POST'])
+def like_post(post_id):
+    if 'uid' in session:
+        uid = session['uid']
+
+        journal_id = request.form.get('journal_id')
+        
+        # Reference to the post document in Firestore
+        post_ref = db.collection('posts').document(post_id)
+        post_doc = post_ref.get()
+        
+        # Check if the post exists
+        if post_doc.exists:
+            post_data = post_doc.to_dict()
+            
+            # If likes[] doesn't exist, initialize it as an empty array
+            if 'likes' not in post_data:
+                post_data['likes'] = []
+            
+            # Check if the user already liked the post
+            if uid not in post_data['likes']:
+                # Add the user ID to the likes array
+                post_data['likes'].append(uid)
+                
+                # Update the post with the new likes array
+                post_ref.update({
+                    'likes': post_data['likes']
+                })
+            
+            # Redirect the user back to the post page
+            return redirect(url_for('main.journal', journal_id=journal_id))
+        else:
+            return jsonify({'status': 'error', 'message': 'Post not found'}), 404
+    else:
+        return redirect(url_for('main.login'))
+
 
 @main.route('/journals/<journal_id>')
 def journal(journal_id): # beware that when you create route to journal, that this is rightfully renamed or the other is or might cause issues
