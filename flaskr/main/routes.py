@@ -840,7 +840,6 @@ def add_friend(friend_id):
                 friend_ref.update({'friend_requests': friend_data['friend_requests']})
 
 
-            # update so it does it for new friend page but if so remove the code from settings page
             return redirect(url_for('main.new_friends'))
             #return redirect(url_for('main.setting'))  # Or wherever you want to redirect after adding a friend
         else:
@@ -935,7 +934,8 @@ def remove_friend(friend_id):
                             'friends': friend_friends_list
                         })
 
-                return redirect(url_for('main.garden'))  # Redirect back to the settings page or wherever needed
+                return redirect(url_for('main.new_friends'))
+                #return redirect(url_for('main.setting'))  # Or wherever you want to redirect after adding a friend
             else:
                 # If the user is not in the friends list
                 return "User is not in your friends list.", 400
