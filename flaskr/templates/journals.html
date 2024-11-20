@@ -19,11 +19,11 @@
                     <p class="mb-0">Posts</p>
                 </div>
                 <div class="text-center mx-3">
-                    <p class="mb-0">13444</p>
+                    <p class="mb-0">{{ journals|length }}</p>
                     <p class="mb-0">Journals</p>
                 </div>
                 <div class="text-center ">
-                    <p class="mb-0">13444</p>
+                    <p class="mb-0">{{ user['friends']|length }}</p>
                     <p class="mb-0">Friends</p>
                 </div>
             </div>
@@ -45,12 +45,12 @@
                     <p class="mb-0">Posts</p>
                 </div>
                 <div class="text-center mx-3">
-                    <p class="mb-0">13444</p>
+                    <p class="mb-0">{{ friend_journals|length }}</p>
                     <p class="mb-0">Journals</p>
                 </div>
                 <div class="text-center ">
                     <p class="mb-0">13444</p>
-                    <p class="mb-0">Friends</p>
+                    <p class="mb-0">{{ friend['friends']|length }}</p>
                 </div>
             </div>
         </div>
