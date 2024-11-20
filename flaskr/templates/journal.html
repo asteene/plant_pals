@@ -104,31 +104,47 @@
                              
                         {% endif %}
                         <p class="card-text">{{ post['text'] }}</p>
-                        <img data-toggle="modal" data-target="#comments" src="../static/gallery/icons/chat(1).png" alt="Post Image" style="box-shadow:none;" class="nav-icon">
-                        <img data-toggle="modal" data-target="#likes" src="../static/gallery/icons/heart.png" alt="Post Image" style="box-shadow:none;" class=" nav-icon">
-                        <!-- <div class="truncated-text" style="display: none;"></div> -->
+                        <img data-toggle="modal" data-target="#comments-{{ post['id'] }}" src="../static/gallery/icons/chat(1).png" alt="Post Image" style="box-shadow:none;" class="nav-icon">
+                        <img data-toggle="modal" data-target="#likes-{{ post['id'] }}" src="../static/gallery/icons/heart.png" alt="Post Image" style="box-shadow:none;" class="nav-icon">
                         
-                        <div id="comments" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel">
+                        <div id="likes-{{ post['id'] }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="commentsModalLabel-{{ post['id'] }}">
                             <div class="modal-dialog modal-lg" role="document">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                  </button>
-                                </div>
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
 
-                                <!-- Modal Body with Image -->
-                                <div class="modal-body">
-                                    <div class="d-flex align-items-center" >
-                                        <img style="border-radius: 50%; height: 4rem; width: 4rem; filter: none; box-shadow: none;" src="{{ user['photoURL'] }}" alt="Profile Picture">
+                                  <div class="modal-body">
+                                      <div class="d-flex align-items-center">
+                                          <img style="border-radius: 50%; height: 4rem; width: 4rem; filter: none; box-shadow: none;" src="{{ user['photoURL'] }}" alt="Profile Picture">
+                                          <h5 class="ml-3" style="margin-bottom: 0;">Username</h5>
+                                      </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+
+                        <div id="comments-{{ post['id'] }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="commentsModalLabel-{{ post['id'] }}">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="d-flex align-items-center">
+                                            <img style="border-radius: 50%; height: 4rem; width: 4rem; filter: none; box-shadow: none;" src="{{ user['photoURL'] }}" alt="Profile Picture">
                                             <div class="form-group flex-grow-1 ml-3 mb-0">
-                                                <input type="text" class="form-control" id="comment" placeholder="Share your thoughts" style="border-radius: 30px;">
+                                                <input type="text" class="form-control" id="comment-{{ post['id'] }}" placeholder="Share your thoughts" style="border-radius: 30px;">
                                                 <div class="d-flex justify-content-end mt-2">
                                                     <button type="submit" class="btn btn-primary">Submit</button>
                                                 </div>
                                             </div>
-                                       
-                                    </div>
+                                        </div>
                                     <br>
                                     <!-- Make this loop through all the comments -->
                                     {% for comment in post['comments'] %}
@@ -146,27 +162,6 @@
                               </div>
                             </div>
                         </div>
-
-                        <div id="likes" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel">
-                            <div class="modal-dialog modal-lg" role="document">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                  </button>
-                                </div>
-
-                                <!-- Modal Body with Image -->
-                                <div class="modal-body">
-                                    <div class="d-flex align-items-center">
-                                        <img style="border-radius: 50%; height: 4rem; width: 4rem; filter: none; box-shadow: none;" src="{{ user['photoURL'] }}" alt="Profile Picture">
-                                        <h5 style="margin-bottom: 0;">Username</h5>
-                                    </div>
-                                </div>
-                              </div>
-                            </div>
-                         </div>
-
                     </div>
                     
                 </div>
