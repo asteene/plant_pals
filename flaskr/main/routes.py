@@ -266,7 +266,8 @@ def friend(friend_id):
                 "id": friend_doc.id,
                 "username": friend_data.get("username"),
                 "photoURL": friend_data.get("photoURL"),
-                "friends": friend_data.get("friends")
+                "friends": friend_data.get("friends"),
+                'dateJoined' : friend_data['dateJoined'].strftime('%B %d, %Y')
             }
 
             print( friend_data.get("friends"))
