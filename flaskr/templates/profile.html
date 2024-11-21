@@ -8,7 +8,7 @@
     {% if all_posts  != None %}
     <div class="card-container w-100" style=" gap: 1rem;">
         {% for post in all_posts %}
-        <a href="{{ url_for('main.journal', journal_id =post.journal_id)}}">
+        <a href="{{ url_for('main.friend_journal', friend_id=post.author.id, journal_id=post.journal_id)}}">
             <div class="">
                 
                 <div class="card-body section-profile  ">

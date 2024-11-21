@@ -193,10 +193,11 @@ def profile():
                         post['time_created'] = post['time_created'].strftime('%b %Y')
                         print(post['time_created'])
                         post['author'] = author_doc.to_dict()
+                        post['author']['id'] = author_doc.id
+                        print(post['author']['id'])
                         all_posts.append(post)
                 
-            print(all_posts)
-            print(user_data)
+                        
             return render_template('profile.html', user=user_data, all_posts=all_posts)
         else:
             return redirect(url_for('main.login'))
