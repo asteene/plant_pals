@@ -23,7 +23,7 @@ def home():
     # return redirect(url_for('main.about'))
     if 'uid' in session:
         return redirect(url_for('main.garden')) 
-    return redirect(url_for('main.login'))
+    return redirect(url_for('main.about'))
 
 @main.route('/about')
 def about():
@@ -162,7 +162,7 @@ def create_session():
 def logout():
     if True or request.method == 'POST':
         session.pop('uid', None)
-        return redirect(url_for('main.login'))
+        return redirect(url_for('main.about'))
     return redirect(url_for('main.login'))  # Fallback for GET requests
 
 
