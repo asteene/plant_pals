@@ -581,7 +581,7 @@ def add_comment():
             return jsonify({'error': 'Post not found'}), 404
 
         #return jsonify({'success': True, 'comment_id': new_comment_id}), 200
-        return redirect(url_for('main.journal', journal_id=journal_id))
+        return redirect(request.referrer)
 
     except Exception as e:
         return jsonify({'error': f'An error occurred: {str(e)}'}), 500
@@ -909,9 +909,7 @@ def accept_friend(requester_id):
                 'friends': requester_data['friends']
             })
 
-            return redirect(url_for('main.new_friends'))
-            #return redirect(url_for('main.setting'))  # Or wherever you want to redirect after adding a friend
-
+            return redirect(url_for('main.setting'))
         else:
             return "User not found", 404
     else:
