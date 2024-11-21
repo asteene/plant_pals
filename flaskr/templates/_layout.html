@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="../static/bootstrap/css/bootstrap.min.css" media="all" rel="stylesheet">
+    <link href="/static/bootstrap/css/bootstrap.min.css" media="all" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="/static/gallery/favicon.ico">
     <link rel="stylesheet" href="/static/styles.css">
     <title>{% block title %}{% endblock %}</title>
@@ -17,7 +17,7 @@
                 <div class="input-group">
                     <input class="border-secondary rounded-pill flex-grow-1 me-2 pl-3 find-user" type="search" placeholder="Search users..." id="search-input">
                     <button class="btn-fix ml-1" type="submit">
-                        <img class="nav-search" src="../static/gallery/icons/search.png" alt="Search">
+                        <img class="nav-search" src="/static/gallery/icons/search.png" alt="Search">
                     </button>
                 </div>
             </form>
@@ -43,43 +43,43 @@
                         <!--https://www.geeksforgeeks.org/flask-url-helper-function-flask-url_for/-->
                         <li class="nav-item">
                             <a class="nav-link d-flex align-items-center nav-color mb-1 " href="{{ url_for('main.garden') }}">
-                                <img class="nav-icon" src="../static/gallery/icons/home.png">
+                                <img class="nav-icon" src="/static/gallery/icons/home.png">
                                 <h5 class="mb-0 px-2">Home</h5>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link d-flex align-items-center nav-color mb-1" href="{{ url_for('main.add_plant') }}">
-                                <img class="nav-icon" src="../static/gallery/icons/instagram-post.png">
+                                <img class="nav-icon" src="/static/gallery/icons/instagram-post.png">
                                 <h5 class="mb-0 px-2">Garden</h5>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link d-flex align-items-center nav-color mb-1" href="{{ url_for('main.journals') }}">
-                                <img class="nav-icon" src="../static/gallery/icons/ribbon.png">
+                                <img class="nav-icon" src="/static/gallery/icons/ribbon.png">
                                 <h5 class="mb-0 px-2">Profile</h5>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link d-flex align-items-center nav-color mb-1" href="{{ url_for('main.profile') }}">
-                                <img class="nav-icon" src="../static/gallery/icons/explore.png">
+                                <img class="nav-icon" src="/static/gallery/icons/explore.png">
                                 <h5 class="mb-0 px-2">Explore</h5>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link d-flex align-items-center nav-color mb-1" href="{{ url_for('main.new_friends') }}">
-                                <img class="nav-icon" src="../static/gallery/icons/add.png">
+                                <img class="nav-icon" src="/static/gallery/icons/add.png">
                                 <h5 class="mb-0 px-2">Friends</h5>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link d-flex align-items-center nav-color mb-1" href="{{ url_for('main.setting') }}">
-                                <img class="nav-icon" src="../static/gallery/icons/edit.png">
+                                <img class="nav-icon" src="/static/gallery/icons/edit.png">
                                 <h5 class="mb-0 px-2">Settings</h5>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link d-flex align-items-center nav-color mb-1" href="{{ url_for('main.logout') }}">
-                                <img class="nav-icon" src="../static/gallery/icons/logout.png">
+                                <img class="nav-icon" src="/static/gallery/icons/logout.png">
                                 <h5 class="mb-0 px-2">Logout</h5>
                             </a>
                         </li>
@@ -120,10 +120,10 @@
         </div>
     </footer>
 
-    <script src="../static/bootstrap/jquery-3.7.1.min.js.js"></script>
+    <script src="/static/bootstrap/jquery-3.7.1.min.js.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="../static/bootstrap/js/bootstrap.bundle.js"></script>
-    <script src="../static/components/layout.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.bundle.js"></script>
+    <script src="/static/components/layout.js"></script>
     {% block scripts %}{% endblock %}
     
 </body>
