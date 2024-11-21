@@ -909,7 +909,9 @@ def accept_friend(requester_id):
                 'friends': requester_data['friends']
             })
 
-            return redirect(url_for('main.setting'))
+            return redirect(url_for('main.new_friends'))
+            #return redirect(url_for('main.setting'))  # Or wherever you want to redirect after adding a friend
+
         else:
             return "User not found", 404
     else:
