@@ -15,41 +15,90 @@
                     <button data-toggle="modal" data-target="#new-post" class="btn">New Post</button>
                     <div id="new-post" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel">
                         <div class="modal-dialog modal-lg" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                
+                                <!-- Modal Body with Image -->
+                                <div class="modal-body">
+                                    <form id="create-post-form" class="pt-4 mb-4 ml-3" style="width:95%" onsubmit="handleSubmit(event)">
+                                        <div class="form-group">
+                                            <label for="title">Post Title</label>
+                                            <input type="text" class="form-control" id="title" name="title" placeholder="Enter post title" required>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label for="content">Content</label>
+                                            <textarea class="form-control" id="content" name="content" rows="4" placeholder="Enter post content" required></textarea>
+                                        </div>
+                    
+                                        <!-- Image Upload -->
+                                        <div class="form-group">
+                                            <label for="image">Upload Image</label>
+                                            <input type="file" id="photo" class="form-control-file">
+                                        </div>
+                    
+                                        <input type="hidden" id="journal_id" name="journal_id" value="{{ journal_id }}">
+                    
+                                        <button type="submit" class="btn btn-primary justify-content-end">Submit</button>
+                                    </form>
+                                </div>
                             </div>
+                        </div>
+                    </div>
+                    
+                    <script>
+                        function handleSubmit(event) {
+                            event.preventDefault(); // Prevent the default form submission
                             
-                            <!-- Modal Body with Image -->
-                            <div class="modal-body">
-                                <form  id="create-post-form" class="pt-4 mb-4 ml-3" style="width:95%">
-                                    <div class="form-group">
-                                    <label for="title">Post Title</label>
-                                    <input type="text" class="form-control" id="title" name="title" placeholder="Enter post title" required>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                    <label for="content">Content</label>
-                                    <textarea class="form-control" id="content" name="content" rows="4" placeholder="Enter post content" required></textarea>
-                                    </div>
-                        
-                                    <!-- New image upload input -->
-                                    <div class="form-group">
-                                        <label for="image">Upload Image</label>
-                                        <!-- <input type="file" class="form-control-file" id="image" name="image" accept="image/*"> -->
-                                        <input type="file" id="photo" class="form-control-file">
-                                    </div>
-                        
-                                    <input type="hidden" id="journal_id" name="journal_id" value="{{ journal_id }}">
-                                    
-                                    <button type="submit" class="btn btn-primary justify-content-end">Submit</button>
-                                </form>
-                            </div>
-                        </div>
-                        </div>
-                    </div>   
+                            // Form validation logic (if necessary)
+                            const form = event.target;
+                            const title = form.title.value.trim();
+                            const content = form.content.value.trim();
+                            
+                            if (!title || !content) {
+                                alert('Please fill out all required fields.');
+                                return;
+                            }
+                    
+                            // Handle image upload if provided
+                            const fileInput = form.querySelector('#photo');
+                            const file = fileInput.files[0];
+                    
+                            // If no file is selected, you can proceed without it
+                            if (!file) {
+                                // Proceed with form submission (use your desired method: AJAX, form action, etc.)
+                                submitForm(form);
+                            } else {
+                                // Handle the file upload logic (if needed)
+                                handleFileUpload(file)
+                                    .then(() => submitForm(form))
+                                    .catch(error => alert('Error uploading file: ' + error));
+                            }
+                        }
+                    
+                        function submitForm(form) {
+                            // Submit the form or process the data here
+                            console.log("Form submitted!");
+                            // Close the modal
+                            $('#new-post').modal('hide');
+                            location.reload();
+                        }
+                    
+                        function handleFileUpload(file) {
+                            return new Promise((resolve, reject) => {
+                                // Simulate file upload (replace with actual upload logic)
+                                setTimeout(() => {
+                                    console.log('File uploaded:', file.name);
+                                    resolve();
+                                }, 1000);
+                            });
+                        }
+                    </script>
+                       
                 {% endif %}
             </div>
            
