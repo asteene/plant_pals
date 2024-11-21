@@ -25,8 +25,9 @@ def home():
         return redirect(url_for('main.garden')) 
     return redirect(url_for('main.login'))
 
-# @main.route('/about')
-# def about():
+@main.route('/about')
+def about():
+    return render_template('about.html')
 #     if 'uid' in session:
 #         # Get the current user
 #         user = firebase_auth.get_user(session['uid'])

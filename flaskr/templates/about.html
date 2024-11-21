@@ -1,67 +1,219 @@
-{% extends '_layout.html' %}
-{% block title %}About Plant Pals{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block right %}
-<div class="container my-5">
-    <section class="text-center mb-4">
-        <h1 class="display-4">Welcome to Plant Pals!</h1>
-        <p class="lead">Bringing plant enthusiasts together to help keep every plant happy and healthy.</p>
-        <hr class="my-4">
-    </section>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>About Plant Pals</title>
+        <style>
+            :root {
+                --greyBackground: #E9E9E9;
+                --darkGreen: #505946;
+                --blackGreen: #0A0C07;
+                --lightBlue: #719294;
+                --darkBlue: #52848A;
+            }
 
-    <section class="mb-5">
-        <h2 class="h4">Our Mission</h2>
-        <p class="text-muted">
-            At Plant Pals, we believe that every plant deserves a loving home. Our mission is to connect plant lovers of
-            all levels and provide tools to track, nurture, and share the joy of plant care.
-        </p>
-        <p class="text-muted">
-            Whether you’re a seasoned gardener or just starting, Plant Pals offers resources to manage your garden, keep
-            your green friends thriving, and share your journey with fellow plant lovers.
-        </p>
-    </section>
+            body {
+                margin: 0;
+                font-family: "Raleway", sans-serif;
+                color: var(--blackGreen);
+                padding: 20px;
+                background-color: var(--greyBackground);
+                background-image: url('/static/gallery/about.png');
+                /* Add the background image */
+                background-size: cover;
+                /* Ensure the image covers the entire page */
+                background-position: center;
+                /* Center the image */
+                background-attachment: fixed;
+                /* Make the background fixed when scrolling */
+            }
 
-    <section class="mb-5">
-        <h2 class="h4">Features</h2>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item"><strong>🌱 Garden tracking:</strong> Log and monitor your plants with ease.</li>
-            <li class="list-group-item"><strong>📒 Journal entries:</strong> Document your plant care journey with
-                personalized notes.</li>
-            <li class="list-group-item"><strong>👥 User profiles:</strong> Connect with friends, share tips, and grow your
-                network.</li>
-        </ul>
-    </section>
+            h1 {
+                font-family: "Italiana", serif;
+                color: var(--darkGreen);
+            }
 
-    <section class="text-center mt-5">
-        <!-- <h2 class="h4">Get Started</h2>
-        <p class="text-muted">
-            Join our community today and become a part of the Plant Pals family. Sign up or log in to start your journey
-            with plants!
-        </p> -->
-        <!-- <a href="/login" class="btn btn-success btn-lg mt-3">Login</a> -->
+            h2 {
+                color: var(--darkBlue);
+                margin-top: 20px;
+            }
 
-        <h2 class="h4">
-            {% if user %}
-                Welcome back! Ready to manage your plants?
-            {% else %}
-                Get Started
-            {% endif %}
-        </h2>
-        <p class="text-muted">
-            {% if user %}
-                You're all set! Start managing your plants today.
-            {% else %}
-                Join our community today and become a part of the Plant Pals family. Sign up or log in to start your journey with plants!
-            {% endif %}
-        </p>
-        
-        {% if user %}
-            <!-- If the user is logged in, show 'Go to Home' -->
-            <a href="/" class="btn btn-success btn-lg mt-3">Go to Home</a>
-        {% else %}
-            <!-- If the user is not logged in, show 'Login' -->
-            <a href="/login" class="btn btn-success btn-lg mt-3">Login</a>
-        {% endif %}
-    </section>
-</div>
-{% endblock %}
+            p {
+                font-family: "Raleway", sans-serif;
+                line-height: 1.6;
+                color: var(--blackGreen);
+            }
+
+            ul {
+                list-style: none;
+                padding: 0;
+            }
+
+            .list-group-item {
+                background: var(--greyBackground);
+                border: 1px solid var(--darkGreen);
+                padding: 10px;
+                border-radius: 5px;
+                margin-bottom: 10px;
+                font-family: "Raleway", sans-serif;
+            }
+
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                background-color: rgba(255, 255, 255, 0.8);
+                /* Optional: Add a slight background to the content */
+                padding: 20px;
+                /* Adjust padding as needed */
+                border-radius: 8px;
+                /* Optional: Add border radius for rounded corners */
+            }
+
+            .btn-login {
+                display: inline-block;
+                background-color: var(--darkGreen);
+                color: var(--greyBackground);
+                border: none;
+                border-radius: 5px;
+                padding: 10px 20px;
+                font-size: 16px;
+                font-family: "raleway", sans-serif;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                cursor: pointer;
+                text-decoration: none;
+                box-shadow: 2px 4px 8px rgba(22, 22, 26, 0.18);
+                transition: all 0.3s ease;
+            }
+
+            .btn-login:hover {
+                background-color: var(--darkBlue);
+                color: var(--greyBackground);
+                box-shadow: 4px 6px 12px rgba(22, 22, 26, 0.22);
+                transform: translateY(-2px);
+            }
+
+            .btn-login:active {
+                transform: translateY(0);
+                box-shadow: 2px 4px 8px rgba(22, 22, 26, 0.18);
+            }
+
+            .text-center {
+                text-align: center;
+            }
+
+            .mb-4 {
+                margin-bottom: 1.5rem;
+            }
+
+            .mt-5 {
+                margin-top: 3rem;
+            }
+
+            .my-5 {
+                margin-top: 3rem;
+                margin-bottom: 3rem;
+            }
+
+            hr {
+                border: 0;
+                border-top: 1px solid var(--darkGreen);
+                margin: 1.5rem 0;
+            }
+        </style>
+
+    </head>
+
+    <body>
+        <div class="container my-5">
+            <section class="text-center mb-4">
+                <h1 class="display-4">Welcome to Plant Pals!</h1>
+                <p class="lead">Bringing plant enthusiasts together to help keep every plant happy and healthy.</p>
+                <hr class="my-4">
+            </section>
+
+            <section class="mb-5">
+                <h2 class="h4">Our Mission</h2>
+                <p>
+                    At Plant Pals, we believe that every plant deserves a loving home. Our mission is to connect plant
+                    lovers of all
+                    levels
+                    and provide a community and set of tools that allow you to track, nurture, and share the joy of
+                    plant care.
+                </p>
+                <p>
+                    Whether you’re a seasoned gardener with a greenhouse full of vibrant plants or a beginner just
+                    starting with
+                    your first
+                    succulent, Plant Pals offers resources that help you stay organized and focused on what matters
+                    most: the health
+                    and
+                    happiness of your plants.
+                </p>
+                <p>
+                    Our app is designed to simplify plant care by allowing users to log important details like watering
+                    schedules,
+                    sunlight
+                    needs, and growth patterns for each of their plants. With visual tracking, reminders, and journal
+                    entries,
+                    you’ll never
+                    miss an important care task again. We believe that by helping you take better care of your plants,
+                    we’re
+                    fostering a
+                    greater appreciation for nature, one leaf at a time.
+                </p>
+                <p>
+                    But we’re not just about plant care – we’re about community. Plant Pals provides a space to connect
+                    with fellow
+                    plant
+                    enthusiasts, exchange tips and ideas, share your gardening success stories, and celebrate the joy of
+                    watching
+                    your plants
+                    grow. Whether you want to show off your latest bloom or ask for advice on a struggling plant, our
+                    platform is
+                    here to
+                    support you every step of the way.
+                </p>
+                <p>
+                    Our goal is to make plant care accessible to everyone, regardless of their experience level. Through
+                    easy-to-use
+                    features
+                    and a supportive, vibrant community, we’re here to help you cultivate not just a thriving garden,
+                    but a sense of
+                    connection
+                    with like-minded plant lovers all over the world. Join us in spreading the love for plants and
+                    growing a
+                    greener, more
+                    sustainable world.
+                </p>
+            </section>
+
+            <section class="mb-5">
+                <h2 class="h4">Features</h2>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>🌱 Garden tracking:</strong> Log and monitor your plants with
+                        ease.</li>
+                    <li class="list-group-item"><strong>📒 Journal entries:</strong> Document your plant care journey
+                        with personalized notes.</li>
+                    <li class="list-group-item"><strong>👥 User profiles:</strong> Connect with friends, share tips, and
+                        grow your network.</li>
+                    <li class="list-group-item"><strong>📷 Visual updates:</strong> Upload photos of your plants to
+                        track their growth over time. Share your favorite snapshots with the community to inspire
+                        others.</li>
+                </ul>
+            </section>
+
+            <section class="text-center mt-5">
+                <h2 class="h4">Get Started</h2>
+                <p>
+                    Join our community today and become a part of the Plant Pals family. Start your journey with plants
+                    and make your garden thrive!
+                </p>
+                <a href="/login" class="btn btn-login">Login</a>
+            </section>
+        </div>
+    </body>
+
+</html>
