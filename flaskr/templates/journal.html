@@ -99,9 +99,10 @@
                             </form>
                             {% endif %}
                         </div>
-                   
+                        <p class="card-text mb-3 mt-1">{{ post['text'] }}</p>
+
                        {% if post['image_url'] %}
-                            <img data-toggle="modal" data-target="#image-{{ post['id'] }}" src="{{ post['image_url'] }}" alt="Post Image" style="box-shadow:none;" class="img-fluid mt-2 rounded mt-2 crop-image">
+                            <img data-toggle="modal" data-target="#image-{{ post['id'] }}" src="{{ post['image_url'] }}" alt="Post Image" style="box-shadow:none;" class="img-fluid  rounded mt-2 mb-3 crop-image">
                             <!-- <img src="{{ post['image_url'] }}" alt="Post Image" class="img-fluid rounded mt-2 crop-image"> -->
                             <div id="image-{{ post['id'] }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel">
                                 <div class="modal-dialog modal-lg" role="document">
@@ -121,8 +122,7 @@
                               </div>
                              
                         {% endif %}
-                        <p class="card-text">{{ post['text'] }}</p>
-
+                       
                         <img data-toggle="modal" data-target="#comments-{{ post['id'] }}" src="/static/gallery/icons/chat(1).png" alt="Post Image" style="box-shadow:none; padding-right: 0px;" class="nav-icon">
                         <span class="mr-1">{{ post.comments|length }}</span>
                         <form style="display: inline;" action="{{ url_for('main.like_post', post_id=post['id']) }}" method="POST">
