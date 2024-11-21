@@ -27,12 +27,90 @@
                     {% if post['image_url'] %}
                         <img src="{{ post['image_url'] }}" alt="Post Image" class="img-fluid rounded mt-2 crop-image">
                     {% endif %}
-                    <!-- <div class="truncated-text" style="display: none;"></div> -->
+                </a>
+
+                    <!-- Hmm hmmm hmm -->
+                    <img data-toggle="modal" data-target="#comments-{{ post['doc_id'] }}" src="../static/gallery/icons/chat(1).png" alt="Post Image" style="box-shadow:none; padding-right: 0px;" class="nav-icon">
+                    <span class="mr-1">{{ post.comments|length }}</span>
+                    <form style="display: inline;" action="{{ url_for('main.like_post', post_id=post['id']) }}" method="POST">
+                        <input type="hidden" name="journal_id" value="{{ doc_id }}">
+                        <button class="btn-fix" type="submit"><img src="../static/gallery/icons/heart.png" alt="Post Image" style="box-shadow:none; padding-right: 0px;" class="nav-icon"></button> <!-- <img data-toggle="modal" data-target="#likes-{{ post['id'] }}" src="../static/gallery/icons/heart.png" alt="Post Image" style="box-shadow:none;" class="nav-icon"> -->
+                    </form>
+                    <span>{{ post.likes|length }}</span>
+
+                    <div id="comments-{{ post['id'] }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="commentsModalLabel-{{ post['id'] }}">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ url_for('main.add_comment') }}" method="post">
+                                            <div class="d-flex align-items-center">
+                                                <img style="border-radius: 50%; height: 4rem; width: 4rem; filter: none; box-shadow: none;" src="{{ user['photoURL'] }}" alt="Profile Picture">
+                                                <div class="form-group flex-grow-1 ml-3 mb-0">
+                                                    <input type="text" class="form-control" name="comment" placeholder="Share your thoughts" style="border-radius: 30px;" required>
+                                                    <input type="hidden" name="post_id" value="{{ post['id'] }}"> <!-- Hidden field for post ID -->
+                                                    <input type="hidden" name="journal_id" value="{{ journal_id }}">
+                                                    <div class="d-flex justify-content-end mt-2">
+                                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    <br>
+                                    <!-- Make this loop through all the comments -->
+                                    {% if post.comments != [] %}
+                                        {% for comment in post.comments %}
+                                            <div class="d-flex align-items-center">
+                                                <img style="border-radius: 50%; height: 4rem; width: 4rem; filter: none; box-shadow: none;" src="" alt="Profile Picture">
+                                                <div class="flex-grow-1 ml-3">
+                                                <p>{{ comment['comment'] }}</p>
+                                                <small>{{ comment['author']['username'] }}</small>
+                                                </div>
+                                            </div>
+
+                                        {% endfor %}
+                                    {% else %}
+                                        <div class="d-flex align-items-center">
+                                            
+                                            <div class="flex-grow-1 ml-3">
+                                            <p>Be the first to comment...</p>
+                                            </div>
+                                        </div>   
+                                    {% endif %}
+                                </div>
+                                
+                              </div>
+                            </div>
+                    </div>
+                        <div id="likes-{{ post['id'] }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="commentsModalLabel-{{ post['id'] }}">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+
+                                  <div class="modal-body">
+                                      <div class="d-flex align-items-center">
+                                          <img style="border-radius: 50%; height: 4rem; width: 4rem; filter: none; box-shadow: none;" src="{{ user['photoURL'] }}" alt="Profile Picture">
+                                          <h5 class="ml-3" style="margin-bottom: 0;">Username</h5>
+                                      </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    <p>{{post}}</p>
                      
                 </div>
                 <br>
             </div>
-        </a>
+       
         {% endfor %}
     </div>
     {% else %}
