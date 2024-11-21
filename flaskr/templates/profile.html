@@ -62,30 +62,49 @@
                                         </form>
                                     <br>
                                     <!-- Make this loop through all the comments -->
-                                    
+                                    {% if post.comments != [] %}
+                                        {% for comment in post.comments %}
+                                            <div class="d-flex align-items-center">
+                                                <img style="border-radius: 50%; height: 4rem; width: 4rem; filter: none; box-shadow: none;" src="" alt="Profile Picture">
+                                                <div class="flex-grow-1 ml-3">
+                                                <p>{{ comment['comment'] }}</p>
+                                                <small>{{ comment['author']['username'] }}</small>
+                                                </div>
+                                            </div>
+
+                                        {% endfor %}
+                                    {% else %}
+                                        <div class="d-flex align-items-center">
+                                            
+                                            <div class="flex-grow-1 ml-3">
+                                            <p>Be the first to comment...</p>
+                                            </div>
+                                        </div>   
+                                    {% endif %}
                                 </div>
                                 
                               </div>
                             </div>
-                        </div>
-                    <div id="likes-{{ post['id'] }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="commentsModalLabel-{{ post['id'] }}">
-                        <div class="modal-dialog modal-lg" role="document">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                                </button>
-                              </div>
-
-                              <div class="modal-body">
-                                  <div class="d-flex align-items-center">
-                                      <img style="border-radius: 50%; height: 4rem; width: 4rem; filter: none; box-shadow: none;" src="{{ user['photoURL'] }}" alt="Profile Picture">
-                                      <h5 class="ml-3" style="margin-bottom: 0;">Username</h5>
+                    </div>
+                        <div id="likes-{{ post['id'] }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="commentsModalLabel-{{ post['id'] }}">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
                                   </div>
-                              </div>
+
+                                  <div class="modal-body">
+                                      <div class="d-flex align-items-center">
+                                          <img style="border-radius: 50%; height: 4rem; width: 4rem; filter: none; box-shadow: none;" src="{{ user['photoURL'] }}" alt="Profile Picture">
+                                          <h5 class="ml-3" style="margin-bottom: 0;">Username</h5>
+                                      </div>
+                                  </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        
                     <p>{{post}}</p>
                      
                 </div>
