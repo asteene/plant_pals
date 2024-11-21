@@ -190,7 +190,7 @@ def profile():
                         post['id'] = doc.id  # Add the document ID to the dictionary
                         author_ref = db.collection('users').document(post['uid'])
                         author_doc = author_ref.get()
-                        post['time_created'] = post['time_created'].strftime('%b %Y')
+                        post['time_created'] = post['time_created'].strftime('%B %d, %Y')
                         print(post['time_created'])
                         post['author'] = author_doc.to_dict()
                         post['author']['id'] = author_doc.id
@@ -581,7 +581,7 @@ def add_comment():
             return jsonify({'error': 'Post not found'}), 404
 
         #return jsonify({'success': True, 'comment_id': new_comment_id}), 200
-        return redirect(url_for('main.journal', journal_id=journal_id))
+        return redirect(request.referrer)
 
     except Exception as e:
         return jsonify({'error': f'An error occurred: {str(e)}'}), 500

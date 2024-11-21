@@ -6,7 +6,6 @@ default_plants = [
     'tomato',
     'rosemary',
     'sunflower',
-    'basil',
     'thyme',
     'rose',
     'mint',

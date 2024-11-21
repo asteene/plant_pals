@@ -13,7 +13,7 @@
         <section class="settings-section">
             {% block right %}
 
-            <div class="container mt-5">
+           
                 <div class="">
                         <!-- Profile Information Section -->
                          <div>
@@ -36,7 +36,7 @@
                                     <div class="form-group mb-3">
                                         <label for="photo">Profile Photo</label>
                                         <div class="d-flex align-items-center">
-                                            <img id="photo-preview" src="{{ user.photoURL }}" alt="Profile Photo" class="rounded-circle me-3" width="50">
+                                            <img id="photo-preview" src="{{ user.photoURL }}" alt="Profile Photo"  style="border-radius: 50%; height: 4rem; width: 4rem; filter: none; box-shadow: none;" width="50">
                                             <input type="file" id="photo" class="form-control-file ml-2">
                                         </div>
                                     </div>
@@ -72,7 +72,7 @@
                     
                     
                 </div>
-            </div>
+            
             <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"></script>
             <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js"></script>
             <script type="module" src="../static/components/settings.js"></script>
