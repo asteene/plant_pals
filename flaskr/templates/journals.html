@@ -65,7 +65,11 @@
             </div>
         </div>
     {% endif %}
-
+    {% if request.endpoint == 'main.journals' %}
+    <div class="d-flex justify-content-end">
+        <button  data-toggle="modal" data-target="#plantModal" class="btn btn-primary" style="background-color:var(--darkGreen);">Add a new Journal</button>
+    </div>
+    {% endif %}   
 <div class="card-container d-flex flex-wrap">
     {% if request.endpoint == 'main.journals' %}
         {% for journal in journals %}
@@ -116,9 +120,7 @@
 
   
 </div>
-{% if request.endpoint == 'main.journals' %}
-<button  data-toggle="modal" data-target="#plantModal" class="btn btn-primary" style="background-color:var(--darkGreen);">Add a new Journal</button>
-{% endif %}        
+     
 
 
 

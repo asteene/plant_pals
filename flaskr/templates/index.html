@@ -6,8 +6,9 @@
           
 {% block right %}
 
-<div class="mt-5">
+<div class="mt-5"> 
     <h3 class="title" style="margin: 0;">Your garden</h3>
+    <div id="plant-gallery" class="row">
     {% if my_garden | length != 0 %}
         <div class="cards-wrapper justify-content-start" style="display: flex; flex-wrap: wrap;">
             {% for plant in my_garden %}
@@ -48,7 +49,18 @@
                 </a>
         </div>
 {% else %}
+<a  href="{{ url_for('main.add_plant') }}"> 
+    <div class="card" style="width: 15rem; margin: 7px;">
+        <button type="submit" class="btn-fix">
+            <img class="card-img-top" src="../static/gallery/grey.png" style="border-radius: 3%; height:12rem;" alt="Add Journal">
+            <div class="mt-2">
+                <h5 class="card-title" style="margin-bottom: 0; text-align: left;">Add to garden</h5>
+            </div>
+        </button>
+    </div>
+</a>
 {% endif %}
+</div>
 </div>
            
 
