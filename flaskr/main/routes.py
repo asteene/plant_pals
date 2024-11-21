@@ -190,7 +190,7 @@ def profile():
                         post['id'] = doc.id  # Add the document ID to the dictionary
                         author_ref = db.collection('users').document(post['uid'])
                         author_doc = author_ref.get()
-                        post['time_created'] = post['time_created'].strftime('%b %Y')
+                        post['time_created'] = post['time_created'].strftime('%B %d, %Y')
                         print(post['time_created'])
                         post['author'] = author_doc.to_dict()
                         post['author']['id'] = author_doc.id
