@@ -39,7 +39,7 @@
         {% for friend in friends %}
         <div class="d-flex align-items-center flex-column m-2 mx-2">
             <a href="/friends/{{ friend.UID }}" class="text-decoration-none text-dark">
-                <img style="border-radius: 50%; width:7rem; " src="{{ friend.photoURL }}" alt="{{ friend.username }}">
+                <img style="border-radius: 50%; width:7rem; height:7rem; " src="{{ friend.photoURL }}" alt="{{ friend.username }}">
                 <h4 class="mt-2" style="text-align: center;">{{ friend.username }}</h4>
             </a>
             <!-- Delete Friend Button -->
