@@ -82,37 +82,17 @@ document.getElementById('create-post-form').addEventListener('submit', async (ev
       console.log("storageRef: " + storageRef);
       try {
           
-          uploadBytes(storageRef, photoFile).then((snapshot) => { 
-              console.log('Uploaded a blob or file!');
-              
-              getDownloadURL(storageRef)
-                  .then((url) => {
-                      console.log('Image URL:', url);
-                      console.log("postsRefImg: " + postRefImg);
-                      // updates db with image_url
-                      updateDoc(postRefImg, { image_url: url });
+          // Upload the image to Firebase Storage
+            await uploadBytes(storageRef, photoFile);
+            console.log('Uploaded a blob or file!');
 
-                  })
-                  .catch((error) => {
-                      switch (error.code) {
-                      case 'storage/object-not-found':
-                          // File doesn't exist
-                          break;
-                      case 'storage/unauthorized':
-                          // User doesn't have permission to access the object
-                          break;
-                      case 'storage/canceled':
-                          // User canceled the upload
-                          break;
-                      // ...
-                      case 'storage/unknown':
-                          // Unknown error occurred, inspect the server response
-                          break;
-                      }
-                  });
-
-                  
-            });
+            // Fetch the image URL once upload is complete
+            const url = await getDownloadURL(storageRef);
+            console.log('Image URL:', url);
+            console.log("postsRefImg: " + postRefImg);
+            
+            // Update the post document with the image URL
+            await updateDoc(postRefImg, { image_url: url });
           
           
           
