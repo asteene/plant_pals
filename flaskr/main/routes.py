@@ -910,7 +910,7 @@ def accept_friend(requester_id):
                 'friends': requester_data['friends']
             })
 
-            return redirect(url_for('main.setting'))
+            return redirect(url_for('main.new_friends'))
         else:
             return "User not found", 404
     else:
