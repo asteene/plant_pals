@@ -197,6 +197,15 @@ def profile():
                         post['author'] = author_doc.to_dict()
                         post['author']['id'] = author_doc.id
                         print(post['author']['id'])
+                        journal_ref = db.collection('journals').document(post['journal_id'])
+                        journal_doc = journal_ref.get()
+
+                        if journal_doc.exists:
+                            # Convert the document to a dictionary
+                            journal_data = journal_doc.to_dict()
+                            post['journal_name'] = journal_data['name']
+                        else:
+                            post['journal_name'] = ''
                         comments = []
                         try:    
                             for comment_id in post['comments']:
