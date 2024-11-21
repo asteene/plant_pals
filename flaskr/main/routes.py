@@ -289,7 +289,7 @@ def friend(friend_id):
         user_ref = db.collection('users').document(session['uid'])
         user_doc = user_ref.get()
         user_data = user_doc.to_dict()
-        user_data['photoURL'] = user_ref.get('photoURL')
+        #user_data['photoURL'] = user_ref.get('photoURL')
         friend_ref = db.collection('users').document(friend_id)
         friend_doc = friend_ref.get()
              
