@@ -193,10 +193,24 @@ def profile():
                         post['time_created'] = post['time_created'].strftime('%b %Y')
                         print(post['time_created'])
                         post['author'] = author_doc.to_dict()
+                        post['author']['id'] = author_doc.id
+                        print(post['author']['id'])
+                        comments = []
+                        try:    
+                            for comment_id in post['comments']:
+                                comment_ref = db.collection('comments').document(comment_id)
+                                comment_data = comment_ref.get().to_dict()
+                                comment_data['id'] = comment_id  # Include the comment document ID
+                                comment_author = db.collection('users').document(comment_data['uid']).get().to_dict()
+                                comment_data['author'] = comment_author
+                                comments.append(comment_data)
+                        except: 
+                            comments = []
+                        
+                        post['comments'] = comments
                         all_posts.append(post)
                 
-            print(all_posts)
-            print(user_data)
+                        
             return render_template('profile.html', user=user_data, all_posts=all_posts)
         else:
             return redirect(url_for('main.login'))
@@ -433,8 +447,6 @@ def like_post(post_id):
     if 'uid' in session:
         uid = session['uid']
 
-        journal_id = request.form.get('journal_id')
-        
         # Reference to the post document in Firestore
         post_ref = db.collection('posts').document(post_id)
         post_doc = post_ref.get()
@@ -448,21 +460,25 @@ def like_post(post_id):
                 post_data['likes'] = []
             
             # Check if the user already liked the post
-            if uid not in post_data['likes']:
+            if uid in post_data['likes']:
+                # Remove the user ID from the likes array
+                post_data['likes'].remove(uid)
+            else:
                 # Add the user ID to the likes array
                 post_data['likes'].append(uid)
-                
-                # Update the post with the new likes array
-                post_ref.update({
-                    'likes': post_data['likes']
-                })
             
-            # Redirect the user back to the post page
-            return redirect(url_for('main.journal', journal_id=journal_id))
+            # Update the post with the new likes array
+            post_ref.update({
+                'likes': post_data['likes']
+            })
+            
+            # Redirect the user back to the referring page
+            return redirect(request.referrer)
         else:
             return jsonify({'status': 'error', 'message': 'Post not found'}), 404
     else:
         return redirect(url_for('main.login'))
+
 
 
 @main.route('/journals/<journal_id>')

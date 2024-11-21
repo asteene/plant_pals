@@ -8,7 +8,7 @@
     {% if all_posts  != None %}
     <div class="card-container w-100" style=" gap: 1rem;">
         {% for post in all_posts %}
-        <a href="{{ url_for('main.journal', journal_id =post.journal_id)}}">
+        <a href="{{ url_for('main.friend_journal', friend_id=post.author.id, journal_id=post.journal_id)}}">
             <div class="">
                 
                 <div class="card-body section-profile  ">
@@ -22,10 +22,10 @@
                         </div>
                     </div>
                    
-                    <p class="card-text">{{ post['text']  | truncate(400) }}</p>
+                    <p class="card-text mb-3">{{ post['text']  | truncate(400) }}</p>
                     
                     {% if post['image_url'] %}
-                        <img src="{{ post['image_url'] }}" alt="Post Image" class="img-fluid rounded mt-2 crop-image">
+                        <img src="{{ post['image_url'] }}" alt="Post Image" class="img-fluid rounded mt-2 mb-3 crop-image">
                     {% endif %}
                 </a>
 
@@ -65,7 +65,7 @@
                                     {% if post.comments != [] %}
                                         {% for comment in post.comments %}
                                             <div class="d-flex align-items-center">
-                                                <img style="border-radius: 50%; height: 4rem; width: 4rem; filter: none; box-shadow: none;" src="" alt="Profile Picture">
+                                                <img style="border-radius: 50%; height: 4rem; width: 4rem; filter: none; box-shadow: none;" src="{{ comment['author']['photoURL'] }}" alt="Profile Picture">
                                                 <div class="flex-grow-1 ml-3">
                                                 <p>{{ comment['comment'] }}</p>
                                                 <small>{{ comment['author']['username'] }}</small>
@@ -105,7 +105,7 @@
                             </div>
                         </div>
                         
-                    <p>{{post}}</p>
+                    
                      
                 </div>
                 <br>
