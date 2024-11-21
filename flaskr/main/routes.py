@@ -447,8 +447,6 @@ def like_post(post_id):
     if 'uid' in session:
         uid = session['uid']
 
-        journal_id = request.form.get('journal_id')
-        
         # Reference to the post document in Firestore
         post_ref = db.collection('posts').document(post_id)
         post_doc = post_ref.get()
@@ -462,21 +460,25 @@ def like_post(post_id):
                 post_data['likes'] = []
             
             # Check if the user already liked the post
-            if uid not in post_data['likes']:
+            if uid in post_data['likes']:
+                # Remove the user ID from the likes array
+                post_data['likes'].remove(uid)
+            else:
                 # Add the user ID to the likes array
                 post_data['likes'].append(uid)
-                
-                # Update the post with the new likes array
-                post_ref.update({
-                    'likes': post_data['likes']
-                })
             
-            # Redirect the user back to the post page
-            return redirect(url_for('main.journal', journal_id=journal_id))
+            # Update the post with the new likes array
+            post_ref.update({
+                'likes': post_data['likes']
+            })
+            
+            # Redirect the user back to the referring page
+            return redirect(request.referrer)
         else:
             return jsonify({'status': 'error', 'message': 'Post not found'}), 404
     else:
         return redirect(url_for('main.login'))
+
 
 
 @main.route('/journals/<journal_id>')
