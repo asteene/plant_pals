@@ -69,28 +69,40 @@
 <div class="card-container d-flex flex-wrap">
     {% if request.endpoint == 'main.journals' %}
         {% for journal in journals %}
-            <div class="card" style="width: 15rem;"> 
-                <a href="{{ url_for('main.journal', journal_id=journal['id']) }}">
+        <div class="card" style="width: 15rem;"> 
+            <a href="{{ url_for('main.journal', journal_id=journal['id']) }}">
                 <img class="card-img-top" src="{{ journal['image'] }}" style="border-radius: 3%; height:12rem;" alt="Plant"
-                onerror="this.onerror=null; this.src='../static/gallery/test2.jpg';">
-                <div class="card-body d-flex justify-content-between pr-0 pl-0">
-                    <h5 class="card-title" style="margin-bottom: 0; text-align: start;"> {{ journal['name'] }}</h5>
-                    {% if journal['sun'] is not none and journal['sow'] is not none %}
-                    <small>#{{ journal['sun'] }} • #{{ journal['sow'] | truncate(23) }} </small>
-                    {% endif %}
-                    
-                </a>
-                <form action="{{ url_for('main.delete_journal', journal_id=journal.id) }}" method="POST">
-                    <button class="btn-fix pr-1"type="submit">  <span aria-hidden="true">&times;</span></button>
-                </form> 
+                    onerror="this.onerror=null; this.src='../static/gallery/test2.jpg';">
+                <div class="card-body d-flex flex-column pr-0 pl-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="card-title" style="margin-bottom: 0; text-align: left;">{{ journal['name'] }}</h5>
+                        <form action="{{ url_for('main.delete_journal', journal_id=journal.id) }}" method="POST">
+                            <button class="btn-fix pr-1" type="submit">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </form> 
+                    </div>
+        
+                    <!-- Sowing method and Sun requirements inline -->
+                    <div class="d-flex align-items-center">
+                        <div class="model" style="text-align: left; display: inline;">
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="{{ journal['sow'] }}">
+                                <span><small>Sowing method •</small></span>
+                            </a>
+                        </div>
+                        <span style="text-align: left; display: inline; margin-left: 8px;"> 
+                            <small>{{ journal['sun'] }}</small>
+                        </span>
+                    </div>
                 </div>
-                    
-            </div>
+            </a>
+        </div>
+        
         {% endfor %}
     {% elif request.endpoint == 'main.friend' %}
         {% for friend_journal in friend_journals %}
             <div class="card" style="width: 15rem;"> 
-                <a href="{{ url_for('main.journal', journal_id=friend_journal['id']) }}">
+                <a href="{{ url_for('main.friend_journal', friend_id=friend['id'], journal_id=friend_journal['id']) }}">
                 <img class="card-img-top" src="{{ friend_journal['image'] }}" style="border-radius: 3%; height:12rem;" alt="Add a new journal">
                 <div class="card-body d-flex justify-content-between pr-0 pl-0">
                     <h5 class="card-title" style="margin-bottom: 0; text-align: start;"> {{ friend_journal['name'] }}</h5>

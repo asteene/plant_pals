@@ -238,14 +238,29 @@ def friend_journal(friend_id, journal_id):
                     timestamp = post_data['time_created'].timestamp() 
                     post_data['time_readable'] = datetime.fromtimestamp(timestamp, tz=timezone.utc).strftime('%B %d, %Y')  # Format the date
                     post_data['id'] = post_id
+                    comments = []
+                    try:    
+                        for comment_id in post_data['comments']:
+                            comment_ref = db.collection('comments').document(comment_id)
+                            comment_data = comment_ref.get().to_dict()
+                            comment_data['id'] = comment_id  # Include the comment document ID
+                            comment_author = db.collection('users').document(comment_data['uid']).get().to_dict()
+                            comment_data['author'] = comment_author
+                            comments.append(comment_data)
+                    except: 
+                        comments = []
+                        
+                    post_data['comments'] = comments
+                    
                     posts.append(post_data)
+
 
             print(posts)
 
             if len(posts) == 0:
                 posts = None
             # Pass the journal data and posts to the template
-            return render_template('journal.html', journal_id=journal_id, user=user_doc, journal=journal_data, posts=posts, journal_name=journal_name, plant=plant, friend=friend_data)
+            return render_template('journal.html', journal_id=journal_id, user=user_data, journal=journal_data, posts=posts, journal_name=journal_name, plant=plant, friend=friend_data)
        
     else:
         return redirect(url_for('main.login'))
@@ -748,35 +763,28 @@ def setting():
     
     return redirect(url_for('login'))
 
-
-@main.route('/search_users', methods=['GET']) # only issue is that it returns both for capital and lowercase. only way to fix it directly changing the firestore db structure
+@main.route('/search_users')
 def search_users():
-    if 'uid' in session:
-        query = request.args.get('query', '').lower()  # Convert search term to lowercase
-        current_user_id = session['uid']
+    query = request.args.get('query', '').lower()
+    if not query:
+        return jsonify([])
 
-        if len(query) != 1 or not query.isalpha():
-            return jsonify([]), 400  # Bad Request
+    users_ref = db.collection('users')
+    results = []
 
-        users_ref = db.collection('users')
-        users_query = users_ref.stream()
+    # Firestore doesn't support "startsWith" directly, so we manually filter results
+    docs = users_ref.stream()
+    for doc in docs:
+        user_data = doc.to_dict()
+        if user_data['username'].lower().startswith(query):  # Ensure it starts with the query
+            results.append({
+                'id': doc.id,
+                'username': user_data['username'],
+                'photoURL': user_data.get('photoURL', '')  # Include photoURL if available
+            })
 
-        matching_users = []
-        for doc in users_query:
-            user = doc.to_dict()
-            user_id = doc.id
-            username = user.get('username', '')
+    return jsonify(results)
 
-            # Perform a case-insensitive check
-            if user_id != current_user_id and username.lower().startswith(query):
-                matching_users.append({
-                    'id': user_id,
-                    'username': username,
-                })
-
-        return jsonify(matching_users)
-    
-    return jsonify([]), 403
 
 
 @main.route('/upload_image', methods=['POST'])
@@ -831,7 +839,9 @@ def add_friend(friend_id):
                 friend_data['friend_requests'].append(current_user_id)
                 friend_ref.update({'friend_requests': friend_data['friend_requests']})
 
-            return redirect(url_for('main.setting'))  # Or wherever you want to redirect after adding a friend
+
+            return redirect(url_for('main.new_friends'))
+            #return redirect(url_for('main.setting'))  # Or wherever you want to redirect after adding a friend
         else:
             return "User not found", 404
     else:
@@ -924,7 +934,8 @@ def remove_friend(friend_id):
                             'friends': friend_friends_list
                         })
 
-                return redirect(url_for('main.garden'))  # Redirect back to the settings page or wherever needed
+                return redirect(url_for('main.new_friends'))
+                #return redirect(url_for('main.setting'))  # Or wherever you want to redirect after adding a friend
             else:
                 # If the user is not in the friends list
                 return "User is not in your friends list.", 400
@@ -965,12 +976,43 @@ def get_friends(user_data):
 
     return friends_info
 
-@main.route('/test')
+@main.route('/friends') 
 def new_friends():
     if 'uid' in session:
-        user = firebase_auth.get_user(session['uid'])
-        uid = session['uid']
         user_ref = db.collection('users').document(session['uid'])
         user_doc = user_ref.get()
-        user_data = user_doc.to_dict()
-        return render_template('new_friends.html', user=user_data)
+
+        if user_doc.exists:
+            user_data = user_doc.to_dict()
+
+            # Fetch the user's friends
+            friends_ids = user_data.get('friends', [])
+            friends_data = []
+            for friend_id in friends_ids:
+                friend_doc = db.collection('users').document(friend_id).get()
+                if friend_doc.exists:
+                    friend_info = friend_doc.to_dict()
+                    friend_info['UID'] = friend_id  # Include UID for linking profiles
+                    friends_data.append(friend_info)
+
+            # Fetch friend requests
+            friend_reqs_ids = user_data.get('friend_requests', [])
+            friend_reqs = []
+            for requester_id in friend_reqs_ids:
+                requester_doc = db.collection('users').document(requester_id).get()
+                if requester_doc.exists:
+                    requester_data = requester_doc.to_dict()
+                    friend_reqs.append({
+                        'id': requester_id,
+                        'username': requester_data.get('username', 'Unknown'),
+                        'photoURL': requester_data.get('photoURL', '')  # Default to empty if missing
+                    })
+
+            return render_template(
+                'new_friends.html',
+                user=user_data,
+                friends=friends_data,
+                friend_reqs=friend_reqs
+            )
+
+    return redirect('/login')

@@ -4,7 +4,7 @@
 
 {% block body %}
     {% block right %}
-    <div class="container mt-5">
+    <div class="mt-5">
         <div class="d-flex justify-content-between">
             <h3 class="ml-0 pl-0 title">Add to Your Garden</h3>
             <div class="mr-4">
@@ -22,23 +22,29 @@
                 <form action="{{ url_for('main.add_plant') }}" method="post">
                     <input type="hidden" name="plant_id" value="{{ plant['id'] }}">
                     <button class="btn-fix" type="submit">
-                <div class="card pb-3" style="width: 15rem;" data-id="{{ plant['id'] }}" data-name="{{ plant['common_name'] }}" data-description="{{ plant['scientific_name'] }}">
-                    <img style="border-radius: 3%; height: 12rem;" class="card-img-top" 
-                    src="{{ plant['image'] }}" 
-                    alt="Card image cap" 
-                    onerror="this.onerror=null; this.src='../static/gallery/test2.jpg';">
-               
-                    <div class="mt-2">
-                        <h5 class="card-title" style="margin-bottom: 0; text-align: left;">{{ plant['common_name'] }}</h5>
-                        <p class="card-text" style="opacity: 70%; margin-bottom: .5rem; text-align: left;">
-                            <small class="description" id="desc-{{ plant['id'] }}">
-                                {{ plant['description'] | string | truncate(75) }}
-                            </small>
-                        </p>
-                    </div>
-                </div>
-                </button>
+                        <div class="card pb-3" style="width: 15rem;" data-id="{{ plant['id'] }}" data-name="{{ plant['common_name'] }}" data-description="{{ plant['scientific_name'] }}">
+                            <img style="border-radius: 3%; height: 12rem;" class="card-img-top" 
+                                 src="{{ plant['image'] }}" 
+                                 alt="Card image cap" 
+                                 onerror="this.onerror=null; this.src='../static/gallery/test2.jpg';">
+                            <div class="model">
+                                <a href="#" data-toggle="tooltip" data-placement="top" title="{{ plant['description'] }}">
+                                    <h5 class="card-title" style="margin-bottom: 0; text-align: left;">{{ plant['common_name'] }}</h5>
+                                </a>
+                            </div>
+                            
+                            <!-- Adjusted the div to ensure left alignment is applied properly -->
+                            <div class="model" style="text-align: left; display: inline;">
+                                <a href="#" data-toggle="tooltip" data-placement="top" title="{{ plant['maintenence']['sowing_method'] }}">
+                                    <small>Sowing method • {{ plant['maintenence']['sun_requirements'] }} </small>
+                                </a>
+                            </div>
+                           
+                            
+                        </div>
+                    </button>
                 </form>
+                
                 
                 {% endfor %}
             </div>
