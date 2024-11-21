@@ -22,10 +22,10 @@
                         </div>
                     </div>
                    
-                    <p class="card-text">{{ post['text']  | truncate(400) }}</p>
+                    <p class="card-text mb-3">{{ post['text']  | truncate(400) }}</p>
                     
                     {% if post['image_url'] %}
-                        <img src="{{ post['image_url'] }}" alt="Post Image" class="img-fluid rounded mt-2 crop-image">
+                        <img src="{{ post['image_url'] }}" alt="Post Image" class="img-fluid rounded mt-2 mb-3 crop-image">
                     {% endif %}
                 </a>
 
