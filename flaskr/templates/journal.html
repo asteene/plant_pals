@@ -76,13 +76,18 @@
                                 <!---User acting as a fill in until creators can be called-->
                                 {% if request.endpoint == 'main.journal' %}
                                     <img style="border-radius: 50%; height: 4rem; width: 4rem; filter: none; box-shadow: none;" src="{{ user['photoURL'] }}">
+                                    <div class="ml-2">
+                                        <h5 class="card-title truncated-title" style="margin-bottom: 0.1rem; text-align: left;">{{ post['title'] }}</h5>
+                                        <p style="margin-bottom: 0;"><small>{{post.time_readable}} • {{ user['username'] }}</small></p>
+                                    </div>
                                 {% elif request.endpoint == 'main.friend_journal' %}
                                     <img style="border-radius: 50%; height: 4rem; width: 4rem; filter: none; box-shadow: none;" src="{{ friend['photoURL'] }}">
+                                    <div class="ml-2">
+                                        <h5 class="card-title truncated-title" style="margin-bottom: 0.1rem; text-align: left;">{{ post['title'] }}</h5>
+                                        <p style="margin-bottom: 0;"><small>{{post.time_readable}} • {{ friend['username'] }}</small></p>
+                                    </div>
                                 {% endif %}
-                                <div class="ml-2">
-                                    <h5 class="card-title truncated-title" style="margin-bottom: 0.1rem; text-align: left;">{{ post['title'] }}</h5>
-                                    <p style="margin-bottom: 0;"><small>{{post.time_readable}} • {{ user['username'] }}</small></p>
-                                </div>
+                               
                             </div>
             
                             
