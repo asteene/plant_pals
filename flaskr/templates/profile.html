@@ -65,7 +65,7 @@
                                     {% if post.comments != [] %}
                                         {% for comment in post.comments %}
                                             <div class="d-flex align-items-center">
-                                                <img style="border-radius: 50%; height: 4rem; width: 4rem; filter: none; box-shadow: none;" src="" alt="Profile Picture">
+                                                <img style="border-radius: 50%; height: 4rem; width: 4rem; filter: none; box-shadow: none;" src="{{ comment['author']['photoURL'] }}" alt="Profile Picture">
                                                 <div class="flex-grow-1 ml-3">
                                                 <p>{{ comment['comment'] }}</p>
                                                 <small>{{ comment['author']['username'] }}</small>
@@ -105,7 +105,7 @@
                             </div>
                         </div>
                         
-                    <p>{{post}}</p>
+                    
                      
                 </div>
                 <br>

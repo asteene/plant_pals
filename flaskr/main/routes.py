@@ -195,6 +195,19 @@ def profile():
                         post['author'] = author_doc.to_dict()
                         post['author']['id'] = author_doc.id
                         print(post['author']['id'])
+                        comments = []
+                        try:    
+                            for comment_id in post['comments']:
+                                comment_ref = db.collection('comments').document(comment_id)
+                                comment_data = comment_ref.get().to_dict()
+                                comment_data['id'] = comment_id  # Include the comment document ID
+                                comment_author = db.collection('users').document(comment_data['uid']).get().to_dict()
+                                comment_data['author'] = comment_author
+                                comments.append(comment_data)
+                        except: 
+                            comments = []
+                        
+                        post['comments'] = comments
                         all_posts.append(post)
                 
                         
