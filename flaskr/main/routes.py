@@ -191,6 +191,7 @@ def profile():
                         post['id'] = doc.id  # Add the document ID to the dictionary
                         author_ref = db.collection('users').document(post['uid'])
                         author_doc = author_ref.get()
+                        post['time_created_raw'] = post['time_created']  # Keep raw datetime for sorting
                         post['time_created'] = post['time_created'].strftime('%B %d, %Y')
                         print(post['time_created'])
                         post['author'] = author_doc.to_dict()
@@ -211,7 +212,7 @@ def profile():
                         post['comments'] = comments
                         all_posts.append(post)
                 
-                        
+            all_posts.sort(key=lambda x: x['time_created_raw'], reverse=True)  
             return render_template('profile.html', user=user_data, all_posts=all_posts)
         else:
             return redirect(url_for('main.login'))
@@ -270,10 +271,12 @@ def friend_journal(friend_id, journal_id):
                     posts.append(post_data)
 
 
-            print(posts)
+            #print(posts)
 
             if len(posts) == 0:
                 posts = None
+            else:
+                posts.sort(key=lambda x: x['time_created'], reverse=True)  
             # Pass the journal data and posts to the template
             return render_template('journal.html', journal_id=journal_id, user=user_data, journal=journal_data, posts=posts, journal_name=journal_name, plant=plant, friend=friend_data)
        
@@ -286,6 +289,7 @@ def friend(friend_id):
         user_ref = db.collection('users').document(session['uid'])
         user_doc = user_ref.get()
         user_data = user_doc.to_dict()
+        user_data['photoURL'] = user_ref.get('photoURL')
         friend_ref = db.collection('users').document(friend_id)
         friend_doc = friend_ref.get()
              
@@ -537,6 +541,8 @@ def journal(journal_id): # beware that when you create route to journal, that th
 
             if len(posts) == 0:
                 posts = None
+            else:
+                posts.sort(key=lambda x: x['time_created'], reverse=True)  
             # Pass the journal data and posts to the template
             return render_template('journal.html', journal_id=journal_id, user=user_doc, journal=journal_data, posts=posts, journal_name=journal_name, plant=plant)
     else:
